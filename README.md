@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/VeronikaLou/kentico-onboarding-js.png?branch=master)](https://travis-ci.org/VeronikaLou/kentico-onboarding-js)
+
+
 # kentico-onboarding-js
 Simple step-by-step task for Kentico Academy to learn the basics of JS, React, Redux, TypeScript.
 
