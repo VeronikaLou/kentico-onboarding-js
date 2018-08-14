@@ -17,7 +17,7 @@
     "tslint": "tslint --project tsconfig.json -e \"./node_modules/**\" \"./**/*.ts?(x)\""
   },
   "dependencies": {
-    "bootstrap": "^3.3.7",
+    "bootstrap": "^4.1.1",
     "react": "^16.4.1",
     "react-dom": "^16.4.1"
   },
