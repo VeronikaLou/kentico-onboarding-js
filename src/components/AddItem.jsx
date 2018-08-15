@@ -4,10 +4,10 @@ export class AddItem extends PureComponent {
   render() {
     const { onAdd } = this.props;
     return (
-      <form>
+      <li className="list-group-item">
         <input type="text" ref="text"/>
-        <button type="button" onClick={() => onAdd(this.refs.text.value)}>Add</button>
-      </form>
+        <button type="button" className="btn btn-light" onClick={() => onAdd(this.refs.text.value)}>Add</button>
+      </li>
     );
   }
 }

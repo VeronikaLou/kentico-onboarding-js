@@ -3,7 +3,6 @@ import assignment from '../../public/images/assignment.gif';
 import { TsComponent } from './TsComponent.tsx';
 import { Item } from './Item';
 import { AddItem } from './AddItem';
-// import { Item } from './Item';
 
 export class List extends PureComponent {
   constructor() {
@@ -14,13 +13,21 @@ export class List extends PureComponent {
         { id: 2, text: 'Master React' },
         { id: 3, text: 'Learn Redux' }
       ],
-      //value: ""
     };
+  }
+
+  guid = () => {
+    const s4 = () => {
+      return Math.floor((1 + Math.random()) * 0x10000)
+        .toString(16)
+        .substring(1);
+    };
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
   }
 
 
   handleAdd = (text) => {
-    const newItem = { id: 6, text };
+    const newItem = { id: this.guid(), text };
     this.setState(prevState => ({
       items: [...prevState.items, newItem]
     }));
@@ -58,14 +65,13 @@ export class List extends PureComponent {
             <pre>
               TODO: implement the list here :)
 
-
-              <div>
+              <ul className="list-group">
                 { this.state.items.map(item => (
                   <Item id={item.id} text={item.text} onDelete={this.handleDelete}/>
                 ))}
 
                 <AddItem onAdd={this.handleAdd}></AddItem>
-              </div>
+              </ul>
 
             </pre>
           </div>
