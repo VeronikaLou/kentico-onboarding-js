@@ -10,26 +10,33 @@ export class Item extends PureComponent {
 
   handleClick = () => {
     this.setState({ clicked: true });
+  };
+
+  handleCancel = () => {
+    this.setState((prevState) => {
+    return ({ clicked: !prevState.clicked });
+    });
   }
 
   showButtons = () => {
     const { onDelete, id } = this.props;
     return (
-      <div>
-        <button type="button" className="btn btn-primary" color="primary">Save</button>
-        <button type="button" className="btn btn-light" >Cancel</button>
-        <button type="button" className="btn btn-danger" onClick={() => onDelete(id)}>Delete</button>
-      </div>
+      <span>
+        <button type="button" className="btn btn-primary btn-sm" color="primary">Save</button>
+        <button type="button" className="btn btn-light btn-sm" onClick={this.handleCancel}>Cancel</button>
+        <button type="button" className="btn btn-danger btn-sm" onClick={() => onDelete(id)}>Delete</button>
+      </span>
     );
   }
 
   render() {
     const { id, text } = this.props;
+
     return (
-      <span>
-        <li className="list-group-item" key={id} /*onClick={this.handleClick}*/> {text} </li>
-        { this.state.clicked ? this.showButtons() : null }
-      </span>
+      <li className="list-group-item" >
+        <a onClick={this.handleClick}> {text} </a>
+        {this.state.clicked ? this.showButtons() : undefined}
+      </li>
     );
   }
 }
