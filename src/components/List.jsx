@@ -5,8 +5,8 @@ import { Item } from './Item';
 import { AddItem } from './AddItem';
 
 export class List extends PureComponent {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       items: [
         { id: 1, text: 'Make a coffee' },
@@ -32,6 +32,16 @@ export class List extends PureComponent {
       items: [...prevState.items, newItem]
     }));
   }
+
+  handleEdit = (id, text) => {
+    const items = [...this.state.items];
+    const item = items.filter(it => it.id === id);
+    item.text = text;
+    const index = items.map(it => it.id).indexOf(id);
+    items[index] = item;
+    this.setState(() => ({ items }));
+  }
+
 
   handleDelete = (id) => {
     this.setState(prevState => ({
@@ -67,9 +77,8 @@ export class List extends PureComponent {
 
               <ul className="list-group">
                 { this.state.items.map(item => (
-                  <Item key={item.id} id={item.id} text={item.text} onDelete={this.handleDelete}/>
+                  <Item key={item.id} id={item.id} text={item.text} onDelete={this.handleDelete} onEdit={this.handleEdit}/>
                 ))}
-
                 <AddItem onAdd={this.handleAdd}></AddItem>
               </ul>
 

@@ -14,11 +14,9 @@ export class AddItem extends PureComponent {
 
   handleClick = () => {
     const { text } = this.state;
-    if (text.trim() !== '') {
-      const { onAdd } = this.props;
-      onAdd(text);
-      this.setState(() => ({ text: '' }));
-    }
+    const { onAdd } = this.props;
+    onAdd(text);
+    this.setState(() => ({ text: '' }));
   }
 
   render() {
@@ -26,8 +24,10 @@ export class AddItem extends PureComponent {
     console.log(text);
     return (
       <li className="list-group-item">
-        <input type="text" className="form-control" value={text} onChange={this.handleChange}/>
-        <button type="button" className="btn btn-light btn btn-outline-secondary btn-sm" onClick={this.handleClick}>Add</button>
+        <div className="input-group" style={{ width: 250 }}>
+          <input type="text" className="form-control" value={text} onChange={this.handleChange}/>
+          <button type="button" className="btn btn-outline-secondary btn-sm" style={{ width: 50 }} onClick={this.handleClick} disabled={!text.trim()}>Add</button>
+        </div>
       </li>
     );
   }
