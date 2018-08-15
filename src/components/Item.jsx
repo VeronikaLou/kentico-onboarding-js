@@ -13,9 +13,7 @@ export class Item extends PureComponent {
   };
 
   handleCancel = () => {
-    this.setState((prevState) => {
-    return ({ clicked: !prevState.clicked });
-    });
+    this.setState((() => ({ clicked: false })));
   }
 
   showButtons = () => {
@@ -30,7 +28,7 @@ export class Item extends PureComponent {
   }
 
   render() {
-    const { id, text } = this.props;
+    const { text } = this.props;
 
     return (
       <li className="list-group-item" >
