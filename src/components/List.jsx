@@ -67,7 +67,7 @@ export class List extends PureComponent {
 
               <ul className="list-group">
                 { this.state.items.map(item => (
-                  <Item id={item.id} text={item.text} onDelete={this.handleDelete}/>
+                  <Item key={item.id} id={item.id} text={item.text} onDelete={this.handleDelete}/>
                 ))}
 
                 <AddItem onAdd={this.handleAdd}></AddItem>
