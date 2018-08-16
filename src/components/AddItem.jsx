@@ -1,37 +1,42 @@
 import React, { PureComponent } from 'react';
+import { isInputValid } from '../utils/textValidation';
 
 export class AddItem extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      text: ''
-    };
-  }
+  state = { text: '' };
 
-  handleChange = (event) => {
+  changeInput = (event) => {
     this.setState({ text: event.target.value });
-  }
+  };
 
-  handleClick = () => {
+  addItem = () => {
     const { text } = this.state;
-    const { onAdd } = this.props;
-    onAdd(text);
+    const { addItem } = this.props;
+    addItem(text);
     this.setState(() => ({ text: '' }));
-  }
+  };
 
   render() {
     const { text } = this.state;
+    const isValid = isInputValid(text);
+    let inputClass = 'form-control' + (!isValid ? ' is-invalid' : '');
+
     return (
       <li className="list-group-item">
-        <div className="input-group" style={{ width: 250 }}>
-          <input type="text" className="form-control" value={text} onChange={this.handleChange}/>
+        <div className="input-group col-sm-5">
+          <input
+            type="text"
+            className={inputClass}
+            value={text}
+            onChange={this.changeInput}
+          />
           <button
             type="button"
-            className="btn btn-outline-secondary btn-sm "
-            style={{ width: 50 }}
-            onClick={this.handleClick}
-            disabled={!text.trim()}
-          >Add
+            className="btn btn-outline-secondary btn-sm"
+            onClick={this.addItem}
+            disabled={!isValid}
+            title={!isValid ? 'Insert text.' : ''}
+          >
+            Add
           </button>
         </div>
       </li>

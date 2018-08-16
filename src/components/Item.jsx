@@ -1,61 +1,92 @@
 import React, { PureComponent } from 'react';
 
 export class Item extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isClicked: false,
-      text: props.text
-    };
-  }
+  state = {
+    isClicked: false,
+    text: this.props.item.text,
+  };
 
   handleClick = () => {
     this.setState(() => ({ isClicked: true }));
   };
 
   handleCancel = () => {
-    this.setState((() => ({ isClicked: false })));
-  }
+    this.setState(() => ({ isClicked: false }));
+  };
 
   handleEditText = (event) => {
     this.setState({ text: event.target.value });
-  }
+  };
 
   handleSave = () => {
-    const { onSave, id } = this.props;
+    const {  id } = this.props.item;
+    const { saveChanges } = this.props;
     const { text } = this.state;
-    onSave(id, text);
-    this.setState((() => ({ isClicked: false })));
-  }
+    saveChanges(id, text);
+    this.setState(() => ({ isClicked: false }));
+  };
 
   editInput = () => {
-    const { text, index } = this.props;
+    const { index } = this.props;
+    const { text } = this.props.item;
+
     return (
-      <div className="input-group" style={{ width: 420 }}>
-        {index + 1}.
-        <input type="text" defaultValue={text} className="form-control" onChange={this.handleEditText}/>
+      <div className="input-group col-sm-8">
+        <div className="input-group-prepend">
+          <span className="input-group-text">{index}.</span>
+        </div>
+        <input
+          type="text"
+          defaultValue={text}
+          className="form-control"
+          onChange={this.handleEditText}
+        />
         {this.showButtons()}
       </div>
     );
-  }
+  };
 
   showButtons = () => {
-    const { onDelete, id } = this.props;
+    const { deleteItem } = this.props;
+    const { id } = this.props.item;
     return (
       <span>
-        <button type="button" className="btn btn-primary" onClick={this.handleSave} disabled={!this.state.text.trim()}>Save</button>
-        <button type="button" className="btn btn-light" onClick={this.handleCancel}>Cancel</button>
-        <button type="button" className="btn btn-danger" onClick={() => onDelete(id)}>Delete</button>
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={this.handleSave}
+          disabled={!this.state.text.trim()}
+        >
+          Save
+        </button>
+        <button
+          type="button"
+          className="btn btn-outline-secondary"
+          onClick={this.handleCancel}
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          className="btn btn-danger"
+          onClick={() => deleteItem(id)}
+        >
+          Delete
+        </button>
       </span>
     );
-  }
+  };
 
   render() {
-    const { text, index } = this.props;
+    const { index } = this.props;
     const { isClicked } = this.state;
+    const { text } = this.props.item;
+
     return (
       <li className="list-group-item">
-        {isClicked ? this.editInput() : (<a onClick={this.handleClick}> {index + 1}. {text} </a>)}
+        {isClicked
+          ? this.editInput()
+          : (<div onClick={this.handleClick}> {index}. {text} </div>)}
       </li>
     );
   }
