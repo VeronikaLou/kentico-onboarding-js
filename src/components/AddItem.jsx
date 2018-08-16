@@ -21,12 +21,18 @@ export class AddItem extends PureComponent {
 
   render() {
     const { text } = this.state;
-    console.log(text);
     return (
       <li className="list-group-item">
         <div className="input-group" style={{ width: 250 }}>
           <input type="text" className="form-control" value={text} onChange={this.handleChange}/>
-          <button type="button" className="btn btn-outline-secondary btn-sm" style={{ width: 50 }} onClick={this.handleClick} disabled={!text.trim()}>Add</button>
+          <button
+            type="button"
+            className="btn btn-outline-secondary btn-sm "
+            style={{ width: 50 }}
+            onClick={this.handleClick}
+            disabled={!text.trim()}
+          >Add
+          </button>
         </div>
       </li>
     );
