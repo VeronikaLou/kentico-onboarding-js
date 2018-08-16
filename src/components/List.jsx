@@ -3,45 +3,36 @@ import assignment from '../../public/images/assignment.gif';
 import { TsComponent } from './TsComponent.tsx';
 import { Item } from './Item';
 import { AddItem } from './AddItem';
+import { Guid } from './Guid';
 
 export class List extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       items: [
-        { id: 1, text: 'Make a coffee' },
-        { id: 2, text: 'Master React' },
-        { id: 3, text: 'Learn Redux' }
+        { id: Guid(), text: 'Make a coffee' },
+        { id: Guid(), text: 'Master React' },
+        { id: Guid(), text: 'Learn Redux' },
+        { id: Guid(), text: 'Help making Draft awesome' }
       ],
     };
   }
 
-  guid = () => {
-    const s4 = () => {
-      return Math.floor((1 + Math.random()) * 0x10000)
-        .toString(16)
-        .substring(1);
-    };
-    return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
-  }
-
-
   handleAdd = (text) => {
-    const newItem = { id: this.guid(), text };
+    const newItem = { id: Guid(), text };
     this.setState(prevState => ({
       items: [...prevState.items, newItem]
     }));
   }
 
-  handleEdit = (id, text) => {
+  handleSave = (id, text) => {
     const items = [...this.state.items];
-    const item = items.filter(it => it.id === id);
-    item.text = text;
     const index = items.map(it => it.id).indexOf(id);
+    const item = { ...items[index] };
+    item.text = text;
     items[index] = item;
     this.setState(() => ({ items }));
   }
-
 
   handleDelete = (id) => {
     this.setState(prevState => ({
@@ -76,12 +67,18 @@ export class List extends PureComponent {
               TODO: implement the list here :)
 
               <ul className="list-group">
-                { this.state.items.map(item => (
-                  <Item key={item.id} id={item.id} text={item.text} onDelete={this.handleDelete} onEdit={this.handleEdit}/>
+                { this.state.items.map((item, index) => (
+                  <Item
+                    key={item.id}
+                    index={index}
+                    id={item.id}
+                    text={item.text}
+                    onDelete={this.handleDelete}
+                    onSave={this.handleSave}
+                  />
                 ))}
                 <AddItem onAdd={this.handleAdd}></AddItem>
               </ul>
-
             </pre>
           </div>
       </div>

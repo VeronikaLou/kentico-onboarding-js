@@ -10,7 +10,7 @@ export class Item extends PureComponent {
   }
 
   handleClick = () => {
-    this.setState(prevState => ({ isClicked: !prevState.isClicked }));
+    this.setState(() => ({ isClicked: true }));
   };
 
   handleCancel = () => {
@@ -22,17 +22,19 @@ export class Item extends PureComponent {
   }
 
   handleSave = () => {
-    const { onEdit, id } = this.props;
+    const { onSave, id } = this.props;
     const { text } = this.state;
-    onEdit(id, text);
+    onSave(id, text);
     this.setState((() => ({ isClicked: false })));
   }
 
-  editInput = (text) => {
+  editInput = () => {
+    const { text, index } = this.props;
     return (
       <div className="input-group" style={{ width: 420 }}>
+        {index + 1}.
         <input type="text" defaultValue={text} className="form-control" onChange={this.handleEditText}/>
-        {this.state.isClicked ? this.showButtons() : undefined}
+        {this.showButtons()}
       </div>
     );
   }
@@ -41,7 +43,7 @@ export class Item extends PureComponent {
     const { onDelete, id } = this.props;
     return (
       <span>
-        <button type="button" className="btn btn-primary" color="primary" onClick={this.handleSave} disabled={!this.state.text.trim()}>Save</button>
+        <button type="button" className="btn btn-primary" onClick={this.handleSave} disabled={!this.state.text.trim()}>Save</button>
         <button type="button" className="btn btn-light" onClick={this.handleCancel}>Cancel</button>
         <button type="button" className="btn btn-danger" onClick={() => onDelete(id)}>Delete</button>
       </span>
@@ -49,11 +51,11 @@ export class Item extends PureComponent {
   }
 
   render() {
-    const { text } = this.props;
+    const { text, index } = this.props;
     const { isClicked } = this.state;
     return (
-      <li className="list-group-item" >
-        {isClicked ? this.editInput(text) : (<a onClick={this.handleClick}> {text} </a>)}
+      <li className="list-group-item">
+        {isClicked ? this.editInput() : (<a onClick={this.handleClick}> {index + 1}. {text} </a>)}
       </li>
     );
   }
