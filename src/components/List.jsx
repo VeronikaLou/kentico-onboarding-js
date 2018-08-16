@@ -10,7 +10,8 @@ export class List extends PureComponent {
   addItem = (text) => {
     const newItem = {
       id: generateId(),
-      text
+      text,
+      isEdited: false
     };
     this.setState(prevState => ({
       items: [...prevState.items, newItem]
@@ -19,7 +20,11 @@ export class List extends PureComponent {
 
   saveChanges = (id, text) => {
     const items = this.state.items.map(item => ((item.id === id)
-      ? ({ id: item.id, text })
+      ? ({
+        id: item.id,
+        text,
+        isEdited: false
+      })
       : item));
     this.setState(() => ({ items }));
   };
@@ -28,6 +33,17 @@ export class List extends PureComponent {
     this.setState(prevState => ({
       items: prevState.items.filter(item => item.id !== id)
     }));
+  };
+
+  changeEditingMode = (id) => {
+    const items = this.state.items.map(item => ((item.id === id)
+      ? ({
+        id: item.id,
+        text: item.text,
+        isEdited: !item.isEdited
+      })
+      : item));
+    this.setState(() => ({ items }));
   };
 
   render() {
@@ -42,6 +58,8 @@ export class List extends PureComponent {
                 index={index + 1}
                 deleteItem={this.deleteItem}
                 saveChanges={this.saveChanges}
+                startEditing={this.changeEditingMode}
+                cancelEditing={this.changeEditingMode}
               />
             ))}
             <AddItem addItem={this.addItem} />
