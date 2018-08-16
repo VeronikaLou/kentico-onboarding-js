@@ -18,7 +18,7 @@ export class AddItem extends PureComponent {
   render() {
     const { text } = this.state;
     const isValid = isInputValid(text);
-    let inputClass = 'form-control' + (!isValid ? ' is-invalid' : '');
+    const inputClass = 'form-control' + (!isValid ? ' is-invalid' : '');
 
     return (
       <li className="list-group-item">
