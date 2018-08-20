@@ -1,9 +1,12 @@
 import React, { PureComponent } from 'react';
+import classNames from 'classnames/bind';
 import { isInputValid } from '../utils/textValidation';
-import { getInputClasses } from '../utils/inputClasses';
 
 export class NewItem extends PureComponent {
-  state = { text: '' };
+  state = {
+    text: '',
+    isFocused: false
+  };
 
   changeInput = (event) => {
     this.setState({ text: event.target.value });
@@ -16,18 +19,27 @@ export class NewItem extends PureComponent {
     this.setState(() => ({ text: '' }));
   };
 
+  changeFocus = () => {
+    this.setState(prevState => ({ isFocused: !prevState.isFocused }));
+  };
+
   render() {
-    const { text } = this.state;
+    const { text, isFocused } = this.state;
     const isValid = isInputValid(text);
+    const inputClass = classNames('form-control', {
+      'is-invalid': isFocused && !isValid
+    });
 
     return (
       <li className="list-group-item">
         <div className="input-group col-sm-5">
           <input
             type="text"
-            className={getInputClasses(text)}
+            className={inputClass}
             value={text}
             onChange={this.changeInput}
+            onFocus={this.changeFocus}
+            onBlur={this.changeFocus}
           />
           <button
             type="button"

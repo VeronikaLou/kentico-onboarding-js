@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
+import classNames from 'classnames/bind';
 import { isInputValid } from '../utils/textValidation';
-import { getInputClasses } from '../utils/inputClasses';
 
 export class EditedItem extends PureComponent {
   state = {
@@ -11,11 +11,19 @@ export class EditedItem extends PureComponent {
     this.setState({ text: event.target.value });
   };
 
+  deleteItem = () => {
+    this.props.deleteItem(this.props.item.id);
+  };
+
+  saveChanges = () => {
+    this.props.saveChanges(this.props.item.id, this.state.text);
+  };
+
+  cancelEditing = () => {
+    this.props.cancelEditing(this.props.item.id);
+  };
+
   showButtons = () => {
-    const {
-      deleteItem, cancelEditing, saveChanges
-    } = this.props;
-    const { id } = this.props.item;
     const isValid = isInputValid(this.state.text);
 
     return (
@@ -23,7 +31,7 @@ export class EditedItem extends PureComponent {
         <button
           type="button"
           className="btn btn-primary"
-          onClick={() => saveChanges(id, this.state.text)}
+          onClick={this.saveChanges}
           disabled={!isValid}
           title={!isValid ? 'Insert text.' : ''}
         >
@@ -32,14 +40,14 @@ export class EditedItem extends PureComponent {
         <button
           type="button"
           className="btn btn-outline-secondary"
-          onClick={() => cancelEditing(id)}
+          onClick={this.cancelEditing}
         >
           Cancel
         </button>
         <button
           type="button"
           className="btn btn-danger"
-          onClick={() => deleteItem(id)}
+          onClick={this.deleteItem}
         >
           Delete
         </button>
@@ -50,6 +58,9 @@ export class EditedItem extends PureComponent {
   render() {
     const { index } = this.props;
     const { text } = this.props.item;
+    const inputClass = classNames('form-control', {
+      'is-invalid': !isInputValid(this.state.text)
+    });
 
     return (
       <div className="input-group col-sm-8">
@@ -59,7 +70,7 @@ export class EditedItem extends PureComponent {
         <input
           type="text"
           defaultValue={text}
-          className={getInputClasses(this.state.text)}
+          className={inputClass}
           onChange={this.editText}
         />
         {this.showButtons()}

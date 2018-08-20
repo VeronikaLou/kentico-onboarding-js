@@ -6,7 +6,7 @@ export class Item extends PureComponent {
   render() {
     const { isEdited } = this.props.item;
     const {
-      index, saveChanges, cancelEditing, deleteItem, startEditing
+      index, saveChanges, changeEditingMode, deleteItem
     } = this.props;
 
     return (
@@ -17,13 +17,13 @@ export class Item extends PureComponent {
               index={index}
               item={this.props.item}
               saveChanges={saveChanges}
-              cancelEditing={cancelEditing}
+              cancelEditing={changeEditingMode}
               deleteItem={deleteItem}
             />
           )
           : (
             <PlainItem
-              startEditing={startEditing}
+              startEditing={changeEditingMode}
               index={index}
               item={this.props.item}
             />
