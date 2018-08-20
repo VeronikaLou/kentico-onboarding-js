@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { isInputValid } from '../utils/textValidation';
+import { getInputClasses } from '../utils/inputClasses';
 
 export class AddItem extends PureComponent {
   state = { text: '' };
@@ -18,14 +19,13 @@ export class AddItem extends PureComponent {
   render() {
     const { text } = this.state;
     const isValid = isInputValid(text);
-    const inputClass = 'form-control' + (!isValid ? ' is-invalid' : '');
 
     return (
       <li className="list-group-item">
         <div className="input-group col-sm-5">
           <input
             type="text"
-            className={inputClass}
+            className={getInputClasses(text)}
             value={text}
             onChange={this.changeInput}
           />

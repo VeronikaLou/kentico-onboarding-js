@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { isInputValid } from '../utils/textValidation';
+import { getInputClasses } from '../utils/inputClasses';
 
 export class EditedItem extends PureComponent {
   state = {
@@ -58,7 +59,7 @@ export class EditedItem extends PureComponent {
         <input
           type="text"
           defaultValue={text}
-          className="form-control"
+          className={getInputClasses(this.state.text)}
           onChange={this.editText}
         />
         {this.showButtons()}
