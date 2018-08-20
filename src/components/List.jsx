@@ -58,8 +58,7 @@ export class List extends PureComponent {
                 index={index + 1}
                 deleteItem={this.deleteItem}
                 saveChanges={this.saveChanges}
-                startEditing={this.changeEditingMode}
-                cancelEditing={this.changeEditingMode}
+                changeEditingMode={this.changeEditingMode}
               />
             ))}
             <NewItem addItem={this.addItem} />
