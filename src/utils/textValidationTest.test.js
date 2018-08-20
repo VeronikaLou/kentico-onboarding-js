@@ -2,7 +2,7 @@ import { isInputValid } from './textValidation';
 
 describe('Input validation', () => {
   it('checks if valid string passes', () => {
-    const input = 'Iam valid input.';
+    const input = 'I am valid input.';
 
     const result = isInputValid(input);
 
@@ -25,11 +25,10 @@ describe('Input validation', () => {
     expect(result).toBeFalsy();
   });
 
-  it('checks if string which contains only white spaces doesn\'t pass', () => {
-    const input = '            ';
+  ['            ', '', ''].forEach(input =>
+    it(`checks if [string which contains only white spaces]${input} doesn't pass`, () => {
+      const result = isInputValid(input);
 
-    const result = isInputValid(input);
-
-    expect(result).toBeFalsy();
-  });
+      expect(result).toBeFalsy();
+    }));
 });

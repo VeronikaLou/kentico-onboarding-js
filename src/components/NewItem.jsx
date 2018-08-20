@@ -8,16 +8,16 @@ export class NewItem extends PureComponent {
     isFocused: false
   };
 
-  changeInput = (event) => {
+  _changeInput = (event) => {
     this.setState({ text: event.target.value });
   };
 
-  addItem = () => {
+  _addItem = () => {
     this.props.addItem(this.state.text);
     this.setState(() => ({ text: '' }));
   };
 
-  changeFocus = () => {
+  _changeFocus = () => {
     this.setState(prevState => ({ isFocused: !prevState.isFocused }));
   };
 
@@ -35,14 +35,14 @@ export class NewItem extends PureComponent {
             type="text"
             className={inputClass}
             value={text}
-            onChange={this.changeInput}
-            onFocus={this.changeFocus}
-            onBlur={this.changeFocus}
+            onChange={this._changeInput}
+            onFocus={this._changeFocus}
+            onBlur={this._changeFocus}
           />
           <button
             type="button"
             className="btn btn-outline-secondary btn-sm"
-            onClick={this.addItem}
+            onClick={this._addItem}
             disabled={!isValid}
             title={!isValid ? 'Insert text.' : ''}
           >

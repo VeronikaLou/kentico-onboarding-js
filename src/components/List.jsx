@@ -7,18 +7,19 @@ import { initItems } from '../utils/initItems';
 export class List extends PureComponent {
   state = { items: initItems() };
 
-  addItem = (text) => {
+  _addItem = (text) => {
     const newItem = {
       id: generateId(),
       text,
       isEdited: false
     };
+
     this.setState(prevState => ({
       items: [...prevState.items, newItem]
     }));
   };
 
-  saveChanges = (id, text) => {
+  _saveChanges = (id, text) => {
     const items = this.state.items.map(item => ((item.id === id)
       ? ({
         id: item.id,
@@ -29,13 +30,12 @@ export class List extends PureComponent {
     this.setState(() => ({ items }));
   };
 
-  deleteItem = (id) => {
+  _deleteItem = (id) =>
     this.setState(prevState => ({
       items: prevState.items.filter(item => item.id !== id)
     }));
-  };
 
-  changeEditingMode = (id) => {
+  _changeEditingMode = (id) => {
     const items = this.state.items.map(item => ((item.id === id)
       ? ({
         id: item.id,
@@ -56,12 +56,12 @@ export class List extends PureComponent {
                 key={item.id}
                 item={item}
                 index={index + 1}
-                deleteItem={this.deleteItem}
-                saveChanges={this.saveChanges}
-                changeEditingMode={this.changeEditingMode}
+                deleteItem={this._deleteItem}
+                saveChanges={this._saveChanges}
+                changeEditingMode={this._changeEditingMode}
               />
             ))}
-            <NewItem addItem={this.addItem} />
+            <NewItem addItem={this._addItem} />
           </ul>
         </div>
       </div>
