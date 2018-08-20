@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Item } from './Item';
-import { AddItem } from './AddItem';
+import { NewItem } from './NewItem';
 import { generateId } from '../utils/generateId';
 import { initItems } from '../utils/initItems';
 
@@ -62,7 +62,7 @@ export class List extends PureComponent {
                 cancelEditing={this.changeEditingMode}
               />
             ))}
-            <AddItem addItem={this.addItem} />
+            <NewItem addItem={this.addItem} />
           </ul>
         </div>
       </div>
