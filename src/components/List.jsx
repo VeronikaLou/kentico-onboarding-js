@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { Record } from 'immutable';
 import { Item } from './Item';
 import { NewItem } from './NewItem';
 import { generateId } from '../utils/generateId';
@@ -15,31 +16,25 @@ export class List extends PureComponent {
   };
 
   _addItem = (text) => {
-    this.setState(prevState => ({
-      items: [
-        ...prevState.items,
-        createItem(generateId(), text)
-      ]
-    }));
-  };
-
-  _saveChanges = (id, text) => {
-    const items = this.state.items.map(item => ((item.id === id)
-      ? createItem(id, text)
-      : item));
+    const newItem = Record({ text, isEdited: false });
+    const items = this.state.items.set(generateId(), newItem);
     this.setState(() => ({ items }));
   };
 
-  _deleteItem = (id) =>
-    this.setState(prevState => ({
-      items: prevState.items
-        .filter(item => item.id !== id)
-    }));
+  _saveChanges = (id, text) => {
+    const editedItem = Record({ text, isEdited: false });
+    const items = this.state.items.update(id, () => editedItem);
+    this.setState(() => ({ items }));
+  };
+
+  _deleteItem = (id) =>{
+    const items = this.state.items.delete(id);
+    this.setState(() => ({ items }));
+  };
 
   _changeEditingMode = (id) => {
-    const items = this.state.items.map(item => ((item.id === id)
-      ? createItem(id, item.text, !item.isEdited)
-      : item));
+    const item = this.state.items.get(id).update('isEdited', (isEdited) => !isEdited);
+    const items = this.state.items.update(id, () => item);
     this.setState(() => ({ items }));
   };
 
