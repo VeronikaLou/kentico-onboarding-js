@@ -1,4 +1,3 @@
-import validate from 'uuid-validate';
 import { generateId } from './generateId';
 
 describe('Id generation', () => {
@@ -12,8 +11,8 @@ describe('Id generation', () => {
   it('checks correct format', () => {
     const id = generateId();
 
-    const result = validate(id, 4);
-
+    const correctFormat = /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
+    const result = correctFormat.test(id);
     expect(result).toBeTruthy();
   });
 });

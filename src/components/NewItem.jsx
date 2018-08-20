@@ -13,9 +13,7 @@ export class NewItem extends PureComponent {
   };
 
   addItem = () => {
-    const { text } = this.state;
-    const { addItem } = this.props;
-    addItem(text);
+    this.props.addItem(this.state.text);
     this.setState(() => ({ text: '' }));
   };
 
