@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { isInputValid } from '../utils/textValidation';
 import { getInputClasses } from '../utils/inputClasses';
 
-export class AddItem extends PureComponent {
+export class NewItem extends PureComponent {
   state = { text: '' };
 
   changeInput = (event) => {
