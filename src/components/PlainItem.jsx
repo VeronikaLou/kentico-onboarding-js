@@ -1,15 +1,14 @@
 import React, { PureComponent } from 'react';
 
 export class PlainItem extends PureComponent {
-  startEditing = () => {
+  _startEditing = () => {
     this.props.startEditing(this.props.item.id);
   };
 
   render() {
-    const { index } = this.props;
-    const { text } = this.props.item;
+    const { index, item: { text } } = this.props;
     return (
-      <div onClick={ this.startEditing }> {index}. {text} </div>
+      <div onClick={ this._startEditing }> {index}. {text} </div>
     );
   }
 }

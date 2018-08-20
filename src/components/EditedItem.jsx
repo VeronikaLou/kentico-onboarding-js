@@ -7,23 +7,23 @@ export class EditedItem extends PureComponent {
     text: this.props.item.text,
   };
 
-  editText = (event) => {
+  _editText = (event) => {
     this.setState({ text: event.target.value });
   };
 
-  deleteItem = () => {
+  _deleteItem = () => {
     this.props.deleteItem(this.props.item.id);
   };
 
-  saveChanges = () => {
+  _saveChanges = () => {
     this.props.saveChanges(this.props.item.id, this.state.text);
   };
 
-  cancelEditing = () => {
+  _cancelEditing = () => {
     this.props.cancelEditing(this.props.item.id);
   };
 
-  showButtons = () => {
+  _showButtons = () => {
     const isValid = isInputValid(this.state.text);
 
     return (
@@ -31,7 +31,7 @@ export class EditedItem extends PureComponent {
         <button
           type="button"
           className="btn btn-primary"
-          onClick={this.saveChanges}
+          onClick={this._saveChanges}
           disabled={!isValid}
           title={!isValid ? 'Insert text.' : ''}
         >
@@ -40,14 +40,14 @@ export class EditedItem extends PureComponent {
         <button
           type="button"
           className="btn btn-outline-secondary"
-          onClick={this.cancelEditing}
+          onClick={this._cancelEditing}
         >
           Cancel
         </button>
         <button
           type="button"
           className="btn btn-danger"
-          onClick={this.deleteItem}
+          onClick={this._deleteItem}
         >
           Delete
         </button>
@@ -71,9 +71,9 @@ export class EditedItem extends PureComponent {
           type="text"
           defaultValue={text}
           className={inputClass}
-          onChange={this.editText}
+          onChange={this._editText}
         />
-        {this.showButtons()}
+        {this._showButtons()}
       </div>
     );
   }

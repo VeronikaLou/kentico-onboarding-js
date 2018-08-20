@@ -5,16 +5,16 @@ import { PlainItem } from './PlainItem';
 export class Item extends PureComponent {
   render() {
     const {
-      index, saveChanges, changeEditingMode, deleteItem
+      index, saveChanges, changeEditingMode, deleteItem, item
     } = this.props;
 
     return (
       <li className="list-group-item">
-        {this.props.item.isEdited
+        {item.isEdited
           ? (
             <EditedItem
               index={index}
-              item={this.props.item}
+              item={item}
               saveChanges={saveChanges}
               cancelEditing={changeEditingMode}
               deleteItem={deleteItem}
@@ -24,7 +24,7 @@ export class Item extends PureComponent {
             <PlainItem
               startEditing={changeEditingMode}
               index={index}
-              item={this.props.item}
+              item={item}
             />
           )}
       </li>
