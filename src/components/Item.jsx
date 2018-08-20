@@ -4,14 +4,13 @@ import { PlainItem } from './PlainItem';
 
 export class Item extends PureComponent {
   render() {
-    const { isEdited } = this.props.item;
     const {
       index, saveChanges, changeEditingMode, deleteItem
     } = this.props;
 
     return (
       <li className="list-group-item">
-        {isEdited
+        {this.props.item.isEdited
           ? (
             <EditedItem
               index={index}
