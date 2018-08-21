@@ -8,18 +8,16 @@ export class NewItem extends PureComponent {
     isFocused: false
   };
 
-  _changeInput = (event) => {
+  _changeInput = (event) =>
     this.setState({ text: event.target.value });
-  };
 
   _addItem = () => {
     this.props.addItem(this.state.text);
     this.setState(() => ({ text: '' }));
   };
 
-  _changeFocus = () => {
+  _changeFocus = () =>
     this.setState(prevState => ({ isFocused: !prevState.isFocused }));
-  };
 
   render() {
     const { text, isFocused } = this.state;
@@ -27,6 +25,7 @@ export class NewItem extends PureComponent {
     const inputClass = classNames('form-control', {
       'is-invalid': isFocused && !isValid
     });
+    const title = !isValid ? 'Insert text.' : undefined;
 
     return (
       <li className="list-group-item">
@@ -44,7 +43,7 @@ export class NewItem extends PureComponent {
             className="btn btn-outline-secondary btn-sm"
             onClick={this._addItem}
             disabled={!isValid}
-            title={!isValid ? 'Insert text.' : ''}
+            title={title}
           >
             Add
           </button>
