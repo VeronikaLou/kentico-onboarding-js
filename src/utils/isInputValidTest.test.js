@@ -1,4 +1,4 @@
-import { isInputValid } from './textValidation';
+import { isInputValid } from './isInputValid';
 
 describe('Input validation', () => {
   it('checks if valid string passes', () => {

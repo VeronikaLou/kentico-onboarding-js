@@ -1,30 +1,27 @@
 import React, { PureComponent } from 'react';
 import classNames from 'classnames/bind';
-import { isInputValid } from '../utils/textValidation';
+import { isInputValid } from '../utils/isInputValid';
 
 export class EditedItem extends PureComponent {
   state = {
     text: this.props.item.text,
   };
 
-  _editText = (event) => {
+  _editText = (event) =>
     this.setState({ text: event.target.value });
-  };
 
-  _deleteItem = () => {
+  _deleteItem = () =>
     this.props.deleteItem(this.props.item.id);
-  };
 
-  _saveChanges = () => {
+  _saveChanges = () =>
     this.props.saveChanges(this.props.item.id, this.state.text);
-  };
 
-  _cancelEditing = () => {
+  _cancelEditing = () =>
     this.props.cancelEditing(this.props.item.id);
-  };
 
   _showButtons = () => {
     const isValid = isInputValid(this.state.text);
+    const saveButtonTitle = !isValid ? 'Insert text.' : '';
 
     return (
       <span>
@@ -33,7 +30,7 @@ export class EditedItem extends PureComponent {
           className="btn btn-primary"
           onClick={this._saveChanges}
           disabled={!isValid}
-          title={!isValid ? 'Insert text.' : ''}
+          title={saveButtonTitle}
         >
           Save
         </button>
