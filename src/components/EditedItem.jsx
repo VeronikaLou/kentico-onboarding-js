@@ -21,10 +21,13 @@ export class EditedItem extends PureComponent {
 
   _showButtons = () => {
     const isValid = isInputValid(this.state.text);
-    const saveButtonTitle = !isValid ? 'Insert text.' : '';
+    const saveButtonTitle = !isValid ? 'Insert text.' : undefined;
 
     return (
-      <span>
+      <div
+        className="input-group-append"
+        id="button-addon4"
+      >
         <button
           type="button"
           className="btn btn-primary"
@@ -48,7 +51,7 @@ export class EditedItem extends PureComponent {
         >
           Delete
         </button>
-      </span>
+      </div>
     );
   };
 

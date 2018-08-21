@@ -4,7 +4,7 @@ import { isInputValid } from '../utils/isInputValid';
 
 export class NewItem extends PureComponent {
   state = {
-    text: '',
+    text: undefined,
     isFocused: false
   };
 
@@ -13,7 +13,7 @@ export class NewItem extends PureComponent {
 
   _addItem = () => {
     this.props.addItem(this.state.text);
-    this.setState(() => ({ text: '' }));
+    this.setState(() => ({ text: undefined }));
   };
 
   _changeFocus = () =>
@@ -38,15 +38,18 @@ export class NewItem extends PureComponent {
             onFocus={this._changeFocus}
             onBlur={this._changeFocus}
           />
+          <div className="input-group-append">
           <button
             type="button"
             className="btn btn-outline-secondary btn-sm"
+            id="button-addon2"
             onClick={this._addItem}
             disabled={!isValid}
             title={addButtonTitle}
           >
             Add
           </button>
+          </div>
         </div>
       </li>
     );

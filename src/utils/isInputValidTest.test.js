@@ -1,32 +1,24 @@
 import { isInputValid } from './isInputValid';
 
 describe('Input validation', () => {
-  it('checks if valid string passes', () => {
-    const input = 'I am valid input.';
+  [
+    'I am valid input.',
+    '    I  a  m      v a l .../// i d .,,123456 too    '
+  ].forEach(input =>
+    it(`${input} should pass`, () => {
+      const result = isInputValid(input);
 
-    const result = isInputValid(input);
+      expect(result).toBeTruthy();
+    }));
 
-    expect(result).toBeTruthy();
-  });
-
-  it('checks if string surrounded by white spaces passes', () => {
-    const input = '    I  a  m      v a l .../// i d .,,123456 too    ';
-
-    const result = isInputValid(input);
-
-    expect(result).toBeTruthy();
-  });
-
-  it('checks if empty string doesn\'t pass', () => {
-    const input = '';
-
-    const result = isInputValid(input);
-
-    expect(result).toBeFalsy();
-  });
-
-  ['            ', '', ''].forEach(input =>
-    it(`checks if [string which contains only white spaces]${input} doesn't pass`, () => {
+  [
+    '            ',
+    '',
+    0,
+    null,
+    undefined
+  ].forEach(input =>
+    it(`${input} shouldn't pass`, () => {
       const result = isInputValid(input);
 
       expect(result).toBeFalsy();
