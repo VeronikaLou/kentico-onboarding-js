@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import classNames from 'classnames/bind';
-import { isInputValid } from '../utils/textValidation';
+import { isInputValid } from '../utils/isInputValid';
 
 export class NewItem extends PureComponent {
   state = {
@@ -25,7 +25,7 @@ export class NewItem extends PureComponent {
     const inputClass = classNames('form-control', {
       'is-invalid': isFocused && !isValid
     });
-    const title = !isValid ? 'Insert text.' : undefined;
+    const addButtonTitle = !isValid ? 'Insert text.' : undefined;
 
     return (
       <li className="list-group-item">
@@ -43,7 +43,7 @@ export class NewItem extends PureComponent {
             className="btn btn-outline-secondary btn-sm"
             onClick={this._addItem}
             disabled={!isValid}
-            title={title}
+            title={addButtonTitle}
           >
             Add
           </button>

@@ -1,7 +1,7 @@
 import { generateId } from './generateId';
 
-export const initItems = () => {
-  const items = [
+export const createItems = () =>
+  [
     {
       id: generateId(),
       text: 'Make a coffee',
@@ -23,6 +23,3 @@ export const initItems = () => {
       isEdited: false
     }
   ];
-
-  return items;
-};

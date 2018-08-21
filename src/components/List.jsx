@@ -2,10 +2,10 @@ import React, { PureComponent } from 'react';
 import { Item } from './Item';
 import { NewItem } from './NewItem';
 import { generateId } from '../utils/generateId';
-import { initItems } from '../utils/initItems';
+import { createItems } from '../utils/createItems';
 
 export class List extends PureComponent {
-  state = { items: initItems() };
+  state = { items: createItems() };
 
   _addItem = (text) => {
     const newItem = {
