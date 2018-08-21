@@ -19,22 +19,24 @@ export const Item = ({
       )
       : (
         <PlainItem
-          startEditing={changeEditingMode}
           index={index}
           item={item}
+          startEditing={changeEditingMode}
         />
       )}
   </li>
 );
 
+Item.displayName = 'Item';
+
 Item.propTypes = {
-  index: PropTypes.number,
+  index: PropTypes.number.isRequired,
   item: PropTypes.shape({
-    text: PropTypes.string,
-    id: PropTypes.string,
-    isEdited: PropTypes.bool
+    text: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+    isEdited: PropTypes.bool.isRequired
   }),
-  saveChanges: PropTypes.func,
-  changeEditingMode: PropTypes.func,
-  deleteItem: PropTypes.func,
+  saveChanges: PropTypes.func.isRequired,
+  changeEditingMode: PropTypes.func.isRequired,
+  deleteItem: PropTypes.func.isRequired,
 };

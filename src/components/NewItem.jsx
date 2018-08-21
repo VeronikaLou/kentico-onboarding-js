@@ -4,8 +4,10 @@ import PropTypes from 'prop-types';
 import { isInputValid } from '../utils/isInputValid';
 
 export class NewItem extends PureComponent {
+  static displayName = 'NewItem';
+
   static propTypes = {
-    addItem: PropTypes.func
+    addItem: PropTypes.func.isRequired
   };
 
   state = {
