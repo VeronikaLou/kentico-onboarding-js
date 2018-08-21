@@ -1,7 +1,9 @@
 import { Record } from 'immutable';
 
-export class ImmutableItem extends Record({
+const emptyItem = {
   id: '',
   text: '',
   isEdited: false
-}) {}
+};
+
+export const ListItem = new Record(emptyItem);

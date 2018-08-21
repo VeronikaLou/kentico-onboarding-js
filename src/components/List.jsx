@@ -1,12 +1,8 @@
 import React, { PureComponent } from 'react';
-import { Record } from 'immutable';
 import { Item } from './Item';
 import { NewItem } from './NewItem';
 import { generateId } from '../utils/generateId';
-import {
-  createItem,
-  createItems
-} from '../utils/itemsCreator';
+import { createItems } from '../utils/itemsCreator';
 
 export class List extends PureComponent {
   static displayName = 'List';
