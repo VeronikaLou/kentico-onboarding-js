@@ -1,23 +1,31 @@
 import React, { PureComponent } from 'react';
 import classNames from 'classnames/bind';
+import PropTypes from 'prop-types';
 import { isInputValid } from '../utils/isInputValid';
 
 export class EditedItem extends PureComponent {
+  static propTypes = {
+    index: PropTypes.number,
+    item: PropTypes.shape({
+      text: PropTypes.string,
+      id: PropTypes.string,
+    }),
+    saveChanges: PropTypes.func,
+    cancelEditing: PropTypes.func,
+    deleteItem: PropTypes.func,
+  };
+
   state = {
     text: this.props.item.text,
   };
 
-  _editText = (event) =>
-    this.setState({ text: event.target.value });
+  _editText = (event) => this.setState({ text: event.target.value });
 
-  _deleteItem = () =>
-    this.props.deleteItem(this.props.item.id);
+  _deleteItem = () => this.props.deleteItem(this.props.item.id);
 
-  _saveChanges = () =>
-    this.props.saveChanges(this.props.item.id, this.state.text);
+  _saveChanges = () => this.props.saveChanges(this.props.item.id, this.state.text);
 
-  _cancelEditing = () =>
-    this.props.cancelEditing(this.props.item.id);
+  _cancelEditing = () => this.props.cancelEditing(this.props.item.id);
 
   _showButtons = () => {
     const isValid = isInputValid(this.state.text);

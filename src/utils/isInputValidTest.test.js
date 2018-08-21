@@ -5,7 +5,7 @@ describe('Input validation', () => {
     'I am valid input.',
     '    I  a  m      v a l .../// i d .,,123456 too    '
   ].forEach(input =>
-    it(`${input} should pass`, () => {
+    it(`${input} should be valid`, () => {
       const result = isInputValid(input);
 
       expect(result).toBeTruthy();
@@ -18,7 +18,7 @@ describe('Input validation', () => {
     null,
     undefined
   ].forEach(input =>
-    it(`${input} shouldn't pass`, () => {
+    it(`${input} shouldn't be valid`, () => {
       const result = isInputValid(input);
 
       expect(result).toBeFalsy();

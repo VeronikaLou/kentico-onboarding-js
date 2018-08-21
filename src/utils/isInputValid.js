@@ -1,3 +1,1 @@
-export const isInputValid = (input) => {
-  return typeof input === 'string' && input.trim();
-};
+export const isInputValid = (input) => typeof input === 'string' && input.trim();
