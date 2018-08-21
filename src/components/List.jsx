@@ -2,7 +2,11 @@ import React, { PureComponent } from 'react';
 import { Item } from './Item';
 import { NewItem } from './NewItem';
 import { generateId } from '../utils/generateId';
-import { createItems } from '../utils/itemsCreator';
+import {
+  createItem,
+  createItems
+} from '../utils/itemsCreator';
+import { ListItem } from '../models/ListItem';
 
 export class List extends PureComponent {
   static displayName = 'List';
@@ -12,7 +16,7 @@ export class List extends PureComponent {
   };
 
   _addItem = (text) => {
-    const newItem = new ImmutableItem({ id: generateId(), text });
+    const newItem = createItem(generateId(), text);
     const items = this.state.items.set(newItem.id, newItem);
     this.setState(() => ({ items }));
   };
