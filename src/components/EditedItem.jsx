@@ -67,9 +67,9 @@ export class EditedItem extends PureComponent {
 
   render() {
     const { index } = this.props;
-    const { text } = this.props.item;
+    const { text } = this.state;
     const inputClass = classNames('form-control', {
-      'is-invalid': !isInputValid(this.state.text)
+      'is-invalid': !isInputValid(text)
     });
 
     return (
@@ -80,7 +80,7 @@ export class EditedItem extends PureComponent {
         <input
           className={inputClass}
           type="text"
-          defaultValue={text}
+          value={text}
           onChange={this._editText}
         />
         {this._showButtons()}

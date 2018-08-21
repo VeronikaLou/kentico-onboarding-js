@@ -19,7 +19,9 @@ export class PlainItem extends PureComponent {
     const { index, item: { text } } = this.props;
 
     return (
-      <div onClick={ this._startEditing }> {index}. {text} </div>
+      <div onClick={this._startEditing}>
+        {index}.&nbsp;{text}
+      </div>
     );
   }
 }

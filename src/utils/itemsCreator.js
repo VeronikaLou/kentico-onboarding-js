@@ -1,25 +1,15 @@
 import { generateId } from './generateId';
-
+export const createItem = (id, text, isEdited = false) => (
+  {
+    id,
+    text,
+    isEdited
+  }
+);
 export const createItems = () =>
   [
-    {
-      id: generateId(),
-      text: 'Make a coffee',
-      isEdited: false
-    },
-    {
-      id: generateId(),
-      text: 'Master React',
-      isEdited: false
-    },
-    {
-      id: generateId(),
-      text: 'Learn Redux',
-      isEdited: false
-    },
-    {
-      id: generateId(),
-      text: 'Help making Draft awesome',
-      isEdited: false
-    }
+    createItem(generateId(), 'Make a coffee'),
+    createItem(generateId(), 'Master React'),
+    createItem(generateId(), 'Learn Redux'),
+    createItem(generateId(), 'Help making Draft awesome')
   ];
