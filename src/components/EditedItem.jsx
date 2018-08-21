@@ -4,15 +4,17 @@ import PropTypes from 'prop-types';
 import { isInputValid } from '../utils/isInputValid';
 
 export class EditedItem extends PureComponent {
+  static displayName = 'EditedItem';
+
   static propTypes = {
-    index: PropTypes.number,
+    index: PropTypes.number.isRequired,
     item: PropTypes.shape({
-      text: PropTypes.string,
-      id: PropTypes.string,
+      text: PropTypes.string.isRequired,
+      id: PropTypes.string.isRequired,
     }),
-    saveChanges: PropTypes.func,
-    cancelEditing: PropTypes.func,
-    deleteItem: PropTypes.func,
+    saveChanges: PropTypes.func.isRequired,
+    cancelEditing: PropTypes.func.isRequired,
+    deleteItem: PropTypes.func.isRequired,
   };
 
   state = {
@@ -37,8 +39,8 @@ export class EditedItem extends PureComponent {
         id="button-addon4"
       >
         <button
-          type="button"
           className="btn btn-primary"
+          type="button"
           onClick={this._saveChanges}
           disabled={!isValid}
           title={saveButtonTitle}
@@ -46,15 +48,15 @@ export class EditedItem extends PureComponent {
           Save
         </button>
         <button
-          type="button"
           className="btn btn-outline-secondary"
+          type="button"
           onClick={this._cancelEditing}
         >
           Cancel
         </button>
         <button
-          type="button"
           className="btn btn-danger"
+          type="button"
           onClick={this._deleteItem}
         >
           Delete
@@ -76,9 +78,9 @@ export class EditedItem extends PureComponent {
           <span className="input-group-text">{index}.</span>
         </div>
         <input
+          className={inputClass}
           type="text"
           defaultValue={text}
-          className={inputClass}
           onChange={this._editText}
         />
         {this._showButtons()}

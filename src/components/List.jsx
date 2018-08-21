@@ -5,6 +5,8 @@ import { generateId } from '../utils/generateId';
 import { createItems } from '../utils/createItems';
 
 export class List extends PureComponent {
+  static displayName = 'List';
+
   state = { items: createItems() };
 
   _addItem = (text) => {

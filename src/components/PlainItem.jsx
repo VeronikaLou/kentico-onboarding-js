@@ -2,13 +2,15 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 export class PlainItem extends PureComponent {
+  static displayName = 'PlainItem';
+
   static propTypes = {
-    index: PropTypes.number,
+    index: PropTypes.number.isRequired,
     item: PropTypes.shape({
-      text: PropTypes.string,
-      id: PropTypes.string,
+      text: PropTypes.string.isRequired,
+      id: PropTypes.string.isRequired,
     }),
-    startEditing: PropTypes.func,
+    startEditing: PropTypes.func.isRequired,
   };
 
   _startEditing = () => this.props.startEditing(this.props.item.id);
