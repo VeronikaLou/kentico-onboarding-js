@@ -16,14 +16,13 @@ export class List extends PureComponent {
   };
 
   _addItem = (text) => {
-    const newItem = Record({ text, isEdited: false });
-    const items = this.state.items.set(generateId(), newItem);
+    const newItem = new ImmutableItem({ id: generateId(), text });
+    const items = this.state.items.set(newItem.id, newItem);
     this.setState(() => ({ items }));
   };
 
   _saveChanges = (id, text) => {
-    const editedItem = Record({ text, isEdited: false });
-    const items = this.state.items.update(id, () => editedItem);
+    const items = this.state.items.update(id, (item) => item.set('text', text).set('isEdited', false));
     this.setState(() => ({ items }));
   };
 
