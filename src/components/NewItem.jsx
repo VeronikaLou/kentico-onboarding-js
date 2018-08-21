@@ -1,23 +1,26 @@
 import React, { PureComponent } from 'react';
 import classNames from 'classnames/bind';
+import PropTypes from 'prop-types';
 import { isInputValid } from '../utils/isInputValid';
 
 export class NewItem extends PureComponent {
+  static propTypes = {
+    addItem: PropTypes.func
+  };
+
   state = {
-    text: undefined,
+    text: '',
     isFocused: false
   };
 
-  _changeInput = (event) =>
-    this.setState({ text: event.target.value });
+  _changeInput = (event) => this.setState({ text: event.target.value });
 
   _addItem = () => {
     this.props.addItem(this.state.text);
-    this.setState(() => ({ text: undefined }));
+    this.setState(() => ({ text: '' }));
   };
 
-  _changeFocus = () =>
-    this.setState(prevState => ({ isFocused: !prevState.isFocused }));
+  _changeFocus = () => this.setState(prevState => ({ isFocused: !prevState.isFocused }));
 
   render() {
     const { text, isFocused } = this.state;
@@ -39,16 +42,16 @@ export class NewItem extends PureComponent {
             onBlur={this._changeFocus}
           />
           <div className="input-group-append">
-          <button
-            type="button"
-            className="btn btn-outline-secondary btn-sm"
-            id="button-addon2"
-            onClick={this._addItem}
-            disabled={!isValid}
-            title={addButtonTitle}
-          >
-            Add
-          </button>
+            <button
+              type="button"
+              className="btn btn-outline-secondary btn-sm"
+              id="button-addon2"
+              onClick={this._addItem}
+              disabled={!isValid}
+              title={addButtonTitle}
+            >
+              Add
+            </button>
           </div>
         </div>
       </li>
