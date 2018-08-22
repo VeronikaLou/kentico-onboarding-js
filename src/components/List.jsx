@@ -13,7 +13,10 @@ export class List extends PureComponent {
   };
 
   _addItem = (text) => {
-    const newItem = new ListItem({ id: generateId(), text });
+    const newItem = new ListItem({
+      id: generateId(),
+      text
+    });
     const items = this.state.items
       .set(newItem.id, newItem);
     this.setState(() => ({ items }));
@@ -42,21 +45,23 @@ export class List extends PureComponent {
   };
 
   render() {
+    const renderItems = this.state.items.entrySeq()
+      .map(([id, item], index) => (
+        <Item
+          key={id}
+          item={item}
+          index={index + 1}
+          deleteItem={this._deleteItem}
+          saveChanges={this._saveChanges}
+          changeEditingMode={this._changeEditingMode}
+        />
+      ));
+
     return (
       <div className="row">
         <div className="col-sm-12 col-md-offset-2 col-md-8">
           <ul className="list-group">
-            {this.state.items.entrySeq()
-              .map(([id, item], index) => (
-                <Item
-                  key={id}
-                  item={item}
-                  index={index + 1}
-                  deleteItem={this._deleteItem}
-                  saveChanges={this._saveChanges}
-                  changeEditingMode={this._changeEditingMode}
-                />
-              ))}
+            {renderItems}
             <NewItem addItem={this._addItem} />
           </ul>
         </div>
