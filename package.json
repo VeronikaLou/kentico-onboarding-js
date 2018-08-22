@@ -17,9 +17,15 @@
     "tslint": "tslint --project tsconfig.json -e \"./node_modules/**\" \"./**/*.ts?(x)\""
   },
   "dependencies": {
-    "bootstrap": "^3.3.7",
+    "bootstrap": "^4.1.1",
+    "classnames": "^2.2.6",
+    "prop-types": "^15.6.2",
     "react": "^16.4.1",
-    "react-dom": "^16.4.1"
+    "react-bootstrap-table": "^4.3.1",
+    "react-bootstrap-table-next": "^1.1.1",
+    "react-dom": "^16.4.1",
+    "uuid": "^3.3.2",
+    "uuid-validate": "0.0.3"
   },
   "devDependencies": {
     "@types/jest": "^23.3.0",
@@ -30,6 +36,7 @@
     "babel-loader": "^7.1.5",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
     "clean-webpack-plugin": "^0.1.19",
     "css-loader": "^1.0.0",
     "eslint": "^4.19.1",

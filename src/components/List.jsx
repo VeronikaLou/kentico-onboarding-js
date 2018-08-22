@@ -1,36 +1,65 @@
 import React, { PureComponent } from 'react';
-import assignment from '../../public/images/assignment.gif';
-import { TsComponent } from './TsComponent.tsx';
+import { Item } from './Item';
+import { NewItem } from './NewItem';
+import { generateId } from '../utils/generateId';
+import {
+  createItem,
+  createItems
+} from '../utils/itemsCreator';
 
 export class List extends PureComponent {
+  static displayName = 'List';
+
+  state = {
+    items: createItems()
+  };
+
+  _addItem = (text) => {
+    this.setState(prevState => ({
+      items: [
+        ...prevState.items,
+        createItem(generateId(), text)
+      ]
+    }));
+  };
+
+  _saveChanges = (id, text) => {
+    const items = this.state.items.map(item => ((item.id === id)
+      ? createItem(id, text)
+      : item));
+    this.setState(() => ({ items }));
+  };
+
+  _deleteItem = (id) =>
+    this.setState(prevState => ({
+      items: prevState.items
+        .filter(item => item.id !== id)
+    }));
+
+  _changeEditingMode = (id) => {
+    const items = this.state.items.map(item => ((item.id === id)
+      ? createItem(id, item.text, !item.isEdited)
+      : item));
+    this.setState(() => ({ items }));
+  };
+
   render() {
     return (
       <div className="row">
-        {/* TODO: You can delete the assignment part once you do not need it */}
-        <div className="row">
-          <div className="col-sm-12">
-            <p className="lead text-center">
-              Desired functionality is captured in the gif image.
-            </p>
-            <p className="lead text-center">
-              <b>Note: </b>Try to make solution easily extensible (e.g. more displayed fields per item like <code>dateCreated</code>).
-            </p>
-            <img src={assignment} alt="assignment" className="img--assignment" />
-          </div>
-        </div>
-
-        <div className="row">
-          <div className="col-sm-12 text-center">
-            <TsComponent name="𝕱𝖆𝖓𝖈𝖞" invisible />
-          </div>
-        </div>
-
-        <div className="row">
-          <div className="col-sm-12 col-md-offset-2 col-md-8">
-            <pre>
-              TODO: implement the list here :)
-            </pre>
-          </div>
+        <div className="col-sm-12 col-md-offset-2 col-md-8">
+          <ul className="list-group">
+            {this.state.items.map((item, index) => (
+              <Item
+                key={item.id}
+                item={item}
+                index={index + 1}
+                deleteItem={this._deleteItem}
+                saveChanges={this._saveChanges}
+                changeEditingMode={this._changeEditingMode}
+              />
+            ))}
+            <NewItem addItem={this._addItem} />
+          </ul>
         </div>
       </div>
     );
