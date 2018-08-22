@@ -2,9 +2,7 @@ import { OrderedMap, } from 'immutable';
 import { ListItem } from '../models/ListItem';
 import { generateId } from './generateId';
 
-export const createItem = (id, text, isEdited) => {
-  return new ListItem({ id, text, isEdited });
-};
+export const createItem = (id, text, isEdited) => new ListItem({ id, text, isEdited });
 
 export const createItems = () => {
   const coffee = createItem(generateId(), 'Make a coffee');

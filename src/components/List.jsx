@@ -6,7 +6,6 @@ import {
   createItem,
   createItems
 } from '../utils/itemsCreator';
-import { ListItem } from '../models/ListItem';
 
 export class List extends PureComponent {
   static displayName = 'List';
@@ -22,18 +21,18 @@ export class List extends PureComponent {
   };
 
   _saveChanges = (id, text) => {
-    const items = this.state.items.update(id, (item) => item.set('text', text).set('isEdited', false));
+    const item = createItem(id, text, false);
+    const items = this.state.items.mergeIn([id], item);
     this.setState(() => ({ items }));
   };
 
-  _deleteItem = (id) =>{
+  _deleteItem = (id) => {
     const items = this.state.items.delete(id);
     this.setState(() => ({ items }));
   };
 
   _changeEditingMode = (id) => {
-    const item = this.state.items.get(id).update('isEdited', (isEdited) => !isEdited);
-    const items = this.state.items.update(id, () => item);
+    const items = this.state.items.updateIn([id, 'isEdited'], isEdited => !isEdited);
     this.setState(() => ({ items }));
   };
 
@@ -42,9 +41,9 @@ export class List extends PureComponent {
       <div className="row">
         <div className="col-sm-12 col-md-offset-2 col-md-8">
           <ul className="list-group">
-            {this.state.items.map((item, index) => (
+            {this.state.items.entrySeq().map(([id, item], index) => (
               <Item
-                key={item.id}
+                key={id}
                 item={item}
                 index={index + 1}
                 deleteItem={this._deleteItem}
