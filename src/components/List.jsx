@@ -17,32 +17,33 @@ export class List extends PureComponent {
       id: generateId(),
       text
     });
-    const items = this.state.items
-      .set(newItem.id, newItem);
-    this.setState(() => ({ items }));
+    console.log(newItem);
+    this.setState(prevState => ({
+      items: prevState.items
+        .set(newItem.id, newItem)
+    }));
   };
 
-  _saveChanges = (id, text) => {
-    const item = {
-      text,
-      isEdited: false
-    };
-    const items = this.state.items
-      .mergeIn([id], item);
-    this.setState(() => ({ items }));
-  };
+  _saveChanges = (id, text) =>
+    this.setState(prevState => ({
+      items: prevState.items
+        .mergeIn([id], {
+          text,
+          isEdited: false
+        })
+    }));
 
-  _deleteItem = (id) => {
-    const items = this.state.items
-      .delete(id);
-    this.setState(() => ({ items }));
-  };
+  _deleteItem = (id) =>
+    this.setState(prevState => ({
+      items: prevState.items
+        .delete(id)
+    }));
 
-  _changeEditingMode = (id) => {
-    const items = this.state.items
-      .updateIn([id, 'isEdited'], isEdited => !isEdited);
-    this.setState(() => ({ items }));
-  };
+  _changeEditingMode = (id) =>
+    this.setState(prevState => ({
+      items: prevState.items
+        .updateIn([id, 'isEdited'], isEdited => !isEdited)
+    }));
 
   render() {
     const renderItems = this.state.items.entrySeq()
