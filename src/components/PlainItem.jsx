@@ -7,7 +7,7 @@ export class PlainItem extends PureComponent {
 
   static propTypes = {
     index: PropTypes.number.isRequired,
-    item: PropTypes.instanceOf(ListItem),
+    item: PropTypes.instanceOf(ListItem).isRequired,
     startEditing: PropTypes.func.isRequired,
   };
 

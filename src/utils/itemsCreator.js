@@ -15,7 +15,6 @@ export const createItems = () => {
     id: generateId(),
     text: 'Learn Redux'
   });
-
   const draft = new ListItem({
     id: generateId(),
     text: 'Help making Draft awesome'

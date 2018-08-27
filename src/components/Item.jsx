@@ -32,7 +32,7 @@ Item.displayName = 'Item';
 
 Item.propTypes = {
   index: PropTypes.number.isRequired,
-  item: PropTypes.instanceOf(ListItem),
+  item: PropTypes.instanceOf(ListItem).isRequired,
   saveChanges: PropTypes.func.isRequired,
   changeEditingMode: PropTypes.func.isRequired,
   deleteItem: PropTypes.func.isRequired,
