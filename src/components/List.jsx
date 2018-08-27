@@ -17,7 +17,6 @@ export class List extends PureComponent {
       id: generateId(),
       text
     });
-    console.log(newItem);
     this.setState(prevState => ({
       items: prevState.items
         .set(newItem.id, newItem)

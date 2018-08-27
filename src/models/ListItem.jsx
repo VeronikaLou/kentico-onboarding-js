@@ -6,4 +6,4 @@ const emptyItem = {
   isEdited: false
 };
 
-export const ListItem = new Record(emptyItem);
+export const ListItem = new Record(emptyItem, 'ListItem');

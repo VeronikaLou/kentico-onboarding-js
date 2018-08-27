@@ -2,16 +2,14 @@ import React, { PureComponent } from 'react';
 import classNames from 'classnames/bind';
 import PropTypes from 'prop-types';
 import { isInputValid } from '../utils/isInputValid';
+import { ListItem } from '../models/ListItem';
 
 export class EditedItem extends PureComponent {
   static displayName = 'EditedItem';
 
   static propTypes = {
     index: PropTypes.number.isRequired,
-    item: PropTypes.shape({
-      text: PropTypes.string.isRequired,
-      id: PropTypes.string.isRequired,
-    }),
+    item: PropTypes.instanceOf(ListItem),
     saveChanges: PropTypes.func.isRequired,
     cancelEditing: PropTypes.func.isRequired,
     deleteItem: PropTypes.func.isRequired,
