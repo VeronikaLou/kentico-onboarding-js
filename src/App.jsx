@@ -45,3 +45,5 @@ export const App = () => (
     </footer>
   </div>
 );
+
+App.displayName = 'App';

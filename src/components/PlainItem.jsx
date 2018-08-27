@@ -1,15 +1,13 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { ListItem } from '../models/ListItem';
 
 export class PlainItem extends PureComponent {
   static displayName = 'PlainItem';
 
   static propTypes = {
     index: PropTypes.number.isRequired,
-    item: PropTypes.shape({
-      text: PropTypes.string.isRequired,
-      id: PropTypes.string.isRequired,
-    }),
+    item: PropTypes.instanceOf(ListItem).isRequired,
     startEditing: PropTypes.func.isRequired,
   };
 
