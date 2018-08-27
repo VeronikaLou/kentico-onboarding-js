@@ -11,7 +11,6 @@ export const addItem = (text) => {
     type: ITEM_ADD,
     id: generateId(),
     text,
-    isEdited: false
   };
 };
 
