@@ -2,8 +2,8 @@ import React, { PureComponent } from 'react';
 import { Item } from './Item';
 import { NewItem } from './NewItem';
 import { generateId } from '../utils/generateId';
-import { createItems } from '../utils/itemsCreator';
 import { ListItem } from '../models/ListItem';
+import { createItems } from '../utils/itemsCreator';
 
 export class List extends PureComponent {
   static displayName = 'List';
