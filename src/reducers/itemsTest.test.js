@@ -7,7 +7,6 @@ import {
   deleteItem,
   saveChanges
 } from '../actions/actionCreators';
-import { generateId } from '../utils/generateId';
 
 describe('Add item', () => {
   const newItem = addItem('New item.');
@@ -59,16 +58,22 @@ describe('Delete item', () => {
       text: 'Delete me.'
     }));
 
-  it('should do nothing with empty array', () => {
-    expect(items(undefined, itemToDelete)).toEqual(new OrderedMap());
-  });
+  [
+    initialState,
+    undefined
+  ].forEach(state =>
+    it(`should behave correctly with ${state}`, () => {
+      const expectedResult = new OrderedMap();
 
-  it('should delete item from state', () => {
-    expect(items(initialState, itemToDelete)).toEqual(new OrderedMap());
-  });
+      const result = items(state, itemToDelete);
+
+      expect(result).toEqual(expectedResult);
+    }));
 
   it('should\'t modify state which doesn\'t contain item with given id', () => {
-    expect(items(initialState, deleteItem(1))).toEqual(initialState);
+    const result = items(initialState, deleteItem(1));
+
+    expect(result).toEqual(initialState);
   });
 });
 
@@ -95,7 +100,10 @@ describe('Change editing mode', () => {
 });
 
 describe('Save changes', () => {
-  const item = new ListItem({ id: 1, text: 'Change me.' });
+  const item = new ListItem({
+    id: 1,
+    text: 'Change me.'
+  });
   const initialState = new OrderedMap().set(item.id, item);
   const changedItem = saveChanges(item.id, 'Text changed.');
 
