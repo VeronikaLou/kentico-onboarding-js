@@ -1,6 +1,6 @@
 import { OrderedMap } from 'immutable';
 import { ListItem } from '../models/ListItem';
-import { modifyTable } from './reducers';
+import { modifyTable } from './modifyTable';
 import {
   addItem,
   changeEditingMode,

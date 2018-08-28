@@ -2,7 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ListItem } from '../models/ListItem';
 
-export const PlainItem = ({ index, item: { text }, startEditing }) => (
+export const PlainItem = ({
+  index, item: { text }, startEditing
+}) => (
   <div onClick={startEditing}>
     {index}.&nbsp;{text}
   </div>

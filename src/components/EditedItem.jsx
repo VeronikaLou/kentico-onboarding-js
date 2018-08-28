@@ -23,7 +23,6 @@ export class EditedItem extends PureComponent {
 
   _saveChanges = () => this.props.saveChanges(this.state.text);
 
-
   _showButtons = () => {
     const isValid = isInputValid(this.state.text);
     const saveButtonTitle = !isValid ? 'Insert text.' : undefined;
