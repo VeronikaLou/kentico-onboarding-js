@@ -3,7 +3,7 @@ import { List as ListComponent } from '../components/List';
 
 const mapStateToProps = state => {
   return {
-    items: state
+    items: state.entrySeq()
   };
 };
 

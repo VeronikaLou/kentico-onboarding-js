@@ -1,17 +1,12 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import { Item } from './Item';
-import { NewItem } from './NewItem';
+import { NewItem } from '../containers/NewItemContainer';
 
 export class List extends PureComponent {
   static displayName = 'List';
 
-  static propTypes = {
-    items: PropTypes.instanceOf(Immutable.OrderedMap).isRequired
-  };
-
   render() {
-    const renderItems = this.props.items.entrySeq()
+    const renderItems = this.props.items
       .map(([id, item], index) => (
         <Item
           key={id}

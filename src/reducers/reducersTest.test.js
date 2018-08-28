@@ -10,10 +10,7 @@ import {
 
 describe('Add item', () => {
   const newItem = addItem('New item.');
-  const newListItem = ListItem({
-    id: newItem.id,
-    text: newItem.text
-  });
+  const newListItem = ListItem({ ...newItem });
 
   it('should add item into empty state', () => {
     const expectedResult = new OrderedMap()

@@ -11,13 +11,11 @@ export class PlainItem extends PureComponent {
     startEditing: PropTypes.func.isRequired,
   };
 
-  _startEditing = () => this.props.startEditing(this.props.item.id);
-
   render() {
     const { index, item: { text } } = this.props;
 
     return (
-      <div onClick={this._startEditing}>
+      <div onClick={this.props.startEditing}>
         {index}.&nbsp;{text}
       </div>
     );
