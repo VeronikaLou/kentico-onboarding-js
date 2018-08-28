@@ -1,37 +1,29 @@
 import { generateId } from '../utils/generateId';
 import {
-  ITEM_ADDED,
+  CHANGES_SAVED,
   EDITING_MODE_CHANGED,
-  ITEM_DELETED,
-  CHANGES_SAVED
+  ITEM_ADDED,
+  ITEM_DELETED
 } from './actionTypes';
 
-export const addItem = text => {
-  return {
-    type: ITEM_ADDED,
-    id: generateId(),
-    text,
-  };
-};
+export const addItem = text => ({
+  type: ITEM_ADDED,
+  id: generateId(),
+  text,
+});
 
-export const deleteItem = id => {
-  return {
-    type: ITEM_DELETED,
-    id
-  };
-};
+export const deleteItem = id => ({
+  type: ITEM_DELETED,
+  id
+});
 
-export const saveChanges = (id, text) => {
-  return {
-    type: CHANGES_SAVED,
-    id,
-    text
-  };
-};
+export const saveChanges = (id, text) => ({
+  type: CHANGES_SAVED,
+  id,
+  text
+});
 
-export const changeEditingMode = id => {
-  return {
-    type: EDITING_MODE_CHANGED,
-    id
-  };
-};
+export const changeEditingMode = id => ({
+  type: EDITING_MODE_CHANGED,
+  id
+});

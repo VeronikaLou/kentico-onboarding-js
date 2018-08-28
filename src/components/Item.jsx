@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ListItem } from '../models/ListItem';
-import { PlainItem } from '../containers/PlainItemContainer';
-import { EditedItem } from '../containers/ItemEditedContainer';
+import { PlainItem } from '../containers/PlainItem';
+import { EditedItem } from '../containers/EditedItem';
 
 export const Item = ({
   index, item

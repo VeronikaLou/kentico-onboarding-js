@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Item } from './Item';
-import { NewItem } from '../containers/NewItemContainer';
+import { NewItem } from '../containers/NewItem';
 
 export const List = ({ items }) => {
   const renderItems = items
