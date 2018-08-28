@@ -1,21 +1,21 @@
 import { OrderedMap } from 'immutable';
 import {
-  CHANGES_SAVE,
-  EDITING_MODE_CHANGE,
-  ITEM_ADD,
-  ITEM_DELETE
+  CHANGES_SAVED,
+  EDITING_MODE_CHANGED,
+  ITEM_ADDED,
+  ITEM_DELETED
 } from '../actions/actionTypes';
 import { ListItem } from '../models/ListItem';
 
 export const modifyTable = (state = new OrderedMap(), action) => {
   switch (action.type) {
-    case ITEM_ADD:
+    case ITEM_ADDED:
       return state.set(action.id, new ListItem({ ...action }));
-    case ITEM_DELETE:
+    case ITEM_DELETED:
       return state.delete(action.id);
-    case EDITING_MODE_CHANGE:
+    case EDITING_MODE_CHANGED:
       return state.updateIn([action.id, 'isEdited'], isEdited => !isEdited);
-    case CHANGES_SAVE:
+    case CHANGES_SAVED:
       return state.mergeIn([action.id], {
         text: action.text,
         isEdited: false

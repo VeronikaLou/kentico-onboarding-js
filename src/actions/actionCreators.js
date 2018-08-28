@@ -1,14 +1,14 @@
 import { generateId } from '../utils/generateId';
 import {
-  ITEM_ADD,
-  EDITING_MODE_CHANGE,
-  ITEM_DELETE,
-  CHANGES_SAVE
+  ITEM_ADDED,
+  EDITING_MODE_CHANGED,
+  ITEM_DELETED,
+  CHANGES_SAVED
 } from './actionTypes';
 
 export const addItem = text => {
   return {
-    type: ITEM_ADD,
+    type: ITEM_ADDED,
     id: generateId(),
     text,
   };
@@ -16,14 +16,14 @@ export const addItem = text => {
 
 export const deleteItem = id => {
   return {
-    type: ITEM_DELETE,
+    type: ITEM_DELETED,
     id
   };
 };
 
 export const saveChanges = (id, text) => {
   return {
-    type: CHANGES_SAVE,
+    type: CHANGES_SAVED,
     id,
     text
   };
@@ -31,7 +31,7 @@ export const saveChanges = (id, text) => {
 
 export const changeEditingMode = id => {
   return {
-    type: EDITING_MODE_CHANGE,
+    type: EDITING_MODE_CHANGED,
     id
   };
 };

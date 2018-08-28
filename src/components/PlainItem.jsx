@@ -1,23 +1,17 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { ListItem } from '../models/ListItem';
 
-export class PlainItem extends PureComponent {
-  static displayName = 'PlainItem';
+export const PlainItem = ({ index, item: { text }, startEditing }) => (
+  <div onClick={startEditing}>
+    {index}.&nbsp;{text}
+  </div>
+);
 
-  static propTypes = {
-    index: PropTypes.number.isRequired,
-    item: PropTypes.instanceOf(ListItem).isRequired,
-    startEditing: PropTypes.func.isRequired,
-  };
+PlainItem.displayName = 'PlainItem';
 
-  render() {
-    const { index, item: { text } } = this.props;
-
-    return (
-      <div onClick={this.props.startEditing}>
-        {index}.&nbsp;{text}
-      </div>
-    );
-  }
-}
+PlainItem.propTypes = {
+  index: PropTypes.number.isRequired,
+  item: PropTypes.instanceOf(ListItem).isRequired,
+  startEditing: PropTypes.func.isRequired,
+};
