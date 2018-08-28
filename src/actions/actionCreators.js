@@ -8,22 +8,30 @@ import {
 
 export const addItem = text => ({
   type: ITEM_ADDED,
-  id: generateId(),
-  text,
+  payload: {
+    id: generateId(),
+    text,
+  }
 });
 
 export const deleteItem = id => ({
   type: ITEM_DELETED,
-  id
+  payload: {
+    id
+  }
 });
 
 export const saveChanges = (id, text) => ({
   type: CHANGES_SAVED,
-  id,
-  text
+  payload: {
+    id,
+    text
+  }
 });
 
 export const changeEditingMode = id => ({
   type: EDITING_MODE_CHANGED,
-  id
+  payload: {
+    id
+  }
 });

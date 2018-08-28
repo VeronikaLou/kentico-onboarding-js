@@ -10,18 +10,20 @@ import { ListItem } from '../models/ListItem';
 export const items = (state = new OrderedMap(), action) => {
   switch (action.type) {
     case ITEM_ADDED:
-      return state.set(action.id, new ListItem({ ...action }));
+      return state.set(action.payload.id, new ListItem({ ...action }));
 
     case ITEM_DELETED:
-      return state.delete(action.id);
+      return state.delete(action.payload.id);
 
     case EDITING_MODE_CHANGED:
-      return state.updateIn([action.id, 'isEdited'], isEdited => !isEdited);
+      return state.updateIn([action.payload.id, 'isEdited'], isEdited => !isEdited);
+
     case CHANGES_SAVED:
-      return state.mergeIn([action.id], {
-        text: action.text,
+      return state.mergeIn([action.payload.id], {
+        text: action.payload.text,
         isEdited: false
       });
+
     default:
       return state;
   }
