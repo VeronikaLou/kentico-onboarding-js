@@ -1,4 +1,5 @@
 import { OrderedMap } from 'immutable';
+import { combineReducers } from 'redux';
 import {
   CHANGES_SAVED,
   EDITING_MODE_CHANGED,
@@ -10,7 +11,7 @@ import { ListItem } from '../models/ListItem';
 export const items = (state = new OrderedMap(), action) => {
   switch (action.type) {
     case ITEM_ADDED:
-      return state.set(action.payload.id, new ListItem({ ...action }));
+      return state.set(action.payload.id, new ListItem({ ...action.payload }));
 
     case ITEM_DELETED:
       return state.delete(action.payload.id);
@@ -28,3 +29,7 @@ export const items = (state = new OrderedMap(), action) => {
       return state;
   }
 };
+
+export const rootReducer = combineReducers({
+  items
+});

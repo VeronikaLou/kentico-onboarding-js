@@ -7,16 +7,19 @@ import {
   deleteItem,
   saveChanges
 } from '../actions/actionCreators';
+import { generateId } from '../utils/generateId';
 
 describe('Add item', () => {
   const newItem = addItem('New item.');
-  const newListItem = ListItem({ ...newItem });
+  const newListItem = ListItem({ ...newItem.payload });
 
   it('should add item into empty state', () => {
     const expectedResult = new OrderedMap()
       .set(newListItem.id, newListItem);
 
-    expect(items(undefined, newItem)).toEqual(expectedResult);
+    const result = items(undefined, newItem);
+
+    expect(result).toEqual(expectedResult);
   });
 
   it('should add third item', () => {
@@ -27,11 +30,12 @@ describe('Add item', () => {
       id: 1,
       text: 'B'
     }));
-
     const expectedResult = initialState
       .set(newListItem.id, newListItem);
 
-    expect(items(initialState, newItem)).toEqual(expectedResult);
+    const result = items(initialState, newItem);
+
+    expect(result).toEqual(expectedResult);
   });
 
   it('should do nothing with invalid type', () => {
@@ -41,15 +45,17 @@ describe('Add item', () => {
       text: 'NEW_ITEM'
     };
 
-    expect(items(undefined, invalidItem)).toEqual(new OrderedMap());
+    const result = items(undefined, invalidItem);
+
+    expect(result).toEqual(new OrderedMap());
   });
 });
 
 describe('Delete item', () => {
   const itemToDelete = deleteItem(-1);
   const initialState = new OrderedMap()
-    .set(itemToDelete.id, new ListItem({
-      id: itemToDelete.id,
+    .set(itemToDelete.payload.id, new ListItem({
+      id: itemToDelete.payload.id,
       text: 'Delete me.'
     }));
 
@@ -68,10 +74,10 @@ describe('Delete item', () => {
 
 describe('Change editing mode', () => {
   const item = addItem('Click me.');
-  const clickedItem = changeEditingMode(item.id);
-  const initialState = new OrderedMap().set(item.id, new ListItem({ ...item }));
-  const stateWithClicked = new OrderedMap().set(item.id, new ListItem({
-    ...item,
+  const clickedItem = changeEditingMode(item.payload.id);
+  const initialState = new OrderedMap().set(item.payload.id, new ListItem({ ...item.payload }));
+  const stateWithClicked = new OrderedMap().set(item.payload.id, new ListItem({
+    ...item.payload,
     isEdited: true
   }));
 
@@ -89,21 +95,24 @@ describe('Change editing mode', () => {
 });
 
 describe('Save changes', () => {
-  const item = addItem('Change me.');
-  const initialState = new OrderedMap().set(item.id, new ListItem({ ...item }));
-  const changeText = saveChanges(item.id, 'Text changed.');
+  const item = new ListItem({ id: 1, text: 'Change me.' });
+  const initialState = new OrderedMap().set(item.id, item);
+  const changedItem = saveChanges(item.id, 'Text changed.');
 
   it('should change original text to text given as argument', () => {
-    const expectedResult = initialState.setIn([item.id, 'text'], changeText.text);
+    const expectedResult = initialState.setIn([item.id, 'text'], changedItem.payload.text);
 
-    expect(items(initialState, changeText)).toEqual(expectedResult);
+    const result = items(initialState, changedItem);
+
+    expect(result).toEqual(expectedResult);
   });
 
   it('should change editing mode to false', () => {
-    const changedItem = saveChanges(item.id, item.text);
-    const saveChangedItem = items(initialState, changedItem);
-    const expectedResult = items(saveChangedItem, changeEditingMode(item.id));
+    const expectedResult = initialState.setIn([item.id, 'text'], changedItem.payload.text);
+    const stateWithClickedItem = initialState.setIn([item.id, 'isEdited'], true);
 
-    expect(items(expectedResult, changedItem)).toEqual(initialState);
+    const result = items(stateWithClickedItem, changedItem);
+
+    expect(result).toEqual(expectedResult);
   });
 });

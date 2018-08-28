@@ -6,13 +6,15 @@ import {
   ITEM_DELETED
 } from './actionTypes';
 
-export const addItem = text => ({
+const _createAddItem = (text, generator) => ({
   type: ITEM_ADDED,
   payload: {
-    id: generateId(),
-    text,
+    id: generator(),
+    text
   }
 });
+
+export const addItem = (text) => _createAddItem(text, generateId);
 
 export const deleteItem = id => ({
   type: ITEM_DELETED,
