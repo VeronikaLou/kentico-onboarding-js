@@ -1,6 +1,6 @@
 import { OrderedMap } from 'immutable';
 import { ListItem } from '../models/ListItem';
-import { performAction } from './reducers';
+import { modifyTable } from './reducers';
 import {
   addItem,
   changeEditingMode,
@@ -19,7 +19,7 @@ describe('Add item', () => {
     const expectedResult = new OrderedMap()
       .set(newListItem.id, newListItem);
 
-    expect(performAction(undefined, newItem)).toEqual(expectedResult);
+    expect(modifyTable(undefined, newItem)).toEqual(expectedResult);
   });
 
   it('should add third item', () => {
@@ -34,7 +34,7 @@ describe('Add item', () => {
     const expectedResult = initialState
       .set(newListItem.id, newListItem);
 
-    expect(performAction(initialState, newItem)).toEqual(expectedResult);
+    expect(modifyTable(initialState, newItem)).toEqual(expectedResult);
   });
 
   it('should do nothing with invalid type', () => {
@@ -44,7 +44,7 @@ describe('Add item', () => {
       text: 'NEW_ITEM'
     };
 
-    expect(performAction(undefined, invalidItem)).toEqual(new OrderedMap());
+    expect(modifyTable(undefined, invalidItem)).toEqual(new OrderedMap());
   });
 });
 
@@ -57,15 +57,15 @@ describe('Delete item', () => {
     }));
 
   it('should do nothing with empty array', () => {
-    expect(performAction(undefined, itemToDelete)).toEqual(new OrderedMap());
+    expect(modifyTable(undefined, itemToDelete)).toEqual(new OrderedMap());
   });
 
   it('should delete item from state', () => {
-    expect(performAction(initialState, itemToDelete)).toEqual(new OrderedMap());
+    expect(modifyTable(initialState, itemToDelete)).toEqual(new OrderedMap());
   });
 
   it('should\'t modify state which doesn\'t contain item with given id', () => {
-    expect(performAction(initialState, deleteItem(1))).toEqual(initialState);
+    expect(modifyTable(initialState, deleteItem(1))).toEqual(initialState);
   });
 });
 
@@ -83,11 +83,11 @@ describe('Change editing mode', () => {
   });
 
   it('should change mode from false to true', () => {
-    expect(performAction(initialState, clickedItem)).toEqual(stateWithClicked);
+    expect(modifyTable(initialState, clickedItem)).toEqual(stateWithClicked);
   });
 
   it('should change mode from true to false', () => {
-    expect(performAction(stateWithClicked, clickedItem)).toEqual(initialState);
+    expect(modifyTable(stateWithClicked, clickedItem)).toEqual(initialState);
   });
 });
 
@@ -99,14 +99,14 @@ describe('Save changes', () => {
   it('should change original text to text given as argument', () => {
     const expectedResult = initialState.setIn([item.id, 'text'], changeText.text);
 
-    expect(performAction(initialState, changeText)).toEqual(expectedResult);
+    expect(modifyTable(initialState, changeText)).toEqual(expectedResult);
   });
 
   it('should change editing mode to false', () => {
     const changedItem = saveChanges(item.id, item.text);
-    const saveChangedItem = performAction(initialState, changedItem);
-    const expectedResult = performAction(saveChangedItem, changeEditingMode(item.id));
+    const saveChangedItem = modifyTable(initialState, changedItem);
+    const expectedResult = modifyTable(saveChangedItem, changeEditingMode(item.id));
 
-    expect(performAction(expectedResult, changedItem)).toEqual(initialState);
+    expect(modifyTable(expectedResult, changedItem)).toEqual(initialState);
   });
 });

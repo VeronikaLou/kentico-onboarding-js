@@ -1,6 +1,7 @@
 import './sticky-footer.css';
 import React from 'react';
-import { List } from './components/List';
+import { List } from './containers/ListContainer';
+
 
 export const App = () => (
   <div>

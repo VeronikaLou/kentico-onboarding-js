@@ -6,7 +6,7 @@ import {
   CHANGES_SAVE
 } from './actionTypes';
 
-export const addItem = (text) => {
+export const addItem = text => {
   return {
     type: ITEM_ADD,
     id: generateId(),
@@ -14,7 +14,7 @@ export const addItem = (text) => {
   };
 };
 
-export const deleteItem = (id) => {
+export const deleteItem = id => {
   return {
     type: ITEM_DELETE,
     id
@@ -29,7 +29,7 @@ export const saveChanges = (id, text) => {
   };
 };
 
-export const changeEditingMode = (id) => {
+export const changeEditingMode = id => {
   return {
     type: EDITING_MODE_CHANGE,
     id

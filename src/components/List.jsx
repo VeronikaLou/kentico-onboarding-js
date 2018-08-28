@@ -1,59 +1,22 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { Item } from './Item';
 import { NewItem } from './NewItem';
-import { generateId } from '../utils/generateId';
-import { ListItem } from '../models/ListItem';
-import { createItems } from '../utils/itemsCreator';
 
 export class List extends PureComponent {
   static displayName = 'List';
 
-  state = {
-    items: createItems()
+  static propTypes = {
+    items: PropTypes.instanceOf(Immutable.OrderedMap).isRequired
   };
-
-  _addItem = (text) => {
-    const newItem = new ListItem({
-      id: generateId(),
-      text
-    });
-    this.setState(prevState => ({
-      items: prevState.items
-        .set(newItem.id, newItem)
-    }));
-  };
-
-  _saveChanges = (id, text) =>
-    this.setState(prevState => ({
-      items: prevState.items
-        .mergeIn([id], {
-          text,
-          isEdited: false
-        })
-    }));
-
-  _deleteItem = (id) =>
-    this.setState(prevState => ({
-      items: prevState.items
-        .delete(id)
-    }));
-
-  _changeEditingMode = (id) =>
-    this.setState(prevState => ({
-      items: prevState.items
-        .updateIn([id, 'isEdited'], isEdited => !isEdited)
-    }));
 
   render() {
-    const renderItems = this.state.items.entrySeq()
+    const renderItems = this.props.items.entrySeq()
       .map(([id, item], index) => (
         <Item
           key={id}
           item={item}
           index={index + 1}
-          deleteItem={this._deleteItem}
-          saveChanges={this._saveChanges}
-          changeEditingMode={this._changeEditingMode}
         />
       ));
 
@@ -62,7 +25,7 @@ export class List extends PureComponent {
         <div className="col-sm-12 col-md-offset-2 col-md-8">
           <ul className="list-group">
             {renderItems}
-            <NewItem addItem={this._addItem} />
+            <NewItem />
           </ul>
         </div>
       </div>
