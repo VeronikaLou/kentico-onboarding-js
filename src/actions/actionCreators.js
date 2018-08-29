@@ -6,7 +6,7 @@ import {
   ITEM_DELETED
 } from './actionTypes';
 
-const _createAddItem = (text, generator) => ({
+const _addItem = (generator) => (text) => ({
   type: ITEM_ADDED,
   payload: {
     id: generator(),
@@ -14,8 +14,8 @@ const _createAddItem = (text, generator) => ({
   }
 });
 
-export const addItem = (text) => _createAddItem(text, generateId);
-
+// export const addItem = (text) => _addItem(text, generateId);
+export const addItem = (text) => _addItem(generateId)(text);
 export const deleteItem = id => ({
   type: ITEM_DELETED,
   payload: {

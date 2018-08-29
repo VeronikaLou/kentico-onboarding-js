@@ -58,17 +58,21 @@ describe('Delete item', () => {
       text: 'Delete me.'
     }));
 
-  [
-    initialState,
-    undefined
-  ].forEach(state =>
-    it(`should behave correctly with ${state}`, () => {
-      const expectedResult = new OrderedMap();
+  it('should do nothing with empty state', () => {
+    const expectedResult = new OrderedMap();
 
-      const result = items(state, itemToDelete);
+    const result = items(undefined, itemToDelete);
 
-      expect(result).toEqual(expectedResult);
-    }));
+    expect(result).toEqual(expectedResult);
+  });
+
+  it('should delete item from array which contains it', () => {
+    const expectedResult = new OrderedMap();
+
+    const result = items(initialState, itemToDelete);
+
+    expect(result).toEqual(expectedResult);
+  });
 
   it('should\'t modify state which doesn\'t contain item with given id', () => {
     const result = items(initialState, deleteItem(1));

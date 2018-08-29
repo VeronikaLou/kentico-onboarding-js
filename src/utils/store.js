@@ -1,34 +1,26 @@
 import {
   applyMiddleware,
-  combineReducers,
-  createStore,
-  compose
+  compose,
+  createStore
 } from 'redux';
 import { logger } from 'redux-logger';
 import { createItems } from './itemsCreator';
-import {
-  items,
-} from '../reducers/items';
+import { applicationReducer } from '../reducers/applicationReducer';
 
-const composeEnhancers = typeof window === 'object'
-  && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-  ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-  }) : compose;
+const composeEnhancers = typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+  ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
+  : compose;
 
 const enhancer = composeEnhancers(
   applyMiddleware(logger)
 );
-
-const rootReducer = combineReducers({
-  items
-});
 
 const initialState = {
   items: createItems()
 };
 
 export const store = createStore(
-  rootReducer,
+  applicationReducer,
   initialState,
   enhancer
 );
