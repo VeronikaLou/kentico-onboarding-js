@@ -5,7 +5,7 @@ import {
   ITEM_CHANGES_SAVED,
   ITEM_DELETED,
   ITEM_EDITING_MODE_CHANGED
-} from '../../actions/types/listActionTypes';
+} from '../../actions/types/listActionTypes.ts';
 
 export const items = (state = new OrderedMap(), action) => {
   switch (action.type) {

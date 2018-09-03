@@ -3,7 +3,7 @@ import {
   ITEM_ADDED,
   ITEM_CHANGES_SAVED,
   ITEM_EDITING_MODE_CHANGED,
-} from '../../actions/types/listActionTypes';
+} from '../../actions/types/listActionTypes.ts';
 
 export const item = (state = new ListItem(), action) => {
   switch (action.type) {
