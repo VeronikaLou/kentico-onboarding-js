@@ -1,18 +1,10 @@
 import { generateId } from '../utils/generateId';
 import {
-  CHANGES_SAVED,
-  EDITING_MODE_CHANGED,
-  ITEM_ADDED,
+  ITEM_CHANGES_SAVED,
+  ITEM_EDITING_MODE_CHANGED,
   ITEM_DELETED
 } from './types/listActionTypes';
-
-const _addItem = (generator) => (text) => ({
-  type: ITEM_ADDED,
-  payload: {
-    id: generator(),
-    text
-  }
-});
+import { addItem as _addItem } from './factories/addItem';
 
 export const addItem = (text) => _addItem(generateId)(text);
 
@@ -23,16 +15,16 @@ export const deleteItem = id => ({
   }
 });
 
-export const saveChanges = (id, text) => ({
-  type: CHANGES_SAVED,
+export const saveItemChanges = (id, text) => ({
+  type: ITEM_CHANGES_SAVED,
   payload: {
     id,
     text
   }
 });
 
-export const changeEditingMode = id => ({
-  type: EDITING_MODE_CHANGED,
+export const changeItemEditingMode = id => ({
+  type: ITEM_EDITING_MODE_CHANGED,
   payload: {
     id
   }

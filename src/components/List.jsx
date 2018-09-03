@@ -5,9 +5,9 @@ import { NewItem } from '../containers/NewItem';
 
 export const List = ({ items }) => {
   const renderItems = items
-    .map(([id, item], index) => (
+    .map((item, index) => (
       <Item
-        key={id}
+        key={item.id}
         item={item}
         index={index + 1}
       />

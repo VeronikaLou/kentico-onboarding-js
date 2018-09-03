@@ -1,7 +1,7 @@
 import { OrderedMap } from 'immutable';
 import {
-  CHANGES_SAVED,
-  EDITING_MODE_CHANGED,
+  ITEM_CHANGES_SAVED,
+  ITEM_EDITING_MODE_CHANGED,
   ITEM_ADDED,
   ITEM_DELETED
 } from '../../actions/types/listActionTypes';
@@ -17,11 +17,11 @@ export const items = (state = new OrderedMap(), action) => {
       return state
         .delete(action.payload.id);
 
-    case EDITING_MODE_CHANGED:
+    case ITEM_EDITING_MODE_CHANGED:
       return state
         .updateIn([action.payload.id, 'isEdited'], isEdited => !isEdited);
 
-    case CHANGES_SAVED:
+    case ITEM_CHANGES_SAVED:
       return state
         .mergeIn([action.payload.id], {
           text: action.payload.text,
