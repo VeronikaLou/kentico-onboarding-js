@@ -1,9 +1,10 @@
 import { connect } from 'react-redux';
 import { List as ListComponent } from '../components/List';
-import { getMemoizedIds } from '../utils/getMemoizedIds';
+import { getMemoizedItems } from '../utils/getMemoizedItems';
+import { IStoreState } from '../utils/IStoreState';
 
-const mapStateToProps = state => ({
-  items: getMemoizedIds(state.items.keySeq())
+const mapStateToProps = (state: IStoreState) => ({
+  items: getMemoizedItems(state.items.valueSeq())
 });
 
 export const List = connect(mapStateToProps)(ListComponent);
