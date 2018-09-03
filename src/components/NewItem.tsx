@@ -1,9 +1,14 @@
-import React, { PureComponent } from 'react';
-import classNames from 'classnames/bind';
-import PropTypes from 'prop-types';
+import * as React from 'react';
+import * as classNames from 'classnames';
+import *as PropTypes from 'prop-types';
 import { isInputValid } from '../utils/isInputValid';
+import { ChangeEvent } from 'react';
 
-export class NewItem extends PureComponent {
+interface INewItemProps {
+  readonly addItem: (text: string) => void;
+}
+
+export class NewItem extends React.PureComponent<INewItemProps> {
   static displayName = 'NewItem';
 
   static propTypes = {
@@ -15,16 +20,16 @@ export class NewItem extends PureComponent {
     isFocused: false
   };
 
-  _changeInput = (event) => this.setState({ text: event.target.value });
+  _changeInput = (event: ChangeEvent<HTMLInputElement>): void => this.setState({ text: event.target.value });
 
-  _addItem = () => {
+  _addItem = (): void => {
     this.props.addItem(this.state.text);
     this.setState(() => ({ text: '' }));
   };
 
-  _changeFocus = () => this.setState(prevState => ({ isFocused: !prevState.isFocused }));
+  _changeFocus = (): void => this.setState(prevState => ({ isFocused: !prevState.isFocused }));
 
-  render() {
+  render(): JSX.Element {
     const { text, isFocused } = this.state;
     const isValid = isInputValid(text);
     const inputClass = classNames('form-control', {

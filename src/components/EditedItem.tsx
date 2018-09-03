@@ -1,10 +1,18 @@
-import React, { PureComponent } from 'react';
-import classNames from 'classnames/bind';
-import PropTypes from 'prop-types';
+import * as React from 'react';
+import * as classNames from 'classnames';
+import * as PropTypes from 'prop-types';
 import { isInputValid } from '../utils/isInputValid';
-import { ListItem } from '../models/ListItem.tsx';
+import { ListItem } from '../models/ListItem';
 
-export class EditedItem extends PureComponent {
+interface IEditedItemProps{
+  readonly index: string;
+  readonly item: ListItem;
+  readonly saveChanges: (text: string) => void;
+  readonly cancelEditing: () => void;
+  readonly deleteItem: () => void;
+}
+
+export class EditedItem extends React.PureComponent<IEditedItemProps> {
   static displayName = 'EditedItem';
 
   static propTypes = {
@@ -19,11 +27,11 @@ export class EditedItem extends PureComponent {
     text: this.props.item.text,
   };
 
-  _editText = (event) => this.setState({ text: event.target.value });
+  _editText = (event: React.ChangeEvent<HTMLInputElement>): void => this.setState({ text: event.target.value });
 
-  _saveChanges = () => this.props.saveChanges(this.state.text);
+  _saveChanges = (): void => this.props.saveChanges(this.state.text);
 
-  _showButtons = () => {
+  _showButtons = (): JSX.Element => {
     const isValid = isInputValid(this.state.text);
     const saveButtonTitle = !isValid ? 'Insert text.' : undefined;
 
@@ -59,7 +67,7 @@ export class EditedItem extends PureComponent {
     );
   };
 
-  render() {
+  render(): JSX.Element {
     const { index } = this.props;
     const { text } = this.state;
     const inputClass = classNames('form-control', {

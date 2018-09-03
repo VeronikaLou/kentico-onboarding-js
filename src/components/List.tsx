@@ -1,14 +1,21 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Item } from '../containers/Item';
+import * as React from 'react';
+import * as PropTypes from 'prop-types';
+import { Item } from './Item';
 import { NewItem } from '../containers/NewItem';
+import { OrderedMap } from 'immutable';
+import { Uuid } from '../utils/generateId';
+import { ListItem } from '../models/ListItem';
 
-export const List = ({ items }) => {
+interface IListProps {
+   readonly items: OrderedMap<Uuid, ListItem>;
+}
+
+export const List: React.StatelessComponent<IListProps> = ({ items }: IListProps) => {
   const renderItems = items
-    .map((id, index) => (
+    .map((item: ListItem, index: string) => (
       <Item
-        key={id}
-        id={id}
+        key={item.id}
+        item={item}
         index={index + 1}
       />
     ));
@@ -28,5 +35,5 @@ export const List = ({ items }) => {
 List.displayName = 'List';
 
 List.propTypes = {
-  items: PropTypes.object.isRequired
+  items: PropTypes.array.isRequired
 };

@@ -1,12 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { ListItem } from '../models/ListItem.tsx';
+import * as React from 'react';
+import * as PropTypes from 'prop-types';
+import { ListItem } from '../models/ListItem';
 import { PlainItem } from '../containers/PlainItem';
 import { EditedItem } from '../containers/EditedItem';
 
-export const Item = ({
-  index, item
-}) => (
+interface IItemProps {
+  readonly index: string;
+  readonly item: ListItem;
+}
+
+export const Item: React.StatelessComponent<IItemProps> = ({index, item}: IItemProps) => (
   <li className="list-group-item">
     {item.isEdited
       ? (
