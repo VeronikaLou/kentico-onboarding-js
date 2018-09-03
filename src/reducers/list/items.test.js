@@ -38,11 +38,7 @@ describe('Add item', () => {
   });
 
   it('invalid action shouldn\'t modify state', () => {
-    const invalidItem = {
-      type: 'INVALID',
-      id: -1,
-      text: 'NEW_ITEM'
-    };
+    const invalidItem = { type: 'INVALID' };
 
     const result = items(initialState, invalidItem);
 
@@ -82,7 +78,7 @@ describe('Delete item', () => {
   });
 });
 
-describe('Change editing mode', () => {
+describe('Change item editing mode', () => {
   const item = new ListItem({
     id: 1,
     text: 'Click me.'
@@ -106,7 +102,7 @@ describe('Change editing mode', () => {
   });
 });
 
-describe('Save changes', () => {
+describe('Save item changes', () => {
   const item = new ListItem({
     id: 1,
     text: 'Change me.'
