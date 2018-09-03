@@ -4,7 +4,7 @@ import {
   EDITING_MODE_CHANGED,
   ITEM_ADDED,
   ITEM_DELETED
-} from './actionTypes';
+} from './types/listActionTypes';
 
 const _addItem = (generator) => (text) => ({
   type: ITEM_ADDED,
@@ -14,8 +14,8 @@ const _addItem = (generator) => (text) => ({
   }
 });
 
-// export const addItem = (text) => _addItem(text, generateId);
 export const addItem = (text) => _addItem(generateId)(text);
+
 export const deleteItem = id => ({
   type: ITEM_DELETED,
   payload: {

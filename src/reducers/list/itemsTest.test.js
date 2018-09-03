@@ -1,12 +1,12 @@
 import { OrderedMap } from 'immutable';
-import { ListItem } from '../models/ListItem';
+import { ListItem } from '../../models/ListItem';
 import { items } from './items';
 import {
   addItem,
   changeEditingMode,
   deleteItem,
   saveChanges
-} from '../actions/actionCreators';
+} from '../../actions/listActionCreators';
 
 describe('Add item', () => {
   const newItem = addItem('New item.');

@@ -4,7 +4,7 @@ import {
   changeEditingMode,
   deleteItem,
   saveChanges
-} from '../actions/actionCreators';
+} from '../actions/listActionCreators';
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   saveChanges: (text) => dispatch(saveChanges(ownProps.item.id, text)),

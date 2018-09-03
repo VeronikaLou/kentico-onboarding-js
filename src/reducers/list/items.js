@@ -4,8 +4,8 @@ import {
   EDITING_MODE_CHANGED,
   ITEM_ADDED,
   ITEM_DELETED
-} from '../actions/actionTypes';
-import { ListItem } from '../models/ListItem';
+} from '../../actions/types/listActionTypes';
+import { ListItem } from '../../models/ListItem';
 
 export const items = (state = new OrderedMap(), action) => {
   switch (action.type) {

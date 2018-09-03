@@ -111,7 +111,7 @@ npm install --no-optional --save react-redux
 npm install --no-optional --save redux-logger
 ```
 Refactor the application to use ReduxJS. 
- - Create **`actionTypes.js`** where you describe all possible actions (as string constants) that can modify state of the app (e.g: "ITEM_CREATED").
+ - Create **`listActionTypes.js`** where you describe all possible actions (as string constants) that can modify state of the app (e.g: "ITEM_CREATED").
  - Create **action creators** (helper functions) for all the action types you defined.
  - Move all the state of top level component (`List.jsx`) to Redux store (state in Redux is described by reducers; use reducer composition if possible).
    - Write jest **unit tests** for your Redux logic (used TDD to write tests for actionCreators and reducers together).
