@@ -1,10 +1,10 @@
 import { OrderedMap } from 'immutable';
 import { item } from './item';
 import {
-  ITEM_CHANGES_SAVED,
-  ITEM_EDITING_MODE_CHANGED,
   ITEM_ADDED,
-  ITEM_DELETED
+  ITEM_CHANGES_SAVED,
+  ITEM_DELETED,
+  ITEM_EDITING_MODE_CHANGED
 } from '../../actions/types/listActionTypes';
 
 export const items = (state = new OrderedMap(), action) => {
@@ -20,7 +20,10 @@ export const items = (state = new OrderedMap(), action) => {
 
     case ITEM_EDITING_MODE_CHANGED:
       return state
-        .updateIn([action.payload.id, 'isEdited'], isEdited => !isEdited);
+        .set(
+          action.payload.id,
+          item(state.get(action.payload.id), action)
+        );
 
     default:
       return state;

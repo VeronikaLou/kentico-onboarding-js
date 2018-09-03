@@ -2,6 +2,7 @@ import { ListItem } from '../../models/ListItem';
 import {
   ITEM_ADDED,
   ITEM_CHANGES_SAVED,
+  ITEM_EDITING_MODE_CHANGED,
 } from '../../actions/types/listActionTypes';
 
 export const item = (state = new ListItem(), action) => {
@@ -9,6 +10,10 @@ export const item = (state = new ListItem(), action) => {
     case ITEM_ADDED:
     case ITEM_CHANGES_SAVED:
       return new ListItem({ ...action.payload });
+
+    case ITEM_EDITING_MODE_CHANGED:
+      return state
+        .set('isEdited', !state.isEdited);
 
     default:
       return state;
