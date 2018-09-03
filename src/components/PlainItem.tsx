@@ -2,16 +2,16 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import { ListItem } from '../models/ListItem';
 
-export interface IPlainItemProps {
+export interface IPlainItemOwnProps {
   readonly index: string;
   readonly item: ListItem;
 }
 
-interface IDispatchToProps {
+export interface IPlainItemDispatchToProps {
   readonly startEditing: () => void;
 }
 
-type PlainItemProps = IPlainItemProps & IDispatchToProps;
+type PlainItemProps = IPlainItemOwnProps & IPlainItemDispatchToProps;
 
 export const PlainItem: React.StatelessComponent<PlainItemProps> = ({
   index, item: { text }, startEditing,

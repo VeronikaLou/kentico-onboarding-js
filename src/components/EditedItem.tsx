@@ -4,18 +4,18 @@ import * as PropTypes from 'prop-types';
 import { isInputValid } from '../utils/isInputValid';
 import { ListItem } from '../models/ListItem';
 
-export interface IEditedItemProps {
+export interface IEditedItemOwnProps {
   readonly index: string;
   readonly item: ListItem;
 }
 
-interface IDispatchToProps {
+export interface IEditedItemDispatchToProps {
   readonly saveChanges: (text: string) => void;
   readonly cancelEditing: () => void;
   readonly deleteItem: () => void;
 }
 
-type EditedItemProps = IEditedItemProps & IDispatchToProps;
+type EditedItemProps = IEditedItemOwnProps & IEditedItemDispatchToProps;
 
 export class EditedItem extends React.PureComponent<EditedItemProps> {
   static displayName = 'EditedItem';

@@ -6,11 +6,11 @@ import { OrderedMap } from 'immutable';
 import { Uuid } from '../utils/generateId';
 import { ListItem } from '../models/ListItem';
 
-interface IListProps {
+export interface IListDispatchToProps {
    readonly items: OrderedMap<Uuid, ListItem>;
 }
 
-export const List: React.StatelessComponent<IListProps> = ({ items }: IListProps) => {
+export const List: React.StatelessComponent<IListDispatchToProps> = ({ items }: IListDispatchToProps) => {
   const renderItems = items
     .map((item: ListItem, index: string) => (
       <Item

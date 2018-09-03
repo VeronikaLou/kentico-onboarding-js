@@ -4,7 +4,7 @@ import *as PropTypes from 'prop-types';
 import { isInputValid } from '../utils/isInputValid';
 import { ChangeEvent } from 'react';
 
-interface INewItemProps {
+interface INewItemOwnProps {
   readonly addItem: (text: string) => void;
 }
 
@@ -13,7 +13,7 @@ interface INewItemState {
   isFocused: boolean;
 }
 
-export class NewItem extends React.PureComponent<INewItemProps, INewItemState> {
+export class NewItem extends React.PureComponent<INewItemOwnProps, INewItemState> {
   static displayName = 'NewItem';
 
   static propTypes = {
