@@ -4,7 +4,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { store } from './utils/store';
 
-import { App } from './App.jsx';
+import { App } from './components/App.jsx';
 
 require.context('../public/', true);
 
