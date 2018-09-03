@@ -1,23 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { ListItem } from '../models/ListItem.tsx';
 import { PlainItem } from '../containers/PlainItem';
 import { EditedItem } from '../containers/EditedItem';
 
 export const Item = ({
-  index, id, isEdited
+  index, item
 }) => (
   <li className="list-group-item">
-    {isEdited
+    {item.isEdited
       ? (
         <EditedItem
           index={index}
-          id={id}
+          item={item}
         />
       )
       : (
         <PlainItem
           index={index}
-          id={id}
+          item={item}
         />
       )}
   </li>
@@ -27,6 +28,5 @@ Item.displayName = 'Item';
 
 Item.propTypes = {
   index: PropTypes.number.isRequired,
-  id: PropTypes.string.isRequired,
-  isEdited: PropTypes.bool.isRequired
+  item: PropTypes.instanceOf(ListItem).isRequired,
 };

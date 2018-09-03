@@ -1,4 +1,4 @@
-import { generateId } from '../utils/generateId';
+import { generateId } from '../utils/generateId.ts';
 import {
   ITEM_CHANGES_SAVED,
   ITEM_EDITING_MODE_CHANGED,

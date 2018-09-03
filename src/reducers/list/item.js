@@ -1,4 +1,4 @@
-import { ListItem } from '../../models/ListItem';
+import { ListItem } from '../../models/ListItem.tsx';
 import {
   ITEM_ADDED,
   ITEM_CHANGES_SAVED,
