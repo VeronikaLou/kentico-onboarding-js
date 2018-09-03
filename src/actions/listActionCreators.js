@@ -4,9 +4,9 @@ import {
   ITEM_EDITING_MODE_CHANGED,
   ITEM_DELETED
 } from './types/listActionTypes';
-import { addItem as _addItem } from './factories/addItem';
+import { addItem as addItemFactory } from './factories/addItem';
 
-export const addItem = (text) => _addItem(generateId)(text);
+export const addItem = (text) => addItemFactory(generateId)(text);
 
 export const deleteItem = id => ({
   type: ITEM_DELETED,

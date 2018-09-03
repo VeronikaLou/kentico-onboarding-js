@@ -28,5 +28,5 @@ export const List = ({ items }) => {
 List.displayName = 'List';
 
 List.propTypes = {
-  items: PropTypes.object.isRequired
+  items: PropTypes.array.isRequired
 };
