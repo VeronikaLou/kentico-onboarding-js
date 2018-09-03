@@ -7,12 +7,17 @@ import { ListItem } from '../models/ListItem';
 export interface IEditedItemProps {
   readonly index: string;
   readonly item: ListItem;
+}
+
+interface IDispatchToProps {
   readonly saveChanges: (text: string) => void;
   readonly cancelEditing: () => void;
   readonly deleteItem: () => void;
 }
 
-export class EditedItem extends React.PureComponent<IEditedItemProps> {
+type EditedItemProps = IEditedItemProps & IDispatchToProps;
+
+export class EditedItem extends React.PureComponent<EditedItemProps> {
   static displayName = 'EditedItem';
 
   static propTypes = {
@@ -74,7 +79,7 @@ export class EditedItem extends React.PureComponent<IEditedItemProps> {
     const {index} = this.props;
     const {text} = this.state;
     const inputClass = classNames('form-control', {
-      'is-invalid': !isInputValid(text)
+      'is-invalid': !isInputValid(text),
     });
 
     return (

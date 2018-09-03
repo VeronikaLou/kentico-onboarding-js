@@ -5,12 +5,17 @@ import { ListItem } from '../models/ListItem';
 export interface IPlainItemProps {
   readonly index: string;
   readonly item: ListItem;
+}
+
+interface IDispatchToProps {
   readonly startEditing: () => void;
 }
 
-export const PlainItem: React.StatelessComponent<IPlainItemProps> = ({
-  index, item: { text }, startEditing
-}: IPlainItemProps) => (
+type PlainItemProps = IPlainItemProps & IDispatchToProps;
+
+export const PlainItem: React.StatelessComponent<PlainItemProps> = ({
+  index, item: { text }, startEditing,
+}: PlainItemProps) => (
   <div onClick={startEditing}>
     {index}.&nbsp;{text}
   </div>

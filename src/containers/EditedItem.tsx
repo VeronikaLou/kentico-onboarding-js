@@ -3,7 +3,7 @@ import { EditedItem as EditedItemComponent, IEditedItemProps } from '../componen
 import {
   changeItemEditingMode,
   deleteItem,
-  saveItemChanges
+  saveItemChanges,
 } from '../actions/listActionCreators';
 import { Dispatch } from 'redux';
 
