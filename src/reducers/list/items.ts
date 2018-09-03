@@ -1,13 +1,16 @@
-import { OrderedMap } from 'immutable';
 import { item } from './item';
 import {
   ITEM_ADDED,
   ITEM_CHANGES_SAVED,
   ITEM_DELETED,
   ITEM_EDITING_MODE_CHANGED
-} from '../../actions/types/listActionTypes.ts';
+} from '../../actions/types/listActionTypes';
+import { Uuid } from '../../utils/generateId';
+import { ListItem } from '../../models/ListItem';
+import { IListAction } from '../../actions/IListAction';
+import { OrderedMap } from 'immutable';
 
-export const items = (state = new OrderedMap(), action) => {
+export const items = (state: OrderedMap<Uuid, ListItem> = OrderedMap(), action: IListAction): OrderedMap<Uuid, ListItem> => {
   switch (action.type) {
     case ITEM_ADDED:
     case ITEM_CHANGES_SAVED:
