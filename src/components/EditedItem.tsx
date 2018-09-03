@@ -4,7 +4,7 @@ import * as PropTypes from 'prop-types';
 import { isInputValid } from '../utils/isInputValid';
 import { ListItem } from '../models/ListItem';
 
-interface IEditedItemProps{
+export interface IEditedItemProps {
   readonly index: string;
   readonly item: ListItem;
   readonly saveChanges: (text: string) => void;
@@ -27,7 +27,10 @@ export class EditedItem extends React.PureComponent<IEditedItemProps> {
     text: this.props.item.text,
   };
 
-  _editText = (event: React.ChangeEvent<HTMLInputElement>): void => this.setState({ text: event.target.value });
+  _editText = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    event.persist();
+    this.setState(() => ({text: event.target.value}));
+  };
 
   _saveChanges = (): void => this.props.saveChanges(this.state.text);
 
@@ -68,8 +71,8 @@ export class EditedItem extends React.PureComponent<IEditedItemProps> {
   };
 
   render(): JSX.Element {
-    const { index } = this.props;
-    const { text } = this.state;
+    const {index} = this.props;
+    const {text} = this.state;
     const inputClass = classNames('form-control', {
       'is-invalid': !isInputValid(text)
     });

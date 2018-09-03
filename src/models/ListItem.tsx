@@ -13,8 +13,7 @@ interface IListItem {
   isEdited: boolean;
 }
 
-
-export class ListItem extends Record(emptyItem) {
+export class ListItem extends Record(emptyItem, 'ListItem') {
   id: Uuid;
   text: string;
   isEdited: boolean;
@@ -23,7 +22,7 @@ export class ListItem extends Record(emptyItem) {
     params ? super(params) : super();
   }
 
-  with(values: IListItem): ListItem {
+  with(values: Partial<IListItem>): ListItem {
     return this.merge(values) as this;
   }
 }

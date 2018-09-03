@@ -5,7 +5,7 @@ import {
 import { logger } from 'redux-logger';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { createItems } from './itemsCreator';
-import { applicationReducer } from '../reducers/applicationReducer';
+import { applicationReducer } from '../reducers/applicationReducer.ts';
 
 const enhancer = composeWithDevTools(
   applyMiddleware(logger)

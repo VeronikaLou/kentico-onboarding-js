@@ -94,7 +94,7 @@ ESlint and TSlint are already set-up for you, so you will see all the errors and
 **Prerequisite:** JS & React sections in [our wiki](https://kentico.atlassian.net/wiki/x/0IPkCw).
 
 According to `assignment.gif` implement all the required functionality (keep in mind we want to be able to edit multiple list items at once). Store some pseudo-random identifier (id) for each item (use some util function for its generation, e.g: http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript)
-All the boilerplate is already there so you can dive into coding straight away. Feel free to use [Bootstrap](http://getbootstrap.com/) CSS classes. Get familiar with project structure. The entry file is `index.js`. Page layout can be found in `App.jsx`. It renders `List.jsx` in its body, where you are supposed to implement the rest of the functionality. 
+All the boilerplate is already there so you can dive into coding straight away. Feel free to use [Bootstrap](http://getbootstrap.com/) CSS classes. Get familiar with project structure. The entry file is `index.js`. Page layout can be found in `App.jsx`. It renders `List.jsx` in its body, where you are supposed to implement the rest of the functionality.
 
 ## Task 2 (immutable)
 Install [ImmutableJS](http://facebook.github.io/immutable-js) to your project: `npm install --no-optional --save immutable`.

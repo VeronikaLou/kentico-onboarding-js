@@ -8,7 +8,12 @@ interface INewItemProps {
   readonly addItem: (text: string) => void;
 }
 
-export class NewItem extends React.PureComponent<INewItemProps> {
+interface INewItemState {
+  text: string;
+  isFocused: boolean;
+}
+
+export class NewItem extends React.PureComponent<INewItemProps, INewItemState> {
   static displayName = 'NewItem';
 
   static propTypes = {
@@ -20,7 +25,10 @@ export class NewItem extends React.PureComponent<INewItemProps> {
     isFocused: false
   };
 
-  _changeInput = (event: ChangeEvent<HTMLInputElement>): void => this.setState({ text: event.target.value });
+  _changeInput = (event: ChangeEvent<HTMLInputElement>): void => {
+    event.persist();
+    this.setState(() => ({text: event.target.value}));
+  };
 
   _addItem = (): void => {
     this.props.addItem(this.state.text);

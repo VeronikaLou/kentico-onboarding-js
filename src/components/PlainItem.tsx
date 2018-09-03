@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import { ListItem } from '../models/ListItem';
 
-interface IPlainItemProps {
+export interface IPlainItemProps {
   readonly index: string;
   readonly item: ListItem;
   readonly startEditing: () => void;
