@@ -3,14 +3,21 @@ import { ListItem } from '../../models/ListItem';
 import { items } from './items';
 import {
   addItem,
-  changeEditingMode,
+  changeItemEditingMode,
   deleteItem,
-  saveChanges
+  saveItemChanges
 } from '../../actions/listActionCreators';
 
 describe('Add item', () => {
   const newItem = addItem('New item.');
   const newListItem = ListItem({ ...newItem.payload });
+  const initialState = new OrderedMap(ListItem({
+    id: 0,
+    text: 'A'
+  }), ListItem({
+    id: 1,
+    text: 'B'
+  }));
 
   it('should add item into empty state', () => {
     const expectedResult = new OrderedMap()
@@ -22,13 +29,6 @@ describe('Add item', () => {
   });
 
   it('should add third item', () => {
-    const initialState = new OrderedMap(ListItem({
-      id: 0,
-      text: 'A'
-    }), ListItem({
-      id: 1,
-      text: 'B'
-    }));
     const expectedResult = initialState
       .set(newListItem.id, newListItem);
 
@@ -37,16 +37,16 @@ describe('Add item', () => {
     expect(result).toEqual(expectedResult);
   });
 
-  it('should do nothing with invalid type', () => {
+  it('invalid action shouldn\'t modify state', () => {
     const invalidItem = {
       type: 'INVALID',
       id: -1,
       text: 'NEW_ITEM'
     };
 
-    const result = items(undefined, invalidItem);
+    const result = items(initialState, invalidItem);
 
-    expect(result).toEqual(new OrderedMap());
+    expect(result).toEqual(initialState);
   });
 });
 
@@ -75,31 +75,34 @@ describe('Delete item', () => {
   });
 
   it('should\'t modify state which doesn\'t contain item with given id', () => {
-    const result = items(initialState, deleteItem(1));
+    const notInStateItem = deleteItem(1);
+    const result = items(initialState, notInStateItem);
 
     expect(result).toEqual(initialState);
   });
 });
 
 describe('Change editing mode', () => {
-  const item = addItem('Click me.');
-  const clickedItem = changeEditingMode(item.payload.id);
-  const initialState = new OrderedMap().set(item.payload.id, new ListItem({ ...item.payload }));
-  const stateWithClicked = new OrderedMap().set(item.payload.id, new ListItem({
-    ...item.payload,
-    isEdited: true
-  }));
-
-  it('checks if default mode is false', () => {
-    expect(item.isEdited).toBeFalsy();
+  const item = new ListItem({
+    id: 1,
+    text: 'Click me.'
   });
+  const clickedItem = changeItemEditingMode(item.id);
+  const initialState = new OrderedMap()
+    .set(item.id, item);
+  const stateWithClicked = initialState
+    .setIn([item.id, 'isEdited'], true);
 
   it('should change mode from false to true', () => {
-    expect(items(initialState, clickedItem)).toEqual(stateWithClicked);
+    const result = items(initialState, clickedItem);
+
+    expect(result).toEqual(stateWithClicked);
   });
 
   it('should change mode from true to false', () => {
-    expect(items(stateWithClicked, clickedItem)).toEqual(initialState);
+    const result = items(stateWithClicked, clickedItem);
+
+    expect(result).toEqual(initialState);
   });
 });
 
@@ -108,8 +111,9 @@ describe('Save changes', () => {
     id: 1,
     text: 'Change me.'
   });
-  const initialState = new OrderedMap().set(item.id, item);
-  const changedItem = saveChanges(item.id, 'Text changed.');
+  const initialState = new OrderedMap()
+    .set(item.id, item);
+  const changedItem = saveItemChanges(item.id, 'Text changed.');
 
   it('should change original text to text given as argument', () => {
     const expectedResult = initialState.setIn([item.id, 'text'], changedItem.payload.text);
@@ -120,8 +124,10 @@ describe('Save changes', () => {
   });
 
   it('should change editing mode to false', () => {
-    const expectedResult = initialState.setIn([item.id, 'text'], changedItem.payload.text);
-    const stateWithClickedItem = initialState.setIn([item.id, 'isEdited'], true);
+    const expectedResult = initialState
+      .setIn([item.id, 'text'], changedItem.payload.text);
+    const stateWithClickedItem = initialState
+      .setIn([item.id, 'isEdited'], true);
 
     const result = items(stateWithClickedItem, changedItem);
 
