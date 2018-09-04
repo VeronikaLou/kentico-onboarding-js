@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ListItem } from '../models/ListItem';
 import { PlainItem } from '../containers/PlainItem';
 import { EditedItem } from '../containers/EditedItem';
 
@@ -28,6 +27,6 @@ Item.displayName = 'Item';
 
 Item.propTypes = {
   index: PropTypes.number.isRequired,
-  item: PropTypes.instanceOf(ListItem).isRequired,
+  id: PropTypes.string.isRequired,
   isEdited: PropTypes.bool.isRequired
 };

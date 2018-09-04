@@ -8,7 +8,7 @@ export const List = ({ items }) => {
     .map((id, index) => (
       <Item
         key={id}
-        item={id}
+        id={id}
         index={index + 1}
       />
     ));
@@ -28,5 +28,5 @@ export const List = ({ items }) => {
 List.displayName = 'List';
 
 List.propTypes = {
-  items: PropTypes.array.isRequired
+  items: PropTypes.object.isRequired
 };
