@@ -2,30 +2,26 @@ import React, { PureComponent } from 'react';
 import classNames from 'classnames/bind';
 import PropTypes from 'prop-types';
 import { isInputValid } from '../utils/isInputValid';
-import { ListItem } from '../models/ListItem';
 
 export class EditedItem extends PureComponent {
   static displayName = 'EditedItem';
 
   static propTypes = {
     index: PropTypes.number.isRequired,
-    item: PropTypes.instanceOf(ListItem).isRequired,
+    id: PropTypes.string.isRequired,
     saveChanges: PropTypes.func.isRequired,
     cancelEditing: PropTypes.func.isRequired,
     deleteItem: PropTypes.func.isRequired,
+    text: PropTypes.string.isRequired
   };
 
   state = {
-    text: this.props.item.text,
+    text: this.props.text,
   };
 
   _editText = (event) => this.setState({ text: event.target.value });
 
-  _deleteItem = () => this.props.deleteItem(this.props.item.id);
-
-  _saveChanges = () => this.props.saveChanges(this.props.item.id, this.state.text);
-
-  _cancelEditing = () => this.props.cancelEditing(this.props.item.id);
+  _saveChanges = () => this.props.saveChanges(this.state.text);
 
   _showButtons = () => {
     const isValid = isInputValid(this.state.text);
@@ -48,14 +44,14 @@ export class EditedItem extends PureComponent {
         <button
           className="btn btn-outline-secondary"
           type="button"
-          onClick={this._cancelEditing}
+          onClick={this.props.cancelEditing}
         >
           Cancel
         </button>
         <button
           className="btn btn-danger"
           type="button"
-          onClick={this._deleteItem}
+          onClick={this.props.deleteItem}
         >
           Delete
         </button>
