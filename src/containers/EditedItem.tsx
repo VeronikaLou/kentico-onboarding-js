@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import {
   EditedItem as EditedItemComponent,
   IEditedItemDispatchToProps,
-  IEditedItemOwnProps,
+  IEditedItemOwnProps, IEditedItemStateToProps,
 } from '../components/EditedItem';
 import {
   changeItemEditingMode,
@@ -10,11 +10,16 @@ import {
   saveItemChanges,
 } from '../actions/listActionCreators';
 import { Dispatch } from 'redux';
+import { IStoreState } from '../models/IStoreState';
 
-const mapDispatchToProps = (dispatch: Dispatch, ownProps: IEditedItemOwnProps): IEditedItemDispatchToProps => ({
-  saveChanges: (text: string) => dispatch(saveItemChanges(ownProps.item.id, text)),
-  deleteItem: () => dispatch(deleteItem(ownProps.item.id)),
-  cancelEditing: () => dispatch(changeItemEditingMode(ownProps.item.id)),
+const mapStateToProps = (state: IStoreState, ownProps: IEditedItemOwnProps): IEditedItemStateToProps => ({
+  text: state.items.get(ownProps.id).text,
 });
 
-export const EditedItem = connect(null, mapDispatchToProps)(EditedItemComponent);
+const mapDispatchToProps = (dispatch: Dispatch, ownProps: IEditedItemOwnProps): IEditedItemDispatchToProps => ({
+  saveChanges: (text: string) => dispatch(saveItemChanges(ownProps.id, text)),
+  deleteItem: () => dispatch(deleteItem(ownProps.id)),
+  cancelEditing: () => dispatch(changeItemEditingMode(ownProps.id)),
+});
+
+export const EditedItem = connect(mapStateToProps, mapDispatchToProps)(EditedItemComponent);

@@ -1,14 +1,19 @@
 import { connect } from 'react-redux';
 import {
   IPlainItemDispatchToProps,
-  IPlainItemOwnProps,
+  IPlainItemOwnProps, IPlainStateToProps,
   PlainItem as PlainItemComponent,
 } from '../components/PlainItem';
 import { changeItemEditingMode } from '../actions/listActionCreators';
 import { Dispatch } from 'redux';
+import { IStoreState } from '../models/IStoreState';
 
-const mapDispatchToProps = (dispatch: Dispatch, ownProps: IPlainItemOwnProps): IPlainItemDispatchToProps => ({
-  startEditing: () => dispatch(changeItemEditingMode(ownProps.item.id)),
+const mapStateToProps = (state: IStoreState, ownProps: IPlainItemOwnProps): IPlainStateToProps => ({
+  text: state.items.get(ownProps.id).text,
 });
 
-export const PlainItem = connect(null, mapDispatchToProps)(PlainItemComponent);
+const mapDispatchToProps = (dispatch: Dispatch, ownProps: IPlainItemOwnProps): IPlainItemDispatchToProps => ({
+  startEditing: () => dispatch(changeItemEditingMode(ownProps.id)),
+});
+
+export const PlainItem = connect(mapStateToProps, mapDispatchToProps)(PlainItemComponent);
