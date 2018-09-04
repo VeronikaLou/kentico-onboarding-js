@@ -1,5 +1,5 @@
 import { OrderedMap } from 'immutable';
-import { getMemoizedItems } from './getMemoizedIds';
+import { getMemoizedIds } from './getMemoizedIds';
 import { generateId } from './generateId';
 
 describe('Get memoized items', () => {
@@ -7,8 +7,8 @@ describe('Get memoized items', () => {
     const initialArray = new OrderedMap().set(generateId(), { a: 'a', b: 'b' });
     const derivatedArray = new OrderedMap(initialArray);
 
-    const result = getMemoizedItems(initialArray.keySeq());
-    const result2 = getMemoizedItems(derivatedArray.keySeq());
+    const result = getMemoizedIds(initialArray.keySeq());
+    const result2 = getMemoizedIds(derivatedArray.keySeq());
 
     expect(result).toBe(result2);
   });
