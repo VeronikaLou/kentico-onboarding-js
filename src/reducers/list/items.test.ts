@@ -5,22 +5,19 @@ import {
   addItem,
   changeItemEditingMode,
   deleteItem,
-  saveItemChanges
+  saveItemChanges,
 } from '../../actions/listActionCreators';
+import { Uuid } from '../../utils/generateId';
 
 describe('Add item', () => {
   const newItem = addItem('New item.');
-  const newListItem = ListItem({ ...newItem.payload });
-  const initialState = new OrderedMap(ListItem({
-    id: 0,
-    text: 'A'
-  }), ListItem({
-    id: 1,
-    text: 'B'
-  }));
+  const newListItem = new ListItem({ ...newItem.payload });
+  const initialState = OrderedMap<Uuid, ListItem>()
+    .set('0', new ListItem({id: '0', text: 'A'}))
+    .set('1', new ListItem({id: '1', text: 'B'}));
 
   it('should add item into empty state', () => {
-    const expectedResult = new OrderedMap()
+    const expectedResult = OrderedMap<Uuid, ListItem>()
       .set(newListItem.id, newListItem);
 
     const result = items(undefined, newItem);
@@ -38,7 +35,7 @@ describe('Add item', () => {
   });
 
   it('invalid action shouldn\'t modify state', () => {
-    const invalidItem = { type: 'INVALID' };
+    const invalidItem = { type: 'INVALID', payload: {id: '1'} };
 
     const result = items(initialState, invalidItem);
 
@@ -47,15 +44,15 @@ describe('Add item', () => {
 });
 
 describe('Delete item', () => {
-  const itemToDelete = deleteItem(-1);
-  const initialState = new OrderedMap()
+  const itemToDelete = deleteItem('-1');
+  const initialState = OrderedMap<Uuid, ListItem>()
     .set(itemToDelete.payload.id, new ListItem({
       id: itemToDelete.payload.id,
-      text: 'Delete me.'
+      text: 'Delete me.',
     }));
 
   it('should do nothing with empty state', () => {
-    const expectedResult = new OrderedMap();
+    const expectedResult = OrderedMap<Uuid, ListItem>();
 
     const result = items(undefined, itemToDelete);
 
@@ -63,7 +60,7 @@ describe('Delete item', () => {
   });
 
   it('should delete item from array which contains it', () => {
-    const expectedResult = new OrderedMap();
+    const expectedResult = OrderedMap<Uuid, ListItem>();
 
     const result = items(initialState, itemToDelete);
 
@@ -71,7 +68,7 @@ describe('Delete item', () => {
   });
 
   it('should\'t modify state which doesn\'t contain item with given id', () => {
-    const notInStateItem = deleteItem(1);
+    const notInStateItem = deleteItem('1');
     const result = items(initialState, notInStateItem);
 
     expect(result).toEqual(initialState);
@@ -80,11 +77,11 @@ describe('Delete item', () => {
 
 describe('Change item editing mode', () => {
   const item = new ListItem({
-    id: 1,
-    text: 'Click me.'
+    id: '1',
+    text: 'Click me.',
   });
   const clickedItem = changeItemEditingMode(item.id);
-  const initialState = new OrderedMap()
+  const initialState = OrderedMap<Uuid, ListItem>()
     .set(item.id, item);
   const stateWithClicked = initialState
     .setIn([item.id, 'isEdited'], true);
@@ -104,10 +101,10 @@ describe('Change item editing mode', () => {
 
 describe('Save item changes', () => {
   const item = new ListItem({
-    id: 1,
-    text: 'Change me.'
+    id: '1',
+    text: 'Change me.',
   });
-  const initialState = new OrderedMap()
+  const initialState = OrderedMap<Uuid, ListItem>()
     .set(item.id, item);
   const changedItem = saveItemChanges(item.id, 'Text changed.');
 
