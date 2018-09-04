@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Item } from './Item';
+import { Item } from '../containers/Item';
 import { NewItem } from '../containers/NewItem';
 
 export const List = ({ items }) => {
   const renderItems = items
-    .map((item, index) => (
+    .map((id, index) => (
       <Item
-        key={item.id}
-        item={item}
+        key={id}
+        item={id}
         index={index + 1}
       />
     ));

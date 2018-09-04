@@ -2,21 +2,21 @@ import React, { PureComponent } from 'react';
 import classNames from 'classnames/bind';
 import PropTypes from 'prop-types';
 import { isInputValid } from '../utils/isInputValid';
-import { ListItem } from '../models/ListItem';
 
 export class EditedItem extends PureComponent {
   static displayName = 'EditedItem';
 
   static propTypes = {
     index: PropTypes.number.isRequired,
-    item: PropTypes.instanceOf(ListItem).isRequired,
+    id: PropTypes.string.isRequired,
     saveChanges: PropTypes.func.isRequired,
     cancelEditing: PropTypes.func.isRequired,
     deleteItem: PropTypes.func.isRequired,
+    text: PropTypes.string.isRequired
   };
 
   state = {
-    text: this.props.item.text,
+    text: this.props.text,
   };
 
   _editText = (event) => this.setState({ text: event.target.value });

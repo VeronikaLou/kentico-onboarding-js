@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ListItem } from '../models/ListItem';
 
 export const PlainItem = ({
-  index, item: { text }, startEditing
+  index, text, startEditing
 }) => (
   <div onClick={startEditing}>
     {index}.&nbsp;{text}
@@ -14,6 +13,7 @@ PlainItem.displayName = 'PlainItem';
 
 PlainItem.propTypes = {
   index: PropTypes.number.isRequired,
-  item: PropTypes.instanceOf(ListItem).isRequired,
+  id: PropTypes.string.isRequired,
   startEditing: PropTypes.func.isRequired,
+  text: PropTypes.string.isRequired,
 };

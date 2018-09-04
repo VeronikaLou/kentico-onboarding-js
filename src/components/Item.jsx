@@ -5,20 +5,20 @@ import { PlainItem } from '../containers/PlainItem';
 import { EditedItem } from '../containers/EditedItem';
 
 export const Item = ({
-  index, item
+  index, id, isEdited
 }) => (
   <li className="list-group-item">
-    {item.isEdited
+    {isEdited
       ? (
         <EditedItem
           index={index}
-          item={item}
+          id={id}
         />
       )
       : (
         <PlainItem
           index={index}
-          item={item}
+          id={id}
         />
       )}
   </li>
@@ -29,4 +29,5 @@ Item.displayName = 'Item';
 Item.propTypes = {
   index: PropTypes.number.isRequired,
   item: PropTypes.instanceOf(ListItem).isRequired,
+  isEdited: PropTypes.bool.isRequired
 };
