@@ -16,7 +16,7 @@ const initialState: IStoreState = {
   items: createItems(),
 };
 
-export const store: Store = createStore(
+export const store: Store<IStoreState> = createStore(
   applicationReducer,
   initialState,
   enhancer,

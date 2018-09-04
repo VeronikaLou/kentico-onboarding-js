@@ -2,24 +2,23 @@ import * as React from 'react';
 import * as classNames from 'classnames';
 import * as PropTypes from 'prop-types';
 import { isInputValid } from '../utils/isInputValid';
-import { Uuid } from '../utils/generateId';
 
 export interface IEditedItemOwnProps {
   readonly index: number;
   readonly id: Uuid;
 }
 
-export interface IEditedItemDispatchToProps {
+export interface IEditedItemDispatchProps {
   readonly saveChanges: (text: string) => void;
   readonly cancelEditing: () => void;
   readonly deleteItem: () => void;
 }
 
-export interface IEditedItemStateToProps {
+export interface IEditedItemStateProps {
   readonly text: string;
 }
 
-type EditedItemProps = IEditedItemOwnProps & IEditedItemDispatchToProps &IEditedItemStateToProps;
+type EditedItemProps = IEditedItemOwnProps & IEditedItemDispatchProps & IEditedItemStateProps;
 
 export class EditedItem extends React.PureComponent<EditedItemProps> {
   static displayName = 'EditedItem';
@@ -45,7 +44,7 @@ export class EditedItem extends React.PureComponent<EditedItemProps> {
 
   _showButtons = (): JSX.Element => {
     const isValid: boolean = isInputValid(this.state.text);
-    const saveButtonTitle: string|undefined = !isValid ? 'Insert text.' : undefined;
+    const saveButtonTitle: string | undefined = !isValid ? 'Insert text.' : undefined;
 
     return (
       <div

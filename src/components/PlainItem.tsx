@@ -1,29 +1,30 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import { Uuid } from '../utils/generateId';
 
 export interface IPlainItemOwnProps {
   readonly index: number;
   readonly id: Uuid;
 }
 
-export interface IPlainItemDispatchToProps {
+export interface IPlainItemDispatchProps {
   readonly startEditing: () => void;
 }
 
-export interface IPlainStateToProps {
+export interface IPlainItemStateProps {
   readonly text: string;
 }
 
-type PlainItemProps = IPlainItemOwnProps & IPlainItemDispatchToProps & IPlainStateToProps;
+type PlainItemProps = IPlainItemOwnProps & IPlainItemDispatchProps & IPlainItemStateProps;
 
-export const PlainItem: React.StatelessComponent<PlainItemProps> = ({
-  index, text , startEditing,
-}: PlainItemProps): JSX.Element => (
-  <div onClick={startEditing}>
-    {index}.&nbsp;{text}
-  </div>
-);
+export const PlainItem: React.StatelessComponent<PlainItemProps> = (
+  {
+    index, text, startEditing,
+  }: PlainItemProps): JSX.Element =>
+  (
+    <div onClick={startEditing}>
+      {index}.&nbsp;{text}
+    </div>
+  );
 
 PlainItem.displayName = 'PlainItem';
 

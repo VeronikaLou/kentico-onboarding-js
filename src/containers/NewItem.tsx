@@ -1,10 +1,12 @@
 import { connect } from 'react-redux';
-import { INewItemOwnProps, NewItem as NewItemComponent } from '../components/NewItem';
+import { INewItemDispatchProps, NewItem as NewItemComponent } from '../components/NewItem';
 import { addItem } from '../actions/listActionCreators';
+import { IListAction } from '../actions/IListAction';
 import { Dispatch } from 'redux';
+import { ComponentClass } from 'react';
 
-const mapDispatchToProps = (dispatch: Dispatch): INewItemOwnProps => ({
+const mapDispatchToProps = (dispatch: Dispatch<IListAction>): INewItemDispatchProps => ({
   addItem: (text: string) => dispatch(addItem(text)),
 });
 
-export const NewItem = connect(null, mapDispatchToProps)(NewItemComponent);
+export const NewItem: ComponentClass = connect(null, mapDispatchToProps)(NewItemComponent);

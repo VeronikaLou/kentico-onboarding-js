@@ -7,7 +7,6 @@ import {
   deleteItem,
   saveItemChanges,
 } from '../../actions/listActionCreators';
-import { Uuid } from '../../utils/generateId';
 import { IListAction } from '../../actions/IListAction';
 
 describe('Add item', () => {

@@ -2,18 +2,17 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import { PlainItem } from '../containers/PlainItem';
 import { EditedItem } from '../containers/EditedItem';
-import { Uuid } from '../utils/generateId';
 
 export interface IItemOwnProps {
   readonly index: number;
   readonly id: Uuid;
 }
 
-export interface IItemStateToProps {
+export interface IItemStateProps {
   readonly isEdited: boolean;
 }
 
-type ItemProps = IItemOwnProps & IItemStateToProps;
+type ItemProps = IItemOwnProps & IItemStateProps;
 
 export const Item: React.StatelessComponent<ItemProps> = ({index, id, isEdited}: ItemProps): JSX.Element => {
   const renderItem = isEdited
@@ -31,9 +30,9 @@ export const Item: React.StatelessComponent<ItemProps> = ({index, id, isEdited}:
     );
 
   return (
-  <li className="list-group-item">
-    {renderItem}
-  </li>
+    <li className="list-group-item">
+      {renderItem}
+    </li>
   );
 };
 

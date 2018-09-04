@@ -1,19 +1,19 @@
 import * as React from 'react';
+import { ChangeEvent } from 'react';
 import * as classNames from 'classnames';
 import *as PropTypes from 'prop-types';
 import { isInputValid } from '../utils/isInputValid';
-import { ChangeEvent } from 'react';
 
-export interface INewItemOwnProps {
+export interface INewItemDispatchProps {
   readonly addItem: (text: string) => void;
 }
 
-interface INewItemState {
-  text: string;
-  isFocused: boolean;
+export interface INewItemState {
+  readonly text: string;
+  readonly isFocused: boolean;
 }
 
-export class NewItem extends React.PureComponent<INewItemOwnProps, INewItemState> {
+export class NewItem extends React.PureComponent<INewItemDispatchProps, INewItemState> {
   static displayName = 'NewItem';
 
   static propTypes = {
@@ -32,18 +32,18 @@ export class NewItem extends React.PureComponent<INewItemOwnProps, INewItemState
 
   _addItem = (): void => {
     this.props.addItem(this.state.text);
-    this.setState(() => ({ text: '' }));
+    this.setState(() => ({text: ''}));
   };
 
-  _changeFocus = (): void => this.setState(prevState => ({ isFocused: !prevState.isFocused }));
+  _changeFocus = (): void => this.setState(prevState => ({isFocused: !prevState.isFocused}));
 
   render(): JSX.Element {
-    const { text, isFocused } = this.state;
+    const {text, isFocused} = this.state;
     const isValid: boolean = isInputValid(text);
     const inputClass: string = classNames('form-control', {
       'is-invalid': isFocused && !isValid,
     });
-    const addButtonTitle: string|undefined = !isValid ? 'Insert text.' : undefined;
+    const addButtonTitle: string | undefined = !isValid ? 'Insert text.' : undefined;
 
     return (
       <li className="list-group-item">

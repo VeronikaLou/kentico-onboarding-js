@@ -1,7 +1,7 @@
 import { OrderedMap } from 'immutable';
 import { getMemoizedIds } from './getMemoizedIds';
 import { ListItem } from '../models/ListItem';
-import { generateId, Uuid } from './generateId';
+import { generateId } from './generateId';
 
 describe('Get memoized items', () => {
   it('should return same result for same arrays', () => {
