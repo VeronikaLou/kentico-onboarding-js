@@ -137,7 +137,7 @@ In this task you will use TypeScript to make you app strongly typed. Mainly intr
 	npm install --no-optional --save-dev @types/redux-logger
 	```
 	Read about how it works here: https://github.com/DefinitelyTyped/DefinitelyTyped
-- When you change type of index.jsx to TS, make sure to also change the entry point in webpack.common.js
+- When you change type of index.tsx to TS, make sure to also change the entry point in webpack.common.js
 
 
 
