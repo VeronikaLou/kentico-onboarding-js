@@ -1,5 +1,5 @@
 import { OrderedMap } from 'immutable';
-import { getMemoizedItems } from './getMemoizedItems';
+import { getMemoizedItems } from './getMemoizedIds';
 import { generateId } from './generateId';
 
 describe('Get memoized items', () => {
