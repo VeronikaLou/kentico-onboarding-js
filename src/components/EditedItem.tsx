@@ -45,8 +45,8 @@ export class EditedItem extends React.PureComponent<EditedItemProps> {
   _saveChanges = (): void => this.props.saveChanges(this.state.text);
 
   _showButtons = (): JSX.Element => {
-    const isValid = isInputValid(this.state.text);
-    const saveButtonTitle = !isValid ? 'Insert text.' : undefined;
+    const isValid: boolean = isInputValid(this.state.text);
+    const saveButtonTitle: string|undefined = !isValid ? 'Insert text.' : undefined;
 
     return (
       <div
@@ -83,7 +83,7 @@ export class EditedItem extends React.PureComponent<EditedItemProps> {
   render(): JSX.Element {
     const {index} = this.props;
     const {text} = this.state;
-    const inputClass = classNames('form-control', {
+    const inputClass: string = classNames('form-control', {
       'is-invalid': !isInputValid(text),
     });
 

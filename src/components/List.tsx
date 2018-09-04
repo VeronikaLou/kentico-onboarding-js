@@ -9,7 +9,7 @@ export interface IListStateToProps {
    readonly items: Seq.Indexed<Uuid>;
 }
 
-export const List: React.StatelessComponent<IListStateToProps> = ({ items }: IListStateToProps) => {
+export const List: React.StatelessComponent<IListStateToProps> = ({ items }: IListStateToProps): JSX.Element => {
   const renderItems = items
     .map((id: Uuid, index: number) => (
       <Item

@@ -19,7 +19,7 @@ type PlainItemProps = IPlainItemOwnProps & IPlainItemDispatchToProps & IPlainSta
 
 export const PlainItem: React.StatelessComponent<PlainItemProps> = ({
   index, text , startEditing,
-}: PlainItemProps) => (
+}: PlainItemProps): JSX.Element => (
   <div onClick={startEditing}>
     {index}.&nbsp;{text}
   </div>

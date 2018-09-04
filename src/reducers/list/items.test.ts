@@ -8,9 +8,10 @@ import {
   saveItemChanges,
 } from '../../actions/listActionCreators';
 import { Uuid } from '../../utils/generateId';
+import { IListAction } from '../../actions/IListAction';
 
 describe('Add item', () => {
-  const newItem = addItem('New item.');
+  const newItem: IListAction = addItem('New item.');
   const newListItem = new ListItem({ ...newItem.payload });
   const initialState = OrderedMap<Uuid, ListItem>()
     .set('0', new ListItem({id: '0', text: 'A'}))
@@ -35,7 +36,10 @@ describe('Add item', () => {
   });
 
   it('invalid action shouldn\'t modify state', () => {
-    const invalidItem = { type: 'INVALID', payload: {id: '1'} };
+    const invalidItem: IListAction = {
+      type: 'INVALID',
+      payload: {id: '1'},
+    };
 
     const result = items(initialState, invalidItem);
 
@@ -44,7 +48,7 @@ describe('Add item', () => {
 });
 
 describe('Delete item', () => {
-  const itemToDelete = deleteItem('-1');
+  const itemToDelete: IListAction = deleteItem('-1');
   const initialState = OrderedMap<Uuid, ListItem>()
     .set(itemToDelete.payload.id, new ListItem({
       id: itemToDelete.payload.id,
@@ -68,7 +72,7 @@ describe('Delete item', () => {
   });
 
   it('should\'t modify state which doesn\'t contain item with given id', () => {
-    const notInStateItem = deleteItem('1');
+    const notInStateItem: IListAction = deleteItem('1');
     const result = items(initialState, notInStateItem);
 
     expect(result).toEqual(initialState);
@@ -80,7 +84,7 @@ describe('Change item editing mode', () => {
     id: '1',
     text: 'Click me.',
   });
-  const clickedItem = changeItemEditingMode(item.id);
+  const clickedItem: IListAction = changeItemEditingMode(item.id);
   const initialState = OrderedMap<Uuid, ListItem>()
     .set(item.id, item);
   const stateWithClicked = initialState
@@ -106,7 +110,7 @@ describe('Save item changes', () => {
   });
   const initialState = OrderedMap<Uuid, ListItem>()
     .set(item.id, item);
-  const changedItem = saveItemChanges(item.id, 'Text changed.');
+  const changedItem: IListAction = saveItemChanges(item.id, 'Text changed.');
 
   it('should change original text to text given as argument', () => {
     const expectedResult = initialState.setIn([item.id, 'text'], changedItem.payload.text);

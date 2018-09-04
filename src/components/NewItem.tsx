@@ -4,7 +4,7 @@ import *as PropTypes from 'prop-types';
 import { isInputValid } from '../utils/isInputValid';
 import { ChangeEvent } from 'react';
 
-interface INewItemOwnProps {
+export interface INewItemOwnProps {
   readonly addItem: (text: string) => void;
 }
 
@@ -17,12 +17,12 @@ export class NewItem extends React.PureComponent<INewItemOwnProps, INewItemState
   static displayName = 'NewItem';
 
   static propTypes = {
-    addItem: PropTypes.func.isRequired
+    addItem: PropTypes.func.isRequired,
   };
 
   state = {
     text: '',
-    isFocused: false
+    isFocused: false,
   };
 
   _changeInput = (event: ChangeEvent<HTMLInputElement>): void => {
@@ -39,11 +39,11 @@ export class NewItem extends React.PureComponent<INewItemOwnProps, INewItemState
 
   render(): JSX.Element {
     const { text, isFocused } = this.state;
-    const isValid = isInputValid(text);
-    const inputClass = classNames('form-control', {
-      'is-invalid': isFocused && !isValid
+    const isValid: boolean = isInputValid(text);
+    const inputClass: string = classNames('form-control', {
+      'is-invalid': isFocused && !isValid,
     });
-    const addButtonTitle = !isValid ? 'Insert text.' : undefined;
+    const addButtonTitle: string|undefined = !isValid ? 'Insert text.' : undefined;
 
     return (
       <li className="list-group-item">

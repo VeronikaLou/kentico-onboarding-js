@@ -5,6 +5,6 @@ export const addItem = (generator: Function) => (text: string): IListAction => (
   type: ITEM_ADDED,
   payload: {
     id: generator(),
-    text
-  }
+    text,
+  },
 });

@@ -3,7 +3,7 @@ import {
   ITEM_ADDED,
   ITEM_CHANGES_SAVED,
   ITEM_DELETED,
-  ITEM_EDITING_MODE_CHANGED
+  ITEM_EDITING_MODE_CHANGED,
 } from '../../actions/types/listActionTypes';
 import { Uuid } from '../../utils/generateId';
 import { ListItem } from '../../models/ListItem';
@@ -25,7 +25,7 @@ export const items = (state: OrderedMap<Uuid, ListItem> = OrderedMap(), action: 
       return state
         .set(
           action.payload.id,
-          item(state.get(action.payload.id), action)
+          item(state.get(action.payload.id), action),
         );
 
     default:
