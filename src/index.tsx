@@ -1,10 +1,10 @@
 import '../node_modules/bootstrap/dist/css/bootstrap.css';
-import ReactDom from 'react-dom';
-import React from 'react';
+import * as ReactDom from 'react-dom';
+import * as React from 'react';
 import { Provider } from 'react-redux';
-import { store } from './utils/store.ts';
+import { store } from './utils/store';
 
-import { App } from './components/App.tsx';
+import { App } from './components/App';
 
 require.context('../public/', true);
 

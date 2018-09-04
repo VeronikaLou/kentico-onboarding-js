@@ -2,7 +2,6 @@ import * as React from 'react';
 import * as classNames from 'classnames';
 import * as PropTypes from 'prop-types';
 import { isInputValid } from '../utils/isInputValid';
-import { ListItem } from '../models/ListItem';
 import { Uuid } from '../utils/generateId';
 
 export interface IEditedItemOwnProps {
@@ -27,7 +26,7 @@ export class EditedItem extends React.PureComponent<EditedItemProps> {
 
   static propTypes = {
     index: PropTypes.number.isRequired,
-    item: PropTypes.instanceOf(ListItem).isRequired,
+    id: PropTypes.string.isRequired,
     saveChanges: PropTypes.func.isRequired,
     cancelEditing: PropTypes.func.isRequired,
     deleteItem: PropTypes.func.isRequired,

@@ -34,5 +34,5 @@ export const List: React.StatelessComponent<IListStateToProps> = ({ items }: ILi
 List.displayName = 'List';
 
 List.propTypes = {
-  items: PropTypes.array.isRequired,
+  items: PropTypes.object.isRequired,
 };
