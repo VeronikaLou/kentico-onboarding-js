@@ -1,20 +1,24 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import { ListItem } from '../models/ListItem';
+import { Uuid } from '../utils/generateId';
 
 export interface IPlainItemOwnProps {
-  readonly index: string;
-  readonly item: ListItem;
+  readonly index: number;
+  readonly id: Uuid;
 }
 
 export interface IPlainItemDispatchToProps {
   readonly startEditing: () => void;
 }
 
-type PlainItemProps = IPlainItemOwnProps & IPlainItemDispatchToProps;
+export interface IPlainStateToProps {
+  readonly text: string;
+}
+
+type PlainItemProps = IPlainItemOwnProps & IPlainItemDispatchToProps & IPlainStateToProps;
 
 export const PlainItem: React.StatelessComponent<PlainItemProps> = ({
-  index, item: { text }, startEditing,
+  index, text , startEditing,
 }: PlainItemProps) => (
   <div onClick={startEditing}>
     {index}.&nbsp;{text}
@@ -25,6 +29,7 @@ PlainItem.displayName = 'PlainItem';
 
 PlainItem.propTypes = {
   index: PropTypes.number.isRequired,
-  item: PropTypes.instanceOf(ListItem).isRequired,
+  id: PropTypes.string.isRequired,
   startEditing: PropTypes.func.isRequired,
+  text: PropTypes.string.isRequired,
 };

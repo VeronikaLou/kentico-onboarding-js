@@ -1,27 +1,33 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import { ListItem } from '../models/ListItem';
 import { PlainItem } from '../containers/PlainItem';
 import { EditedItem } from '../containers/EditedItem';
+import { Uuid } from '../utils/generateId';
 
-interface IItemProps {
-  readonly index: string;
-  readonly item: ListItem;
+export interface IItemOwnProps {
+  readonly index: number;
+  readonly id: Uuid;
 }
 
-export const Item: React.StatelessComponent<IItemProps> = ({index, item}: IItemProps) => (
+export interface IItemStateToProps {
+  readonly isEdited: boolean;
+}
+
+type ItemProps = IItemOwnProps & IItemStateToProps;
+
+export const Item: React.StatelessComponent<ItemProps> = ({index, id, isEdited}: ItemProps) => (
   <li className="list-group-item">
-    {item.isEdited
+    {isEdited
       ? (
         <EditedItem
           index={index}
-          item={item}
+          id={id}
         />
       )
       : (
         <PlainItem
           index={index}
-          item={item}
+          id={id}
         />
       )}
   </li>
@@ -31,5 +37,6 @@ Item.displayName = 'Item';
 
 Item.propTypes = {
   index: PropTypes.number.isRequired,
-  item: PropTypes.instanceOf(ListItem).isRequired,
+  id: PropTypes.string.isRequired,
+  isEdited: PropTypes.bool.isRequired,
 };

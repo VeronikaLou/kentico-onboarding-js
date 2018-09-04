@@ -1,21 +1,20 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import { Item } from './Item';
+import { Item } from '../containers/Item';
 import { NewItem } from '../containers/NewItem';
-import { OrderedMap } from 'immutable';
 import { Uuid } from '../utils/generateId';
-import { ListItem } from '../models/ListItem';
+import { Seq } from 'immutable';
 
-export interface IListDispatchToProps {
-   readonly items: OrderedMap<Uuid, ListItem>;
+export interface IListStateToProps {
+   readonly items: Seq.Indexed<Uuid>;
 }
 
-export const List: React.StatelessComponent<IListDispatchToProps> = ({ items }: IListDispatchToProps) => {
+export const List: React.StatelessComponent<IListStateToProps> = ({ items }: IListStateToProps) => {
   const renderItems = items
-    .map((item: ListItem, index: string) => (
+    .map((id: Uuid, index: number) => (
       <Item
-        key={item.id}
-        item={item}
+        key={id}
+        id={id}
         index={index + 1}
       />
     ));
@@ -35,5 +34,5 @@ export const List: React.StatelessComponent<IListDispatchToProps> = ({ items }: 
 List.displayName = 'List';
 
 List.propTypes = {
-  items: PropTypes.array.isRequired
+  items: PropTypes.array.isRequired,
 };

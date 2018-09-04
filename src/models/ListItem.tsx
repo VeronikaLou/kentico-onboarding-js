@@ -4,7 +4,7 @@ import { Uuid } from '../utils/generateId';
 const emptyItem: IListItem = {
   id: '00000000-0000-0000-0000-000000000000',
   text: '',
-  isEdited: false
+  isEdited: false,
 };
 
 interface IListItem {
@@ -18,7 +18,7 @@ export class ListItem extends Record(emptyItem, 'ListItem') {
   text: string;
   isEdited: boolean;
 
-  constructor(params?: Partial<IListItem>){
+  constructor(params?: Partial<IListItem>) {
     params ? super(params) : super();
   }
 

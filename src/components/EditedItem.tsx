@@ -3,10 +3,11 @@ import * as classNames from 'classnames';
 import * as PropTypes from 'prop-types';
 import { isInputValid } from '../utils/isInputValid';
 import { ListItem } from '../models/ListItem';
+import { Uuid } from '../utils/generateId';
 
 export interface IEditedItemOwnProps {
-  readonly index: string;
-  readonly item: ListItem;
+  readonly index: number;
+  readonly id: Uuid;
 }
 
 export interface IEditedItemDispatchToProps {
@@ -15,7 +16,11 @@ export interface IEditedItemDispatchToProps {
   readonly deleteItem: () => void;
 }
 
-type EditedItemProps = IEditedItemOwnProps & IEditedItemDispatchToProps;
+export interface IEditedItemStateToProps {
+  readonly text: string;
+}
+
+type EditedItemProps = IEditedItemOwnProps & IEditedItemDispatchToProps &IEditedItemStateToProps;
 
 export class EditedItem extends React.PureComponent<EditedItemProps> {
   static displayName = 'EditedItem';
@@ -29,7 +34,7 @@ export class EditedItem extends React.PureComponent<EditedItemProps> {
   };
 
   state = {
-    text: this.props.item.text,
+    text: this.props.text,
   };
 
   _editText = (event: React.ChangeEvent<HTMLInputElement>): void => {

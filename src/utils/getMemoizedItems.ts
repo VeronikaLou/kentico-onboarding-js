@@ -1,6 +1,5 @@
 import * as memoizee from 'memoizee';
-import { ListItem } from '../models/ListItem';
-import { OrderedMap } from 'immutable';
 import { Uuid } from './generateId';
+import { Seq } from 'immutable';
 
-export const getMemoizedItems: OrderedMap<Uuid, ListItem>  = memoizee((items: OrderedMap<Uuid, ListItem>) => items.toArray());
+export const getMemoizedItems = memoizee((items: Seq.Indexed<Uuid>) => items);
