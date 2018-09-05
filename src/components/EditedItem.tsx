@@ -18,9 +18,13 @@ export interface IEditedItemStateProps {
   readonly text: string;
 }
 
+interface IEditedItemState {
+  readonly text: string;
+}
+
 type EditedItemProps = IEditedItemOwnProps & IEditedItemDispatchProps & IEditedItemStateProps;
 
-export class EditedItem extends React.PureComponent<EditedItemProps> {
+export class EditedItem extends React.PureComponent<EditedItemProps, IEditedItemState> {
   static displayName = 'EditedItem';
 
   static propTypes = {
@@ -29,6 +33,7 @@ export class EditedItem extends React.PureComponent<EditedItemProps> {
     saveChanges: PropTypes.func.isRequired,
     cancelEditing: PropTypes.func.isRequired,
     deleteItem: PropTypes.func.isRequired,
+    text: PropTypes.string.isRequired,
   };
 
   state = {
