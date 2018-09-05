@@ -1,28 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { EditedItem } from './EditedItem';
-import { PlainItem } from './PlainItem';
-import { ListItem } from '../models/ListItem';
+import { PlainItem } from '../containers/PlainItem';
+import { EditedItem } from '../containers/EditedItem';
 
 export const Item = ({
-  index, saveChanges, changeEditingMode, deleteItem, item
+  index, id, isEdited
 }) => (
   <li className="list-group-item">
-    {item.isEdited
+    {isEdited
       ? (
         <EditedItem
           index={index}
-          item={item}
-          saveChanges={saveChanges}
-          cancelEditing={changeEditingMode}
-          deleteItem={deleteItem}
+          id={id}
         />
       )
       : (
         <PlainItem
           index={index}
-          item={item}
-          startEditing={changeEditingMode}
+          id={id}
         />
       )}
   </li>
@@ -32,8 +27,6 @@ Item.displayName = 'Item';
 
 Item.propTypes = {
   index: PropTypes.number.isRequired,
-  item: PropTypes.instanceOf(ListItem).isRequired,
-  saveChanges: PropTypes.func.isRequired,
-  changeEditingMode: PropTypes.func.isRequired,
-  deleteItem: PropTypes.func.isRequired,
+  id: PropTypes.string.isRequired,
+  isEdited: PropTypes.bool.isRequired
 };
