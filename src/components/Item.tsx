@@ -14,27 +14,28 @@ export interface IItemStateProps {
 
 type ItemProps = IItemOwnProps & IItemStateProps;
 
-export const Item: React.StatelessComponent<ItemProps> = ({index, id, isEdited}: ItemProps): JSX.Element => {
-  const renderItem = isEdited
-    ? (
-      <EditedItem
-        index={index}
-        id={id}
-      />
-    )
-    : (
-      <PlainItem
-        index={index}
-        id={id}
-      />
-    );
+export const Item: React.StatelessComponent<ItemProps> =
+  ({index, id, isEdited}: ItemProps): JSX.Element => {
+    const renderItem = isEdited
+      ? (
+        <EditedItem
+          index={index}
+          id={id}
+        />
+      )
+      : (
+        <PlainItem
+          index={index}
+          id={id}
+        />
+      );
 
-  return (
-    <li className="list-group-item">
-      {renderItem}
-    </li>
-  );
-};
+    return (
+      <li className="list-group-item">
+        {renderItem}
+      </li>
+    );
+  };
 
 Item.displayName = 'Item';
 

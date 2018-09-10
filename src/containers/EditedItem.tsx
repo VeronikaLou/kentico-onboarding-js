@@ -7,11 +7,11 @@ import {
 } from '../components/EditedItem';
 import { changeItemEditingMode, deleteItem, saveItemChanges } from '../actions/listActionCreators';
 import { Dispatch } from 'redux';
-import { IStoreState } from '../models/IStoreState';
+import { IStore } from '../models/IStore';
 import { IListAction } from '../actions/IListAction';
 import { ComponentClass } from 'react';
 
-const mapStateToProps = (state: IStoreState, ownProps: IEditedItemOwnProps): IEditedItemStateProps => ({
+const mapStateToProps = (state: IStore, ownProps: IEditedItemOwnProps): IEditedItemStateProps => ({
   text: state.items.get(ownProps.id).text,
 });
 

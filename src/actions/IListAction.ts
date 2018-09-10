@@ -1,4 +1,4 @@
 export interface IListAction {
-  type: string;
-  payload: any;
+  readonly type: string;
+  readonly payload: any;
 }

@@ -6,17 +6,17 @@ import { logger } from 'redux-logger';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { createItems } from './itemsCreator';
 import { applicationReducer } from '../reducers/applicationReducer';
-import { IStoreState } from '../models/IStoreState';
+import { IStore } from '../models/IStore';
 
 const enhancer: StoreEnhancer = composeWithDevTools(
   applyMiddleware(logger),
 );
 
-const initialState: IStoreState = {
+const initialState: IStore = {
   items: createItems(),
 };
 
-export const store: Store<IStoreState> = createStore(
+export const store: Store<IStore> = createStore(
   applicationReducer,
   initialState,
   enhancer,

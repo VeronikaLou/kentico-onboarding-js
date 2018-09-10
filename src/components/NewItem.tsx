@@ -8,7 +8,7 @@ export interface INewItemDispatchProps {
   readonly addItem: (text: string) => void;
 }
 
-export interface INewItemState {
+interface INewItemState {
   readonly text: string;
   readonly isFocused: boolean;
 }

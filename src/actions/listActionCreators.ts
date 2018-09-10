@@ -1,13 +1,13 @@
 import { generateId } from '../utils/generateId';
 import {
   ITEM_CHANGES_SAVED,
-  ITEM_EDITING_MODE_CHANGED,
   ITEM_DELETED,
+  ITEM_EDITING_MODE_CHANGED,
 } from './types/listActionTypes';
 import { addItem as addItemFactory } from './factories/addItem';
 import { IListAction } from './IListAction';
 
-export const addItem = (text: string): IListAction => addItemFactory(generateId)(text);
+export const addItem = addItemFactory(generateId);
 
 export const deleteItem = (id: Uuid): IListAction => ({
   type: ITEM_DELETED,

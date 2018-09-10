@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { items } from './list/items';
-import { IStoreState } from '../models/IStoreState';
+import { IStore } from '../models/IStore';
 
-export const applicationReducer = combineReducers<IStoreState>({
+export const applicationReducer = combineReducers<IStore>({
   items,
 });
