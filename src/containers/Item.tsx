@@ -1,5 +1,8 @@
 import { IStore } from '../models/IStore';
-import { IItemOwnProps, IItemStateProps, Item as ItemComponent } from '../components/Item';
+import {
+  IItemOwnProps,
+  IItemStateProps, Item as ItemComponent,
+} from '../components/Item';
 import { connect } from 'react-redux';
 import { ComponentClass } from 'react';
 

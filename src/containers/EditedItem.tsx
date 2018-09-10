@@ -5,7 +5,11 @@ import {
   IEditedItemOwnProps,
   IEditedItemStateProps,
 } from '../components/EditedItem';
-import { changeItemEditingMode, deleteItem, saveItemChanges } from '../actions/listActionCreators';
+import {
+  changeItemEditingMode,
+  deleteItem,
+  saveItemChanges,
+} from '../actions/listActionCreators';
 import { Dispatch } from 'redux';
 import { IStore } from '../models/IStore';
 import { IListAction } from '../actions/IListAction';
@@ -24,4 +28,7 @@ const mapDispatchToProps = (
   cancelEditing: () => dispatch(changeItemEditingMode(ownProps.id)),
 });
 
-export const EditedItem: ComponentClass<IEditedItemOwnProps> = connect(mapStateToProps, mapDispatchToProps)(EditedItemComponent);
+export const EditedItem: ComponentClass<IEditedItemOwnProps> = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(EditedItemComponent);

@@ -1,6 +1,8 @@
 import {
   applyMiddleware,
-  createStore, Store, StoreEnhancer,
+  createStore,
+  Store,
+  StoreEnhancer,
 } from 'redux';
 import { logger } from 'redux-logger';
 import { composeWithDevTools } from 'redux-devtools-extension';

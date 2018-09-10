@@ -1,5 +1,8 @@
 import { connect } from 'react-redux';
-import { IListStateProps, List as ListComponent } from '../components/List';
+import {
+  IListStateProps,
+  List as ListComponent,
+} from '../components/List';
 import { getMemoizedIds } from '../utils/getMemoizedIds';
 import { IStore } from '../models/IStore';
 import { ComponentClass } from 'react';
