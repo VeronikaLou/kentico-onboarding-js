@@ -1,4 +1,4 @@
-import { IStore } from '../models/IStore';
+import { IStore } from '../store/types/IStore';
 import {
   IItemOwnProps,
   IItemStateProps, Item as ItemComponent,

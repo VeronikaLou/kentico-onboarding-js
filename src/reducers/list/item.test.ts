@@ -4,7 +4,7 @@ import {
 } from '../../actions/listActionCreators';
 import { ListItem } from '../../models/ListItem';
 import { item } from './item';
-import { IListAction } from '../../actions/IListAction';
+import { IListAction } from '../../actions/types/IListAction';
 
 describe('Add item', () => {
   it('should return new item with same values as action\'s payload with undefined state', () => {

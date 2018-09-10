@@ -7,8 +7,8 @@ import {
 } from '../components/PlainItem';
 import { changeItemEditingMode } from '../actions/listActionCreators';
 import { Dispatch } from 'redux';
-import { IStore } from '../models/IStore';
-import { IListAction } from '../actions/IListAction';
+import { IStore } from '../store/types/IStore';
+import { IListAction } from '../actions/types/IListAction';
 import { ComponentClass } from 'react';
 
 const mapStateToProps = (state: IStore, ownProps: IPlainItemOwnProps): IPlainItemStateProps => ({

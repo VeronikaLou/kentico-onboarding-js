@@ -7,7 +7,7 @@ import {
   deleteItem,
   saveItemChanges,
 } from '../../actions/listActionCreators';
-import { IListAction } from '../../actions/IListAction';
+import { IListAction } from '../../actions/types/IListAction';
 
 describe('Add item', () => {
   const newItem: IListAction = addItem('New item.');

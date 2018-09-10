@@ -1,5 +1,5 @@
 import { ITEM_ADDED } from '../types/listActionTypes';
-import { IListAction } from '../IListAction';
+import { IListAction } from '../types/IListAction';
 
 export const addItem = (generator: () => Uuid) =>
   (text: string): IListAction => ({

@@ -4,7 +4,7 @@ import {
   NewItem as NewItemComponent,
 } from '../components/NewItem';
 import { addItem } from '../actions/listActionCreators';
-import { IListAction } from '../actions/IListAction';
+import { IListAction } from '../actions/types/IListAction';
 import { Dispatch } from 'redux';
 import { ComponentClass } from 'react';
 

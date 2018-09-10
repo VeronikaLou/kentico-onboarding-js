@@ -4,7 +4,7 @@ import {
   ITEM_CHANGES_SAVED,
   ITEM_EDITING_MODE_CHANGED,
 } from '../../actions/types/listActionTypes';
-import { IListAction } from '../../actions/IListAction';
+import { IListAction } from '../../actions/types/IListAction';
 
 export const item = (state: ListItem = new ListItem(), action: IListAction): ListItem => {
   switch (action.type) {

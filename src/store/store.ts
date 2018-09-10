@@ -6,9 +6,9 @@ import {
 } from 'redux';
 import { logger } from 'redux-logger';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { createItems } from './itemsCreator';
+import { createItems } from '../utils/itemsCreator';
 import { applicationReducer } from '../reducers/applicationReducer';
-import { IStore } from '../store/types/IStore';
+import { IStore } from './types/IStore';
 
 const enhancer: StoreEnhancer = composeWithDevTools(
   applyMiddleware(logger),

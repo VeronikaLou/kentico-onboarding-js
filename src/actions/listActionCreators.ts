@@ -5,7 +5,7 @@ import {
   ITEM_EDITING_MODE_CHANGED,
 } from './types/listActionTypes';
 import { addItem as addItemFactory } from './factories/addItem';
-import { IListAction } from './IListAction';
+import { IListAction } from './types/IListAction';
 
 export const addItem = addItemFactory(generateId);
 

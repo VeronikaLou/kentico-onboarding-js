@@ -6,11 +6,12 @@ import {
   ITEM_EDITING_MODE_CHANGED,
 } from '../../actions/types/listActionTypes';
 import { ListItem } from '../../models/ListItem';
-import { IListAction } from '../../actions/IListAction';
+import { IListAction } from '../../actions/types/IListAction';
 import { OrderedMap } from 'immutable';
+import { ItemsState } from '../../store/types/ItemsState';
 
 export const items = (
-  state: OrderedMap<Uuid, ListItem> = OrderedMap(),
+  state: ItemsState = OrderedMap(),
   action: IListAction,
 ): OrderedMap<Uuid, ListItem> => {
   switch (action.type) {

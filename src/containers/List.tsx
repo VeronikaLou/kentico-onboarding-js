@@ -4,11 +4,11 @@ import {
   List as ListComponent,
 } from '../components/List';
 import { getMemoizedIds } from '../utils/getMemoizedIds';
-import { IStore } from '../models/IStore';
+import { IStore } from '../store/types/IStore';
 import { ComponentClass } from 'react';
 
 const mapStateToProps = (state: IStore): IListStateProps => ({
-  items: getMemoizedIds(state.items.keySeq()),
+  items: getMemoizedIds(state.items.keySeq().toArray()),
 });
 
 export const List: ComponentClass = connect(mapStateToProps)(ListComponent);

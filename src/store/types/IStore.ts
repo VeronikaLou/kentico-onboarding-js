@@ -1,6 +1,5 @@
-import { OrderedMap } from 'immutable';
-import { ListItem } from './ListItem';
+import { ItemsState } from './ItemsState';
 
 export interface IStore {
-  items: OrderedMap<Uuid, ListItem>;
+  items: ItemsState;
 }

@@ -2,15 +2,14 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import { Item } from '../containers/Item';
 import { NewItem } from '../containers/NewItem';
-import { Iterable, Seq } from 'immutable';
 
 export interface IListStateProps {
-  readonly items: Seq.Indexed<Uuid>;
+  readonly items: Array<Uuid>;
 }
 
 export const List: React.StatelessComponent<IListStateProps> =
   ({items}: IListStateProps): JSX.Element => {
-    const renderItems: Iterable<number, JSX.Element> = items
+    const renderItems: Array<JSX.Element> = items
       .map((id: Uuid, index: number) => (
         <Item
           key={id}
@@ -34,5 +33,5 @@ export const List: React.StatelessComponent<IListStateProps> =
 List.displayName = 'List';
 
 List.propTypes = {
-  items: PropTypes.object.isRequired,
+  items: PropTypes.array.isRequired,
 };
