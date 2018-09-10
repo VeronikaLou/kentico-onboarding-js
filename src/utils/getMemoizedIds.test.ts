@@ -7,8 +7,8 @@ describe('Get memoized ids', () => {
     const initialArray = OrderedMap<Uuid, {}>().set(generateId(), { a: 'a', b: 'b' });
     const derivatedArray = OrderedMap(initialArray);
 
-    const result = getMemoizedIds(initialArray.keySeq());
-    const result2 = getMemoizedIds(derivatedArray.keySeq());
+    const result = getMemoizedIds(initialArray.keySeq().toArray());
+    const result2 = getMemoizedIds(derivatedArray.keySeq().toArray());
 
     expect(result).toBe(result2);
   });

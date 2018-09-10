@@ -1,8 +1,9 @@
 import { OrderedMap } from 'immutable';
 import { ListItem } from '../models/ListItem';
 import { generateId } from './generateId';
+import { ItemsState } from '../store/types/ItemsState';
 
-export const createItems = (): OrderedMap<Uuid, ListItem> => {
+export const createItems = (): ItemsState => {
   const coffee = new ListItem({
     id: generateId(),
     text: 'Make a coffee',
