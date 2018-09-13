@@ -1,9 +1,30 @@
-import React, { PureComponent } from 'react';
-import classNames from 'classnames/bind';
-import PropTypes from 'prop-types';
+import * as React from 'react';
+import * as classNames from 'classnames';
+import * as PropTypes from 'prop-types';
 import { isInputValid } from '../utils/isInputValid';
 
-export class EditedItem extends PureComponent {
+export interface IEditedItemOwnProps {
+  readonly index: number;
+  readonly id: Uuid;
+}
+
+export interface IEditedItemDispatchProps {
+  readonly saveChanges: (text: string) => void;
+  readonly cancelEditing: () => void;
+  readonly deleteItem: () => void;
+}
+
+export interface IEditedItemStateProps {
+  readonly text: string;
+}
+
+interface IEditedItemState {
+  readonly text: string;
+}
+
+type EditedItemProps = IEditedItemOwnProps & IEditedItemDispatchProps & IEditedItemStateProps;
+
+export class EditedItem extends React.PureComponent<EditedItemProps, IEditedItemState> {
   static displayName = 'EditedItem';
 
   static propTypes = {
@@ -12,20 +33,23 @@ export class EditedItem extends PureComponent {
     saveChanges: PropTypes.func.isRequired,
     cancelEditing: PropTypes.func.isRequired,
     deleteItem: PropTypes.func.isRequired,
-    text: PropTypes.string.isRequired
+    text: PropTypes.string.isRequired,
   };
 
   state = {
     text: this.props.text,
   };
 
-  _editText = (event) => this.setState({ text: event.target.value });
+  _editText = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    event.persist();
+    this.setState(() => ({text: event.target.value}));
+  };
 
-  _saveChanges = () => this.props.saveChanges(this.state.text);
+  _saveChanges = (): void => this.props.saveChanges(this.state.text);
 
-  _showButtons = () => {
-    const isValid = isInputValid(this.state.text);
-    const saveButtonTitle = !isValid ? 'Insert text.' : undefined;
+  _showButtons = (): JSX.Element => {
+    const isValid: boolean = isInputValid(this.state.text);
+    const saveButtonTitle: string | undefined = !isValid ? 'Insert text.' : undefined;
 
     return (
       <div
@@ -59,11 +83,11 @@ export class EditedItem extends PureComponent {
     );
   };
 
-  render() {
-    const { index } = this.props;
-    const { text } = this.state;
-    const inputClass = classNames('form-control', {
-      'is-invalid': !isInputValid(text)
+  render(): JSX.Element {
+    const {index} = this.props;
+    const {text} = this.state;
+    const inputClass: string = classNames('form-control', {
+      'is-invalid': !isInputValid(text),
     });
 
     return (
