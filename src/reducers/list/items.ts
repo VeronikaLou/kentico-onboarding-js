@@ -1,13 +1,19 @@
-import { OrderedMap } from 'immutable';
 import { item } from './item';
 import {
   ITEM_ADDED,
   ITEM_CHANGES_SAVED,
   ITEM_DELETED,
-  ITEM_EDITING_MODE_CHANGED
+  ITEM_EDITING_MODE_CHANGED,
 } from '../../actions/types/listActionTypes';
+import { ListItem } from '../../models/ListItem';
+import { IListAction } from '../../actions/types/IListAction';
+import { OrderedMap } from 'immutable';
+import { ItemsState } from '../../store/types/ItemsState';
 
-export const items = (state = new OrderedMap(), action) => {
+export const items = (
+  state: ItemsState = OrderedMap(),
+  action: IListAction,
+): OrderedMap<Uuid, ListItem> => {
   switch (action.type) {
     case ITEM_ADDED:
     case ITEM_CHANGES_SAVED:
@@ -22,7 +28,7 @@ export const items = (state = new OrderedMap(), action) => {
       return state
         .set(
           action.payload.id,
-          item(state.get(action.payload.id), action)
+          item(state.get(action.payload.id), action),
         );
 
     default:

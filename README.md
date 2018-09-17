@@ -94,7 +94,7 @@ ESlint and TSlint are already set-up for you, so you will see all the errors and
 **Prerequisite:** JS & React sections in [our wiki](https://kentico.atlassian.net/wiki/x/0IPkCw).
 
 According to `assignment.gif` implement all the required functionality (keep in mind we want to be able to edit multiple list items at once). Store some pseudo-random identifier (id) for each item (use some util function for its generation, e.g: http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript)
-All the boilerplate is already there so you can dive into coding straight away. Feel free to use [Bootstrap](http://getbootstrap.com/) CSS classes. Get familiar with project structure. The entry file is `index.js`. Page layout can be found in `App.jsx`. It renders `List.jsx` in its body, where you are supposed to implement the rest of the functionality. 
+All the boilerplate is already there so you can dive into coding straight away. Feel free to use [Bootstrap](http://getbootstrap.com/) CSS classes. Get familiar with project structure. The entry file is `index.js`. Page layout can be found in `App.jsx`. It renders `List.jsx` in its body, where you are supposed to implement the rest of the functionality.
 
 ## Task 2 (immutable)
 Install [ImmutableJS](http://facebook.github.io/immutable-js) to your project: `npm install --no-optional --save immutable`.
@@ -111,7 +111,7 @@ npm install --no-optional --save react-redux
 npm install --no-optional --save redux-logger
 ```
 Refactor the application to use ReduxJS. 
- - Create **`listActionTypes.js`** where you describe all possible actions (as string constants) that can modify state of the app (e.g: "ITEM_CREATED").
+ - Create **`listActionTypes.ts`** where you describe all possible actions (as string constants) that can modify state of the app (e.g: "ITEM_CREATED").
  - Create **action creators** (helper functions) for all the action types you defined.
  - Move all the state of top level component (`List.jsx`) to Redux store (state in Redux is described by reducers; use reducer composition if possible).
    - Write jest **unit tests** for your Redux logic (used TDD to write tests for actionCreators and reducers together).
@@ -137,7 +137,7 @@ In this task you will use TypeScript to make you app strongly typed. Mainly intr
 	npm install --no-optional --save-dev @types/redux-logger
 	```
 	Read about how it works here: https://github.com/DefinitelyTyped/DefinitelyTyped
-- When you change type of index.jsx to TS, make sure to also change the entry point in webpack.common.js
+- When you change type of index.tsx to TS, make sure to also change the entry point in webpack.common.js
 
 
 
