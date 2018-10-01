@@ -3,10 +3,10 @@ import { ChangeEvent } from 'react';
 import * as classNames from 'classnames';
 import *as PropTypes from 'prop-types';
 import { isInputValid } from '../utils/isInputValid';
-import { ILoadedItem } from '../models/ILoadedItem';
+import { IFetchedItem } from '../models/IFetchedItem';
 
 export interface INewItemDispatchProps {
-  readonly addItem: (id: Uuid, text: string) => void;
+  readonly addItem: (item: IFetchedItem) => void;
 }
 
 interface INewItemState {
@@ -32,18 +32,17 @@ export class NewItem extends React.PureComponent<INewItemDispatchProps, INewItem
   };
 
   _addItem = (): void => {
-    const item = {id: '00000000-0000-0000-0000-000000000003', text: this.state.text};
-
     fetch('v1/List/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(item),
+      body: JSON.stringify({text: this.state.text}),
     })
       .then(response => response.json())
-      .then((loadedItem: ILoadedItem) => this.props.addItem(loadedItem.id, loadedItem.text))
-      .then(() => this.setState(() => ({text: ''})));
+      .then((fetchedItem: IFetchedItem) => this.props.addItem(fetchedItem))
+      .then(() => this.setState(() => ({text: ''})))
+      .catch(error => alert(error));
   };
 
   _changeFocus = (): void => this.setState(prevState => ({isFocused: !prevState.isFocused}));
