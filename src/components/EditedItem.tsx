@@ -45,7 +45,17 @@ export class EditedItem extends React.PureComponent<EditedItemProps, IEditedItem
     this.setState(() => ({text: event.target.value}));
   };
 
-  _saveChanges = (): void => this.props.saveChanges(this.state.text);
+  _saveChanges = (): void => {
+    fetch('v1/List/' + this.props.id, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({id: this.props.id, text: this.state.text}),
+    })
+      .then(response => response.json())
+      .then(item => this.props.saveChanges(item.text));
+  };
 
   _showButtons = (): JSX.Element => {
     const isValid: boolean = isInputValid(this.state.text);
