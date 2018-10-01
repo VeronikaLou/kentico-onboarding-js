@@ -9,9 +9,11 @@ import {
   saveItemChanges,
 } from '../../actions/listActionCreators';
 import { IListAction } from '../../actions/types/IListAction';
+import { IFetchedItem } from '../../models/IFetchedItem';
 
 describe('Add item', () => {
-  const newItem: IListAction = addItem('00000000-0000-0000-0000-000000000000', 'New item.');
+  const fetchedItem: IFetchedItem = {id: '00000000-0000-0000-0000-000000000000', text: 'I am new item.'};
+  const newItem: IListAction = addItem(fetchedItem);
   const newListItem = new ListItem({ ...newItem.payload });
   const initialState = OrderedMap<Uuid, ListItem>()
     .set('0', new ListItem({id: '0', text: 'A'}))

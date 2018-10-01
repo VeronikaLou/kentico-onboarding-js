@@ -9,8 +9,10 @@ import { addItem as addItemFactory } from './factories/addItem';
 import { IListAction } from './types/IListAction';
 import { ListItem } from '../models/ListItem';
 import { OrderedMap } from 'immutable';
+import { IFetchedItem } from '../models/IFetchedItem';
 
-export const addItem = (id: Uuid, text: string): IListAction => addItemFactory(() => id)(text);
+export const addItem = (item: IFetchedItem): IListAction =>
+  addItemFactory(() => item.id)(item.text);
 
 export const deleteItem = (id: Uuid): IListAction => ({
   type: ITEM_DELETED,

@@ -1,18 +1,14 @@
-import {
-  addItem,
-  // addItem,
-  saveItemChanges,
-} from '../../actions/listActionCreators';
+import { addItem, saveItemChanges, } from '../../actions/listActionCreators';
 import { ListItem } from '../../models/ListItem';
 import { item } from './item';
 import { IListAction } from '../../actions/types/IListAction';
+import { IFetchedItem } from '../../models/IFetchedItem';
 
 describe('Add item', () => {
-  const id = '00000000-0000-0000-0000-000000000000';
-
   it('should return new item with same values as action\'s payload with undefined state', () => {
-    const action: IListAction = addItem(id, 'I am new item.');
-    const expectedResult = new ListItem({ id, ...action.payload });
+    const fetchedItem: IFetchedItem = {id: '00000000-0000-0000-0000-000000000000', text: 'I am new item.'};
+    const action: IListAction = addItem(fetchedItem);
+    const expectedResult = new ListItem({...action.payload});
 
     const result = item(undefined, action);
 
@@ -20,9 +16,10 @@ describe('Add item', () => {
   });
 
   it('should return new item with same values as action\'s payload with defined state', () => {
-    const action: IListAction = addItem(id, 'I am new item.');
+    const fetchedItem: IFetchedItem = {id: '00000000-0000-0000-0000-000000000000', text: 'I am new item.'};
+    const action: IListAction = addItem(fetchedItem);
     const initialState = new ListItem();
-    const expectedResult = new ListItem({ id, ...action.payload });
+    const expectedResult = new ListItem({...action.payload});
 
     const result = item(initialState, action);
 
@@ -34,7 +31,8 @@ describe('Add item', () => {
       type: 'INVALID',
       payload: {
         id: '1',
-      }};
+      }
+    };
     const expectedResult = new ListItem();
 
     const result = item(undefined, newItem);
@@ -46,7 +44,7 @@ describe('Add item', () => {
 describe('Save item changes', () => {
   it('should return new item with same values as action\'s payload with undefined state', () => {
     const action: IListAction = saveItemChanges('1', 'saved');
-    const expectedResult = new ListItem({ ...action.payload });
+    const expectedResult = new ListItem({...action.payload});
 
     const result = item(undefined, action);
 
@@ -56,7 +54,7 @@ describe('Save item changes', () => {
   it('should return new item with same values as action\'s payload with defined state', () => {
     const action: IListAction = saveItemChanges('1', 'saved');
     const initialState = new ListItem();
-    const expectedResult = new ListItem({ ...action.payload });
+    const expectedResult = new ListItem({...action.payload});
 
     const result = item(initialState, action);
 
