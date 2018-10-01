@@ -3,10 +3,9 @@ import { ChangeEvent } from 'react';
 import * as classNames from 'classnames';
 import *as PropTypes from 'prop-types';
 import { isInputValid } from '../utils/isInputValid';
-import { IFetchedItem } from '../models/IFetchedItem';
 
 export interface INewItemDispatchProps {
-  readonly addItem: (item: IFetchedItem) => void;
+  readonly addItem: (text: string) => void;
 }
 
 interface INewItemState {
@@ -32,17 +31,8 @@ export class NewItem extends React.PureComponent<INewItemDispatchProps, INewItem
   };
 
   _addItem = (): void => {
-    fetch('v1/List/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({text: this.state.text}),
-    })
-      .then(response => response.json())
-      .then((fetchedItem: IFetchedItem) => this.props.addItem(fetchedItem))
-      .then(() => this.setState(() => ({text: ''})))
-      .catch(error => alert(error));
+    this.props.addItem(this.state.text);
+    this.setState(() => ({text: ''}));
   };
 
   _changeFocus = (): void => this.setState(prevState => ({isFocused: !prevState.isFocused}));

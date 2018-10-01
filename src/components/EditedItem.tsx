@@ -45,27 +45,7 @@ export class EditedItem extends React.PureComponent<EditedItemProps, IEditedItem
     this.setState(() => ({text: event.target.value}));
   };
 
-  _saveChanges = (): void => {
-    fetch('v1/List/' + this.props.id, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({id: this.props.id, text: this.state.text}),
-    })
-      .then(response => response.json())
-      .then(item => this.props.saveChanges(item.text))
-      .catch(error => alert(error));
-  };
-
-  _deleteItem = (): void => {
-    fetch('v1/List/' + this.props.id, {
-      method: 'DELETE',
-      body: JSON.stringify({id: this.props.id}),
-    })
-      .then(() => this.props.deleteItem())
-      .catch(error => alert(error));
-  };
+  _saveChanges = (): void => this.props.saveChanges(this.state.text);
 
   _showButtons = (): JSX.Element => {
     const isValid: boolean = isInputValid(this.state.text);
@@ -95,7 +75,7 @@ export class EditedItem extends React.PureComponent<EditedItemProps, IEditedItem
         <button
           className="btn btn-danger"
           type="button"
-          onClick={this._deleteItem}
+          onClick={this.props.deleteItem}
         >
           Delete
         </button>

@@ -2,9 +2,6 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import { Item } from '../containers/Item';
 import { NewItem } from '../containers/NewItem';
-import { ListItem } from '../models/ListItem';
-import { OrderedMap } from 'immutable';
-import { IFetchedItem } from '../models/IFetchedItem';
 import { RingLoader } from 'react-spinners';
 import { css } from 'emotion';
 
@@ -14,8 +11,7 @@ export interface IListStateProps {
 }
 
 export interface IListDispatchProps {
-  readonly receiveItems: (items: OrderedMap<Uuid, ListItem>) => void;
-  readonly requestItems: () => void;
+  readonly initItems: () => void;
 }
 
 type IList = IListDispatchProps & IListStateProps;
@@ -29,19 +25,11 @@ export class List extends React.PureComponent<IList> {
 
   static propTypes = {
     items: PropTypes.array.isRequired,
-    receiveItems: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired,
-    requestItems: PropTypes.func.isRequired,
   };
 
   componentDidMount = () => {
-    this.props.requestItems();
-    fetch('/v1/List')
-      .then(response => response.json())
-      .then((json: Array<IFetchedItem>) => json
-        .map((item: IFetchedItem) => [item.id, new ListItem(item)]))
-      .then(items => this.props.receiveItems(OrderedMap<Uuid, ListItem>(items)))
-      .catch(error => alert(error));
+    this.props.initItems();
   };
 
   render(): JSX.Element {
