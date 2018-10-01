@@ -54,7 +54,17 @@ export class EditedItem extends React.PureComponent<EditedItemProps, IEditedItem
       body: JSON.stringify({id: this.props.id, text: this.state.text}),
     })
       .then(response => response.json())
-      .then(item => this.props.saveChanges(item.text));
+      .then(item => this.props.saveChanges(item.text))
+      .catch(error => alert(error));
+  };
+
+  _deleteItem = (): void => {
+    fetch('v1/List/' + this.props.id, {
+      method: 'DELETE',
+      body: JSON.stringify({id: this.props.id}),
+    })
+      .then(() => this.props.deleteItem())
+      .catch(error => alert(error));
   };
 
   _showButtons = (): JSX.Element => {
@@ -85,7 +95,7 @@ export class EditedItem extends React.PureComponent<EditedItemProps, IEditedItem
         <button
           className="btn btn-danger"
           type="button"
-          onClick={this.props.deleteItem}
+          onClick={this._deleteItem}
         >
           Delete
         </button>
