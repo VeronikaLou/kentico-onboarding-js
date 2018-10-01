@@ -9,7 +9,7 @@ import { Dispatch } from 'redux';
 import { ComponentClass } from 'react';
 
 const mapDispatchToProps = (dispatch: Dispatch<IListAction>): INewItemDispatchProps => ({
-  addItem: (text: string) => dispatch(addItem(text)),
+  addItem: (id: Uuid, text: string) => dispatch(addItem(id, text)),
 });
 
 export const NewItem: ComponentClass = connect(
