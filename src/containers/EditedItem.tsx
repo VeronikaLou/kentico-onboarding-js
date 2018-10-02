@@ -7,8 +7,8 @@ import {
 } from '../components/EditedItem';
 import {
   changeItemEditingMode,
-  deleteItem,
-  saveItemChanges,
+  fetchDeleteItem,
+  fetchSaveItem,
 } from '../actions/listActionCreators';
 import { Dispatch } from 'redux';
 import { IStore } from '../store/types/IStore';
@@ -23,8 +23,8 @@ const mapDispatchToProps = (
   dispatch: Dispatch<IListAction>,
   ownProps: IEditedItemOwnProps,
 ): IEditedItemDispatchProps => ({
-  saveChanges: (text: string) => dispatch(saveItemChanges(ownProps.id, text)),
-  deleteItem: () => dispatch(deleteItem(ownProps.id)),
+  saveChanges: (text: string) => dispatch(fetchSaveItem(ownProps.id, text)),
+  deleteItem: () => dispatch(fetchDeleteItem(ownProps.id)),
   cancelEditing: () => dispatch(changeItemEditingMode(ownProps.id)),
 });
 
