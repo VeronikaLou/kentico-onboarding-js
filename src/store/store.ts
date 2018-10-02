@@ -10,9 +10,10 @@ import { applicationReducer } from '../reducers/applicationReducer';
 import { IStore } from './types/IStore';
 import { OrderedMap } from 'immutable';
 import { ListItem } from '../models/ListItem';
+import thunk from 'redux-thunk';
 
 const enhancer: StoreEnhancer = composeWithDevTools(
-  applyMiddleware(logger),
+  applyMiddleware(logger, thunk),
 );
 
 const initialState: IStore = {
