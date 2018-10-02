@@ -10,6 +10,7 @@ import { IListAction } from './types/IListAction';
 import { ListItem } from '../models/ListItem';
 import { OrderedMap } from 'immutable';
 import { IFetchedItem } from '../models/IFetchedItem';
+import { Dispatch } from 'redux';
 
 export const addItem = (item: IFetchedItem): IListAction =>
   addItemFactory(() => item.id)(item.text);
@@ -36,14 +37,64 @@ export const changeItemEditingMode = (id: Uuid): IListAction => ({
   },
 });
 
-export const receiveItems = (items: OrderedMap<Uuid, ListItem>): IListAction => ({
+const receiveItems = (items: OrderedMap<Uuid, ListItem>): IListAction => ({
   type: ITEMS_RECEIVED,
   payload: {
     items,
   },
 });
 
-export const requestItems = (): IListAction => ({
+const requestItems = (): IListAction => ({
   type: ITEMS_REQUESTED,
   payload: {},
 });
+
+export const fetchItems = (): any =>
+  (dispatch: Dispatch<IListAction>) => {
+    dispatch(requestItems());
+
+    fetch('/v1/List')
+      .then(response => response.json())
+      .then((json: Array<IFetchedItem>) => json
+        .map((item: IFetchedItem) => [item.id, new ListItem(item)]))
+      .then(items => dispatch(receiveItems(OrderedMap<Uuid, ListItem>(items))))
+      .catch(error => alert(error));
+  };
+
+export const fetchAddItem = (text: string): any =>
+  (dispatch: Dispatch<IListAction>) => {
+    fetch('v1/List/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({text}),
+    })
+      .then(response => response.json())
+      .then((fetchedItem: IFetchedItem) => dispatch(addItem(fetchedItem)))
+      .catch(error => alert(error));
+  };
+
+export const fetchSaveItem = (id: Uuid, text: string): any =>
+  (dispatch: Dispatch<IListAction>) => {
+    fetch('v1/List/' + id, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({id, text}),
+    })
+      .then(response => response.json())
+      .then(item => dispatch(saveItemChanges(id, item.text)))
+      .catch(error => alert(error));
+  };
+
+export const fetchDeleteItem = (id: Uuid): any =>
+  (dispatch: Dispatch<IListAction>) => {
+    fetch('v1/List/' + id, {
+      method: 'DELETE',
+      body: JSON.stringify({id}),
+    })
+      .then(() => dispatch(deleteItem(id)))
+      .catch(error => alert(error));
+  };

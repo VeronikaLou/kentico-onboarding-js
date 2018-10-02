@@ -1,11 +1,11 @@
-import { receiveItems, requestItems } from '../../actions/listActionCreators';
 import { isFetching } from './isFetching';
 import { OrderedMap } from 'immutable';
 import { ListItem } from '../../models/ListItem';
+import { ITEMS_RECEIVED, ITEMS_REQUESTED } from '../../actions/types/listActionTypes';
 
 describe('IsFetching', () => {
   it('returns true when request items', () => {
-    const items = requestItems();
+    const items = {type: ITEMS_REQUESTED, payload: {}};
 
     const result = isFetching(undefined, items);
 
@@ -13,7 +13,7 @@ describe('IsFetching', () => {
   });
 
   it('returns false when receive items', () => {
-    const items = receiveItems(OrderedMap<Uuid, ListItem>());
+    const items = {type: ITEMS_RECEIVED, payload: {items: OrderedMap<Uuid, ListItem>()}};
 
     const result = isFetching(undefined, items);
 
