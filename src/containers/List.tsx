@@ -5,7 +5,7 @@ import { IStore } from '../store/types/IStore';
 import { ComponentClass } from 'react';
 import { Dispatch } from 'redux';
 import { IListAction } from '../actions/types/IListAction';
-import { fetchItems } from '../actions/listActionCreators';
+import { fetchItems } from '../actions/fetchItems';
 
 
 const mapStateToProps = (state: IStore): IListStateProps => ({

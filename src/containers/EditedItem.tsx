@@ -5,15 +5,13 @@ import {
   IEditedItemOwnProps,
   IEditedItemStateProps,
 } from '../components/EditedItem';
-import {
-  changeItemEditingMode,
-  fetchDeleteItem,
-  fetchSaveItem,
-} from '../actions/listActionCreators';
+import { changeItemEditingMode } from '../actions/listActionCreators';
 import { Dispatch } from 'redux';
 import { IStore } from '../store/types/IStore';
 import { IListAction } from '../actions/types/IListAction';
 import { ComponentClass } from 'react';
+import { fetchSaveItem } from '../actions/fetchSaveItem';
+import { fetchDeleteItem } from '../actions/fetchDeleteItem';
 
 const mapStateToProps = (state: IStore, ownProps: IEditedItemOwnProps): IEditedItemStateProps => ({
   text: state.items.get(ownProps.id).text,
