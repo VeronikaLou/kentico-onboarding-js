@@ -3,10 +3,9 @@ import { ListItem } from '../../models/ListItem';
 import { items } from './items';
 import {
   addItem,
-  // addItem,
   changeItemEditingMode,
   deleteItem,
-  saveItemChanges,
+  saveItem,
 } from '../../actions/listActionCreators';
 import { IListAction } from '../../actions/types/IListAction';
 import { IFetchedItem } from '../../models/IFetchedItem';
@@ -73,7 +72,7 @@ describe('Delete item', () => {
     expect(result).toEqual(expectedResult);
   });
 
-  it('should\'t modify state which doesn\'t contain item with given id', () => {
+  it('should\'t modify state which doesn\'t contain item with given errorId', () => {
     const notInStateItem: IListAction = deleteItem('1');
     const result = items(initialState, notInStateItem);
 
@@ -112,7 +111,7 @@ describe('Save item changes', () => {
   });
   const initialState = OrderedMap<Uuid, ListItem>()
     .set(item.id, item);
-  const changedItem: IListAction = saveItemChanges(item.id, 'Text changed.');
+  const changedItem: IListAction = saveItem(item.id, 'Text changed.');
 
   it('should change original text to text given as argument', () => {
     const expectedResult = initialState.setIn([item.id, 'text'], changedItem.payload.text);
