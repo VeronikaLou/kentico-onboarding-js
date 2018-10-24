@@ -6,6 +6,7 @@ import { isInputValid } from '../utils/isInputValid';
 export interface IEditedItemOwnProps {
   readonly index: number;
   readonly id: Uuid;
+  readonly text: string;
 }
 
 export interface IEditedItemDispatchProps {
@@ -14,15 +15,11 @@ export interface IEditedItemDispatchProps {
   readonly deleteItem: () => void;
 }
 
-export interface IEditedItemStateProps {
-  readonly text: string;
-}
-
 interface IEditedItemState {
   readonly text: string;
 }
 
-type EditedItemProps = IEditedItemOwnProps & IEditedItemDispatchProps & IEditedItemStateProps;
+type EditedItemProps = IEditedItemOwnProps & IEditedItemDispatchProps;
 
 export class EditedItem extends React.PureComponent<EditedItemProps, IEditedItemState> {
   static displayName = 'EditedItem';

@@ -3,30 +3,23 @@ import {
   EditedItem as EditedItemComponent,
   IEditedItemDispatchProps,
   IEditedItemOwnProps,
-  IEditedItemStateProps,
 } from '../components/EditedItem';
 import { changeItemEditingMode } from '../actions/listActionCreators';
-import { Dispatch } from 'redux';
-import { IStore } from '../store/types/IStore';
-import { IListAction } from '../actions/types/IListAction';
 import { ComponentClass } from 'react';
 import { fetchSaveItem } from '../actions/fetchSaveItem';
 import { fetchDeleteItem } from '../actions/fetchDeleteItem';
-
-const mapStateToProps = (state: IStore, ownProps: IEditedItemOwnProps): IEditedItemStateProps => ({
-  text: state.items.get(ownProps.id).text,
-});
+import { Dispatch } from '../actions/types/Dispatcher';
 
 const mapDispatchToProps = (
-  dispatch: Dispatch<IListAction>,
+  dispatch: Dispatch,
   ownProps: IEditedItemOwnProps,
 ): IEditedItemDispatchProps => ({
-  saveChanges: (text: string) => dispatch(fetchSaveItem(ownProps.id, text)),
+  saveChanges: (text: string) => dispatch(fetchSaveItem(ownProps.id, text, ownProps.text)),
   deleteItem: () => dispatch(fetchDeleteItem(ownProps.id)),
   cancelEditing: () => dispatch(changeItemEditingMode(ownProps.id)),
 });
 
 export const EditedItem: ComponentClass<IEditedItemOwnProps> = connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps,
 )(EditedItemComponent);

@@ -3,12 +3,13 @@ import {
   INewItemDispatchProps,
   NewItem as NewItemComponent,
 } from '../components/NewItem';
-import { fetchAddItem } from '../actions/listActionCreators';
-import { IListAction } from '../actions/types/IListAction';
-import { Dispatch } from 'redux';
-import { ComponentClass } from 'react';
+import { fetchAddItem } from '../actions/fetchAddItem';
 
-const mapDispatchToProps = (dispatch: Dispatch<IListAction>): INewItemDispatchProps => ({
+import { ComponentClass } from 'react';
+import { Dispatch } from '../actions/types/Dispatcher';
+import { IStore } from '../store/types/IStore';
+
+const mapDispatchToProps = (dispatch: Dispatch<IStore>): INewItemDispatchProps => ({
   addItem: (text: string) => dispatch(fetchAddItem(text)),
 });
 
