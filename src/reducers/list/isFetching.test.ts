@@ -1,7 +1,7 @@
 import { isFetching } from './isFetching';
 import { OrderedMap } from 'immutable';
 import { ListItem } from '../../models/ListItem';
-import { ITEMS_RECEIVED, ITEMS_REQUESTED } from '../../actions/types/listActionTypes';
+import { ITEMS_RECEIVE_SUCCESS, ITEMS_REQUESTED } from '../../actions/types/listActionTypes';
 
 describe('IsFetching', () => {
   it('returns true when request items', () => {
@@ -13,7 +13,7 @@ describe('IsFetching', () => {
   });
 
   it('returns false when receive items', () => {
-    const items = {type: ITEMS_RECEIVED, payload: {items: OrderedMap<Uuid, ListItem>()}};
+    const items = {type: ITEMS_RECEIVE_SUCCESS, payload: {items: OrderedMap<Uuid, ListItem>()}};
 
     const result = isFetching(undefined, items);
 
