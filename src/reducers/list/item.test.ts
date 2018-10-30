@@ -1,13 +1,13 @@
-import { addItem, saveItem } from '../../actions/listActionCreators';
 import { ListItem } from '../../models/ListItem';
 import { item } from './item';
 import { IListAction } from '../../actions/types/IListAction';
-import { IFetchedItem } from '../../models/IFetchedItem';
+import { addItem } from '../../actions/fetchAddItem';
+import { saveItem } from '../../actions/fetchSaveItem';
 
 describe('Add item', () => {
   it('should return new item with same values as action\'s payload with undefined state', () => {
-    const fetchedItem: IFetchedItem = {id: '00000000-0000-0000-0000-000000000000', text: 'I am new item.'};
-    const action: IListAction = addItem(fetchedItem);
+    const listItem: ListItem = new ListItem({id: '00000000-0000-0000-0000-000000000000', text: 'I am new item.'});
+    const action: IListAction = addItem(listItem);
     const expectedResult = new ListItem({...action.payload});
 
     const result = item(undefined, action);
@@ -16,8 +16,8 @@ describe('Add item', () => {
   });
 
   it('should return new item with same values as action\'s payload with defined state', () => {
-    const fetchedItem: IFetchedItem = {id: '00000000-0000-0000-0000-000000000000', text: 'I am new item.'};
-    const action: IListAction = addItem(fetchedItem);
+    const listItem: ListItem = new ListItem({id: '00000000-0000-0000-0000-000000000000', text: 'I am new item.'});
+    const action: IListAction = addItem(listItem);
     const initialState = new ListItem();
     const expectedResult = new ListItem({...action.payload});
 
