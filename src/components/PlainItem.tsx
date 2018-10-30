@@ -2,6 +2,9 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import { PulseLoader } from 'react-spinners';
 import { ListError } from '../models/ListError';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faRedo, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export interface IPlainItemOwnProps {
   readonly index: number;
@@ -12,6 +15,7 @@ export interface IPlainItemOwnProps {
 export interface IPlainItemDispatchProps {
   readonly startEditing: () => void;
   readonly retry: () => void;
+  readonly closeError: () => void;
 }
 
 export interface IPlainItemStateProps {
@@ -31,6 +35,7 @@ export class PlainItem extends React.PureComponent<PlainItemProps> {
     isUpdating: PropTypes.bool.isRequired,
     error: PropTypes.object,
     retry: PropTypes.func,
+    close: PropTypes.func,
   };
 
   _showLoader = (): JSX.Element | null =>
@@ -48,26 +53,21 @@ export class PlainItem extends React.PureComponent<PlainItemProps> {
     !this.props.error
       ? null
       : (
-        <div className={'alert-danger float-right'}>{this.props.error.message}
-          <div
-            className="btn-group"
-            role="group"
-            aria-label="Basic example"
+        <div
+          className={'float-right text-danger font-weight-bold'}
+        >{this.props.error.message}
+          <span
+            onClick={this.props.retry}
+            className="btn"
           >
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={this.props.retry}
-            >Retry
-            </button>
-            <button
-              type="button"
-              className="close"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
+            <FontAwesomeIcon icon="redo" />
+          </span>
+          <span
+            onClick={this.props.closeError}
+            className="btn"
+          >
+            <FontAwesomeIcon icon="times" />
+          </span>
         </div>
       );
 
@@ -77,6 +77,8 @@ export class PlainItem extends React.PureComponent<PlainItemProps> {
   };
 
   render(): JSX.Element {
+    library.add(faRedo);
+    library.add(faTimes);
     const textClass = 'float-right col ' +
       (this.props.isUpdating || this.props.error
         ? 'text-black-50'
