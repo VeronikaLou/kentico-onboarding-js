@@ -5,7 +5,7 @@ import { IStore } from '../store/types/IStore';
 import { ComponentClass } from 'react';
 import { Dispatch } from 'redux';
 import { IListAction } from '../actions/types/IListAction';
-import { fetchItems } from '../actions/fetchItems';
+import { getItems } from '../actions/getItems';
 
 
 const mapStateToProps = (state: IStore): IListStateProps => ({
@@ -14,7 +14,7 @@ const mapStateToProps = (state: IStore): IListStateProps => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<IListAction>): IListDispatchProps => ({
-  initItems: () => dispatch(fetchItems()),
+  initItems: () => dispatch(getItems()),
 });
 
 export const List: ComponentClass = connect(mapStateToProps, mapDispatchToProps)(ListComponent);

@@ -1,8 +1,8 @@
 import { ListItem } from '../../models/ListItem';
 import { item } from './item';
 import { IListAction } from '../../actions/types/IListAction';
-import { addItem } from '../../actions/fetchAddItem';
-import { saveItem } from '../../actions/fetchSaveItem';
+import { addItem } from '../../actions/postItem';
+import { saveItem } from '../../actions/putItem';
 
 describe('Add item', () => {
   it('should return new item with same values as action\'s payload with undefined state', () => {

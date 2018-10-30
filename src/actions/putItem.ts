@@ -6,7 +6,7 @@ import { generateId } from '../utils/generateId';
 import { ITEM_SAVE_FAIL, ITEM_SAVE_REQUESTED } from './types/listActionTypes';
 import { Dispatch } from './types/Dispatcher';
 
-export const fetchSaveItem = (id: Uuid, text: string, backupText: string = ''):
+export const putItem = (id: Uuid, text: string, backupText: string = ''):
   ((dispatch: Dispatch<IListAction>) => Promise<IListAction>) => {
   const error = new ListError({
     errorId: generateId(),

@@ -17,7 +17,7 @@ const requestItems = (): IListAction => ({
   payload: null,
 });
 
-export const fetchItems = (): any =>
+export const getItems = (): any =>
   (dispatch: Dispatch<IListAction>): Promise<IListAction> => {
     dispatch(requestItems());
 

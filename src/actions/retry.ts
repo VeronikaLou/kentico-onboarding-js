@@ -4,8 +4,8 @@ import { Dispatch } from './types/Dispatcher';
 import { IListAction } from './types/IListAction';
 import { fetchDeleteItem } from './fetchDeleteItem';
 import { IStore } from '../store/types/IStore';
-import { fetchAddItem } from './fetchAddItem';
-import { fetchSaveItem } from './fetchSaveItem';
+import { postItem } from './postItem';
+import { putItem } from './putItem';
 
 export const retry = (error: ListError): any => {
   return (dispatch: Dispatch<IListAction>, getState: () => IStore) => {
@@ -15,10 +15,10 @@ export const retry = (error: ListError): any => {
         return dispatch(fetchDeleteItem(item.id));
 
       case ITEM_ADD_FAIL:
-        return dispatch(fetchAddItem(item.text, item.id));
+        return dispatch(postItem(item.text, item.id));
 
       case ITEM_SAVE_FAIL:
-        return dispatch(fetchSaveItem(item.id, item.text));
+        return dispatch(putItem(item.id, item.text));
 
       default:
         return;

@@ -7,9 +7,9 @@ import {
 } from '../../actions/listActionCreators';
 import { IListAction } from '../../actions/types/IListAction';
 import { ListError } from '../../models/ListError';
-import { addItem, addItemFail, addItemSuccess } from '../../actions/fetchAddItem';
+import { addItem, addItemFail, addItemSuccess } from '../../actions/postItem';
 import { deleteItem, deleteItemFail } from '../../actions/fetchDeleteItem';
-import { saveItem } from '../../actions/fetchSaveItem';
+import { saveItem } from '../../actions/putItem';
 
 describe('Add item', () => {
   const listItem: ListItem = new ListItem({

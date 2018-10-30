@@ -7,7 +7,7 @@ import { ITEM_ADD_FAIL, ITEM_ADD_SUCCESS } from './types/listActionTypes';
 import { ListItem } from '../models/ListItem';
 import { addItem as addItemFactory } from './factories/addItem';
 
-export const fetchAddItem = (text: string, itemId: Uuid = generateId()):
+export const postItem = (text: string, itemId: Uuid = generateId()):
   ((dispatch: Dispatch<IListAction>) => Promise<IListAction>) => {
     const item = new ListItem({id: itemId, text});
     const error = new ListError({
