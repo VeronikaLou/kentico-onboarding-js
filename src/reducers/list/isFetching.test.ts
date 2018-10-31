@@ -1,21 +1,21 @@
 import { isFetching } from './isFetching';
 import { OrderedMap } from 'immutable';
 import { ListItem } from '../../models/ListItem';
-import { ITEMS_RECEIVE_SUCCESS, ITEMS_REQUESTED } from '../../actions/types/listActionTypes';
+import { receiveItemsSuccess, requestItems } from '../../actions/thunks/getItemsFactory';
 
 describe('IsFetching', () => {
   it('returns true when request items', () => {
-    const items = {type: ITEMS_REQUESTED, payload: {}};
+    const request = requestItems();
 
-    const result = isFetching(undefined, items);
+    const result = isFetching(undefined, request);
 
     expect(result).toBeTruthy();
   });
 
   it('returns false when receive items', () => {
-    const items = {type: ITEMS_RECEIVE_SUCCESS, payload: {items: OrderedMap<Uuid, ListItem>()}};
+    const receive = receiveItemsSuccess(OrderedMap<Uuid, ListItem>());
 
-    const result = isFetching(undefined, items);
+    const result = isFetching(undefined, receive);
 
     expect(result).toBeFalsy();
   });
