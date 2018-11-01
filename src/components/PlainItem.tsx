@@ -5,37 +5,45 @@ import { ListError } from '../models/ListError';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faRedo, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { IListAction } from '../actions/types/IListAction';
 
 export interface IPlainItemOwnProps {
   readonly index: number;
   readonly id: Uuid;
-  readonly error: ListError;
 }
 
 export interface IPlainItemDispatchProps {
   readonly startEditing: () => void;
-  readonly retry: () => void;
-  readonly closeError: () => void;
+  readonly dispatchCloseError: (error: ListError, backupText: string) => IListAction | undefined;
+  readonly dispatchRetry: (error: ListError) => IListAction;
 }
 
 export interface IPlainItemStateProps {
   readonly text: string;
   readonly isUpdating: boolean;
+  readonly backupText: string;
+  readonly error: ListError;
 }
 
-type PlainItemProps = IPlainItemOwnProps & IPlainItemDispatchProps & IPlainItemStateProps;
+export interface IPlainItemMergeProps extends IPlainItemOwnProps, IPlainItemDispatchProps, IPlainItemStateProps {
+  readonly closeError: () => void;
+  readonly retry: () => void;
+}
 
-export class PlainItem extends React.PureComponent<PlainItemProps> {
+export class PlainItem extends React.PureComponent<IPlainItemMergeProps> {
   static displayName = 'PlainItem';
   static propTypes = {
     index: PropTypes.number.isRequired,
     id: PropTypes.string.isRequired,
-    startEditing: PropTypes.func.isRequired,
     text: PropTypes.string.isRequired,
     isUpdating: PropTypes.bool.isRequired,
+    backupText: PropTypes.string.isRequired,
     error: PropTypes.object,
+    startEditing: PropTypes.func.isRequired,
+    dispatchRetry: PropTypes.func,
+    dispatchCloseError: PropTypes.func,
     retry: PropTypes.func,
-    close: PropTypes.func,
+    closeError: PropTypes.func,
   };
 
   _showLoader = (): JSX.Element | null =>

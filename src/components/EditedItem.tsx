@@ -2,26 +2,32 @@ import * as React from 'react';
 import * as classNames from 'classnames';
 import * as PropTypes from 'prop-types';
 import { isInputValid } from '../utils/isInputValid';
+import { IListAction } from '../actions/types/IListAction';
 
 export interface IEditedItemOwnProps {
   readonly index: number;
   readonly id: Uuid;
+}
+
+export interface IEditedItemStateProps {
   readonly text: string;
 }
 
 export interface IEditedItemDispatchProps {
-  readonly saveChanges: (text: string) => void;
+  readonly dispatchSaveChanges: (text: string, backupText: string) => Promise<IListAction>;
   readonly cancelEditing: () => void;
   readonly deleteItem: () => void;
 }
 
-interface IEditedItemState {
+export interface IEditedItemState {
   readonly text: string;
 }
 
-type EditedItemProps = IEditedItemOwnProps & IEditedItemDispatchProps;
+export interface IEditedItemMergeProps extends IEditedItemOwnProps, IEditedItemDispatchProps, IEditedItemStateProps {
+  readonly saveChanges: (text: string) => void;
+}
 
-export class EditedItem extends React.PureComponent<EditedItemProps, IEditedItemState> {
+export class EditedItem extends React.PureComponent<IEditedItemMergeProps, IEditedItemState> {
   static displayName = 'EditedItem';
 
   static propTypes = {
@@ -30,6 +36,7 @@ export class EditedItem extends React.PureComponent<EditedItemProps, IEditedItem
     saveChanges: PropTypes.func.isRequired,
     cancelEditing: PropTypes.func.isRequired,
     deleteItem: PropTypes.func.isRequired,
+    dispatchSaveChanges: PropTypes.func,
     text: PropTypes.string.isRequired,
   };
 
