@@ -18,7 +18,7 @@ export const retry = (error: ListError): any => {
         return dispatch(postItem(item.text, item.id));
 
       case ITEM_SAVE_FAIL:
-        return dispatch(putItem(item.id, item.text));
+        return dispatch(putItem(item.id, item.text, item.backupText));
 
       default:
         return;

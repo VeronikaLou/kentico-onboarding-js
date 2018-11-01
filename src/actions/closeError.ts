@@ -9,7 +9,7 @@ import { Dispatch } from './types/Dispatcher';
 import { IListAction } from './types/IListAction';
 import { deleteItemSuccess, saveItemSuccess } from './listActionCreators';
 
-export const closeError = (error: ListError):
+export const closeError = (error: ListError, backupText: string):
   ((dispatch: Dispatch<IListAction>) => IListAction | undefined) => {
   return (dispatch: Dispatch<IListAction>) => {
     switch (error.action) {
@@ -20,7 +20,7 @@ export const closeError = (error: ListError):
         return dispatch(deleteItemSuccess(error.itemId));
 
       case ITEM_SAVE_FAIL:
-        return dispatch(closeSaveItem(error.itemId, error.backupText));
+        return dispatch(closeSaveItem(error.itemId, backupText));
 
       default:
         return;

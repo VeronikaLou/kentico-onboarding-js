@@ -5,7 +5,7 @@ interface IListItem {
   readonly text: string;
   readonly isEdited: boolean;
   readonly isUpdating: boolean;
-  readonly error: string | undefined;
+  readonly backupText: string;
 }
 
 const emptyItem: IListItem = {
@@ -13,7 +13,7 @@ const emptyItem: IListItem = {
   text: '',
   isEdited: false,
   isUpdating: false,
-  error: undefined,
+  backupText: '',
 };
 
 export class ListItem extends BaseRecord(emptyItem, 'ListItem') implements IListItem {
@@ -21,5 +21,5 @@ export class ListItem extends BaseRecord(emptyItem, 'ListItem') implements IList
   readonly text: string;
   readonly isEdited: boolean;
   readonly isUpdating: boolean;
-  readonly error: string;
+  readonly backupText: string;
 }

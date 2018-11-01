@@ -13,11 +13,10 @@ export const putItem = (id: Uuid, text: string, backupText: string = ''):
     itemId: id,
     message: 'Item Save failed.',
     action: ITEM_SAVE_FAIL,
-    backupText,
   });
 
   return (dispatch: Dispatch<IListAction>) => {
-    dispatch(saveItem(id, text));
+    dispatch(saveItem(id, text, backupText));
 
     return fetch('v1/List/' + id, {
       method: 'PUT',
@@ -32,12 +31,13 @@ export const putItem = (id: Uuid, text: string, backupText: string = ''):
   };
 };
 
-const saveItem = (id: Uuid, text: string): IListAction => ({
+const saveItem = (id: Uuid, text: string, backupText: string): IListAction => ({
   type: ITEM_SAVE_REQUESTED,
   payload: {
     id,
     text,
     isUpdating: true,
+    backupText
   },
 });
 
