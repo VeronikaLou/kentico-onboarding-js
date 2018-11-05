@@ -1,29 +1,27 @@
+
 import { ITEM_ADD_FAIL, ITEM_ADD_REQUESTED, ITEM_ADD_SUCCESS } from '../types/listActionTypes';
 import { Dispatch } from '../types/Dispatcher';
 import { IListAction } from '../types/IListAction';
-import { postItemFactory } from './postItemFactory';
 import Mock = jest.Mock;
+import { postItemFactory } from '../postItemFactory';
 
 describe('Post item', () => {
-  const dispatch: Mock<Dispatch<IListAction>> = jest.fn();
+  let dispatch: Mock<Dispatch<IListAction>>;
   beforeEach(() => {
-    dispatch.mockClear();
+    dispatch = jest.fn();
   });
 
   const itemId = '00000000-0000-0000-0000-000000000001';
   const fetchedId = '00000000-0000-0000-0000-000000000002';
-  const createdFetch = jest.fn(() =>
-    Promise.resolve({
-      status: 201,
-      statusText: 'Created',
-      json: () => ({id: fetchedId})
-    }));
+  const createdFetch = jest.fn(() => Promise.resolve({
+    status: 201,
+    statusText: 'Created',
+    json: () => ({id: fetchedId})
+  }));
 
-  const badRequestFetch = jest.fn(() =>
-    Promise.resolve({
-      status: 400,
-      statusText: 'Bad Request'
-    }));
+  const badRequestFetch = jest.fn(() => Promise.resolve({
+    status: 400, statusText: 'Bad Request'
+  }));
 
   it('calls request and success actions if the fetch response was successful', () => {
     postItemFactory(createdFetch)('text')(dispatch).then(() => {
