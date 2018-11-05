@@ -1,10 +1,10 @@
-import { IListAction } from './types/IListAction';
-import { saveItemSuccess } from './listActionCreators';
-import { IFetchedItem } from '../models/IFetchedItem';
-import { ListError } from '../models/ListError';
-import { generateId } from '../utils/generateId';
-import { ITEM_SAVE_FAIL, ITEM_SAVE_REQUESTED } from './types/listActionTypes';
-import { Dispatch } from './types/Dispatcher';
+import { IListAction } from '../types/IListAction';
+import { saveItemSuccess } from '../listActionCreators';
+import { IFetchedItem } from '../../models/IFetchedItem';
+import { ListError } from '../../models/ListError';
+import { generateId } from '../../utils/generateId';
+import { ITEM_SAVE_FAIL, ITEM_SAVE_REQUESTED } from '../types/listActionTypes';
+import { Dispatch } from '../types/Dispatcher';
 
 export const putItem = (id: Uuid, text: string, backupText: string = ''):
   ((dispatch: Dispatch<IListAction>) => Promise<IListAction>) => {

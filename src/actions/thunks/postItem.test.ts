@@ -1,9 +1,8 @@
-
 import { ITEM_ADD_FAIL, ITEM_ADD_REQUESTED, ITEM_ADD_SUCCESS } from '../types/listActionTypes';
 import { Dispatch } from '../types/Dispatcher';
 import { IListAction } from '../types/IListAction';
 import Mock = jest.Mock;
-import { postItemFactory } from '../postItemFactory';
+import { postItemFactory } from './postItemFactory';
 
 describe('Post item', () => {
   let dispatch: Mock<Dispatch<IListAction>>;

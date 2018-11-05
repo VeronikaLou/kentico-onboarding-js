@@ -1,13 +1,13 @@
-import { ListError } from '../models/ListError';
+import { ListError } from '../../models/ListError';
 import {
   ITEM_ADD_FAIL,
   ITEM_DELETE_FAIL,
   ITEM_SAVE_CLOSE,
   ITEM_SAVE_FAIL
-} from './types/listActionTypes';
-import { Dispatch } from './types/Dispatcher';
-import { IListAction } from './types/IListAction';
-import { deleteItemSuccess, saveItemSuccess } from './listActionCreators';
+} from '../types/listActionTypes';
+import { Dispatch } from '../types/Dispatcher';
+import { IListAction } from '../types/IListAction';
+import { deleteItemSuccess, saveItemSuccess } from '../listActionCreators';
 
 export const closeError = (error: ListError, backupText: string):
   ((dispatch: Dispatch<IListAction>) => IListAction | undefined) => {

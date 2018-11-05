@@ -10,8 +10,8 @@ import { changeItemEditingMode } from '../actions/listActionCreators';
 import { IStore } from '../store/types/IStore';
 import { ComponentClass } from 'react';
 import { Dispatch } from '../actions/types/Dispatcher';
-import { retry } from '../actions/retry';
-import { closeError } from '../actions/closeError';
+import { retry } from '../actions/thunks/retry';
+import { closeError } from '../actions/thunks/closeError';
 import { ListError } from '../models/ListError';
 
 const mapStateToProps = (state: IStore, ownProps: IPlainItemOwnProps): IPlainItemStateProps => ({

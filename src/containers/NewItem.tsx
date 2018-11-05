@@ -3,7 +3,7 @@ import {
   INewItemDispatchProps,
   NewItem as NewItemComponent,
 } from '../components/NewItem';
-import { postItem } from '../actions/postItem';
+import { postItem } from '../actions/thunks/postItem';
 
 import { ComponentClass } from 'react';
 import { Dispatch } from '../actions/types/Dispatcher';

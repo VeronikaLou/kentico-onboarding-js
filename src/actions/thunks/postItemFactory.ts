@@ -1,11 +1,11 @@
 import { Dispatch } from 'redux';
-import { IListAction } from './types/IListAction';
-import { IFetchedItem } from '../models/IFetchedItem';
-import { generateId } from '../utils/generateId';
-import { ListError } from '../models/ListError';
-import { ITEM_ADD_FAIL, ITEM_ADD_SUCCESS } from './types/listActionTypes';
-import { ListItem } from '../models/ListItem';
-import { addItem as addItemFactory } from './factories/addItem';
+import { IListAction } from '../types/IListAction';
+import { IFetchedItem } from '../../models/IFetchedItem';
+import { generateId } from '../../utils/generateId';
+import { ListError } from '../../models/ListError';
+import { ITEM_ADD_FAIL, ITEM_ADD_SUCCESS } from '../types/listActionTypes';
+import { ListItem } from '../../models/ListItem';
+import { addItem as addItemFactory } from '../factories/addItem';
 
 export const postItemFactory = (fetch: any) => (text: string, itemId: Uuid = generateId()):
   ((dispatch: Dispatch<IListAction>) => Promise<IListAction>) => {

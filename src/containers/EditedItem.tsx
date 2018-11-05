@@ -8,8 +8,8 @@ import {
 } from '../components/EditedItem';
 import { changeItemEditingMode } from '../actions/listActionCreators';
 import { ComponentClass } from 'react';
-import { putItem } from '../actions/putItem';
-import { fetchDeleteItem } from '../actions/fetchDeleteItem';
+import { putItem } from '../actions/thunks/putItem';
+import { fetchDeleteItem } from '../actions/thunks/fetchDeleteItem';
 import { Dispatch } from '../actions/types/Dispatcher';
 import { IStore } from '../store/types/IStore';
 

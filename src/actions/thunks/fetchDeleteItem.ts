@@ -1,9 +1,9 @@
-import { IListAction } from './types/IListAction';
-import { deleteItemSuccess } from './listActionCreators';
-import { generateId } from '../utils/generateId';
-import { ITEM_DELETE_FAIL, ITEM_DELETE_REQUESTED } from './types/listActionTypes';
-import { ListError } from '../models/ListError';
-import { Dispatch } from './types/Dispatcher';
+import { IListAction } from '../types/IListAction';
+import { deleteItemSuccess } from '../listActionCreators';
+import { generateId } from '../../utils/generateId';
+import { ITEM_DELETE_FAIL, ITEM_DELETE_REQUESTED } from '../types/listActionTypes';
+import { ListError } from '../../models/ListError';
+import { Dispatch } from '../types/Dispatcher';
 
 export const fetchDeleteItem = (id: Uuid):
   ((dispatch: Dispatch<IListAction>) => Promise<IListAction>) => {

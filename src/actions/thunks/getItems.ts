@@ -1,9 +1,9 @@
 import { OrderedMap } from 'immutable';
-import { ListItem } from '../models/ListItem';
-import { IListAction } from './types/IListAction';
-import { ITEMS_RECEIVE_SUCCESS, ITEMS_REQUESTED } from './types/listActionTypes';
+import { ListItem } from '../../models/ListItem';
+import { IListAction } from '../types/IListAction';
+import { ITEMS_RECEIVE_SUCCESS, ITEMS_REQUESTED } from '../types/listActionTypes';
 import { Dispatch } from 'redux';
-import { IFetchedItem } from '../models/IFetchedItem';
+import { IFetchedItem } from '../../models/IFetchedItem';
 
 const receiveItems = (items: OrderedMap<Uuid, ListItem>): IListAction => ({
   type: ITEMS_RECEIVE_SUCCESS,
