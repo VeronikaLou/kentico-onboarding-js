@@ -10,33 +10,31 @@ import { IFetchedItem } from '../../models/IFetchedItem';
 import { validateGetResponse } from '../../utils/responseValidator';
 import { Dispatch } from '../types/Dispatcher';
 
-const receiveItemsSuccess = (items: OrderedMap<Uuid, ListItem>): IListAction => ({
+export const receiveItemsSuccess = (items: OrderedMap<Uuid, ListItem>): IListAction => ({
   type: ITEMS_RECEIVE_SUCCESS,
   payload: {
     items,
   },
 });
 
-const requestItems = (): IListAction => ({
+export const requestItems = (): IListAction => ({
   type: ITEMS_REQUESTED,
   payload: null,
 });
 
-const receiveItemsFail = (): IListAction => ({
+export const receiveItemsFail = (): IListAction => ({
   type: ITEMS_RECEIVE_FAIL,
   payload: null,
 });
 
 export const getItemsFactory =
   (fetch: (input?: Request | string, init?: RequestInit) => Promise<Response>) =>
-
-    (): ((dispatch: Dispatch<IListAction>) => Promise<IListAction>) =>
-
-      (dispatch: Dispatch<IListAction>): Promise<IListAction | any> => {
+    () =>
+      (dispatch: Dispatch<IListAction>): Promise<IListAction> => {
         dispatch(requestItems());
 
         return fetch('/v1/List')
-          .then(response => validateGetResponse(response))
+          .then((response: Response) => validateGetResponse(response))
           .then((items: Array<IFetchedItem>) => items
             .map((item: IFetchedItem) => [item.id, new ListItem(item)]))
           .then(items => dispatch(receiveItemsSuccess(OrderedMap<Uuid, ListItem>(items))))
