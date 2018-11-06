@@ -9,9 +9,9 @@ import {
 import { changeItemEditingMode } from '../actions/listActionCreators';
 import { ComponentClass } from 'react';
 import { putItem } from '../actions/thunks/putItem';
-import { fetchDeleteItem } from '../actions/thunks/fetchDeleteItem';
 import { Dispatch } from '../actions/types/Dispatcher';
 import { IStore } from '../store/types/IStore';
+import { deleteItem } from '../actions/thunks/deleteItem';
 
 const mapStateToProps = (state: IStore, ownProps: IEditedItemOwnProps): IEditedItemStateProps => ({
   text: state.items.get(ownProps.id).text,
@@ -22,7 +22,7 @@ const mapDispatchToProps = (
   ownProps: IEditedItemOwnProps,
 ): IEditedItemDispatchProps => ({
   dispatchSaveChanges: (text: string, backupText: string) => dispatch(putItem(ownProps.id, text, backupText)),
-  deleteItem: () => dispatch(fetchDeleteItem(ownProps.id)),
+  deleteItem: () => dispatch(deleteItem(ownProps.id)),
   cancelEditing: () => dispatch(changeItemEditingMode(ownProps.id)),
 });
 

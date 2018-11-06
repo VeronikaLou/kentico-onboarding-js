@@ -1,3 +1,3 @@
 import { deleteItemFactory } from './deleteItemFactory';
 
-export const fetchDeleteItem = deleteItemFactory(fetch);
+export const deleteItem = deleteItemFactory(fetch);
