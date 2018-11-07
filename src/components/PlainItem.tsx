@@ -2,10 +2,7 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import { PulseLoader } from 'react-spinners';
 import { ListError } from '../models/ListError';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faRedo, faTimes } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IListAction } from '../actions/types/IListAction';
+import { ErrorItem } from '../containers/ErrorItem';
 
 export interface IPlainItemOwnProps {
   readonly index: number;
@@ -14,36 +11,25 @@ export interface IPlainItemOwnProps {
 
 export interface IPlainItemDispatchProps {
   readonly startEditing: () => void;
-  readonly dispatchCloseError: (error: ListError, backupText: string) => IListAction | undefined;
-  readonly dispatchRetry: (error: ListError) => IListAction;
 }
 
 export interface IPlainItemStateProps {
   readonly text: string;
   readonly isUpdating: boolean;
-  readonly backupText: string;
-  readonly error: ListError;
+  readonly error: ListError | undefined;
 }
 
-export interface IPlainItemMergeProps extends IPlainItemOwnProps, IPlainItemDispatchProps, IPlainItemStateProps {
-  readonly closeError: () => void;
-  readonly retry: () => void;
-}
+type PlainItemProps = IPlainItemDispatchProps & IPlainItemOwnProps & IPlainItemStateProps;
 
-export class PlainItem extends React.PureComponent<IPlainItemMergeProps> {
+export class PlainItem extends React.PureComponent<PlainItemProps> {
   static displayName = 'PlainItem';
   static propTypes = {
     index: PropTypes.number.isRequired,
     id: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
     isUpdating: PropTypes.bool.isRequired,
-    backupText: PropTypes.string.isRequired,
     error: PropTypes.object,
     startEditing: PropTypes.func.isRequired,
-    dispatchRetry: PropTypes.func,
-    dispatchCloseError: PropTypes.func,
-    retry: PropTypes.func,
-    closeError: PropTypes.func,
   };
 
   _showLoader = (): JSX.Element | null =>
@@ -58,35 +44,22 @@ export class PlainItem extends React.PureComponent<IPlainItemMergeProps> {
       : null;
 
   _showError = (): JSX.Element | null =>
-    !this.props.error
-      ? null
-      : (
-        <div
-          className={'float-right text-danger font-weight-bold'}
-        >{this.props.error.message}
-          <span
-            onClick={this.props.retry}
-            className="btn"
-          >
-            <FontAwesomeIcon icon="redo" />
-          </span>
-          <span
-            onClick={this.props.closeError}
-            className="btn"
-          >
-            <FontAwesomeIcon icon="times" />
-          </span>
-        </div>
-      );
+    this.props.error
+      ? (
+        <ErrorItem
+          id={this.props.id}
+          error={this.props.error}
+        />
+      )
+      : null;
 
   _startEditing = (): void => {
-    if (!this.props.error)
+    if (!this.props.error) {
       return this.props.startEditing();
+    }
   };
 
   render(): JSX.Element {
-    library.add(faRedo);
-    library.add(faTimes);
     const textClass = 'float-right col ' +
       (this.props.isUpdating || this.props.error
         ? 'text-black-50'

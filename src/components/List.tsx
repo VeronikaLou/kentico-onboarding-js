@@ -18,50 +18,54 @@ export interface IListDispatchProps {
   readonly initItems: () => void;
 }
 
-type IList = IListDispatchProps & IListStateProps;
+type ListProps = IListDispatchProps & IListStateProps;
 
 const loader = css`
     margin: 0 auto;
- `;
+`;
 
-export class List extends React.PureComponent<IList> {
+export class List extends React.PureComponent<ListProps> {
   static displayName = 'List';
 
   static propTypes = {
     items: PropTypes.array.isRequired,
     isFetching: PropTypes.bool.isRequired,
     fetchingItemsFail: PropTypes.bool.isRequired,
+    initItems: PropTypes.func.isRequired,
   };
 
   componentDidMount = () => {
     this.props.initItems();
   };
 
+  _showLoader = (): JSX.Element => (
+    <RingLoader
+      className={loader}
+      size={150}
+      color={'#007bff'}
+    />);
+
+  _showError = (): JSX.Element => (
+    <h5
+      className={'text-center text-danger font-weight-bold'}
+    >Loading items failed
+      <span
+        onClick={this.props.initItems}
+        className="btn"
+      >
+        <FontAwesomeIcon icon="redo" />
+      </span>
+    </h5>
+  );
+
   render(): JSX.Element {
     library.add(faRedo);
 
     if (this.props.fetchingItemsFail)
-      return (
-        <h5
-          className={'text-center text-danger font-weight-bold'}
-        >Loading items failed
-          <span
-            onClick={this.props.initItems}
-            className="btn"
-          >
-            <FontAwesomeIcon icon="redo" />
-          </span>
-        </h5>
-      );
+      return this._showError();
 
-    else if (this.props.isFetching) {
-      return (
-        <RingLoader
-          className={loader}
-          size={150}
-          color={'#007bff'}
-        />);
-    }
+    else if (this.props.isFetching)
+      return this._showLoader();
 
     const renderItems: Array<JSX.Element> = this.props.items
       .map((id: Uuid, index: number) => (

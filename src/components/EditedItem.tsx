@@ -23,11 +23,11 @@ export interface IEditedItemState {
   readonly text: string;
 }
 
-export interface IEditedItemMergeProps extends IEditedItemOwnProps, IEditedItemDispatchProps, IEditedItemStateProps {
+export interface IEditedItemProps extends IEditedItemOwnProps, IEditedItemDispatchProps, IEditedItemStateProps {
   readonly saveChanges: (text: string) => void;
 }
 
-export class EditedItem extends React.PureComponent<IEditedItemMergeProps, IEditedItemState> {
+export class EditedItem extends React.PureComponent<IEditedItemProps, IEditedItemState> {
   static displayName = 'EditedItem';
 
   static propTypes = {
@@ -36,7 +36,7 @@ export class EditedItem extends React.PureComponent<IEditedItemMergeProps, IEdit
     saveChanges: PropTypes.func.isRequired,
     cancelEditing: PropTypes.func.isRequired,
     deleteItem: PropTypes.func.isRequired,
-    dispatchSaveChanges: PropTypes.func,
+    dispatchSaveChanges: PropTypes.func.isRequired,
     text: PropTypes.string.isRequired,
   };
 
@@ -53,7 +53,10 @@ export class EditedItem extends React.PureComponent<IEditedItemMergeProps, IEdit
 
   _showButtons = (): JSX.Element => {
     const isValid: boolean = isInputValid(this.state.text);
-    const saveButtonTitle: string | undefined = !isValid ? 'Insert text.' : undefined;
+    const saveButtonTitle: string | undefined =
+      !isValid
+        ? 'Insert text.'
+        : undefined;
 
     return (
       <div
@@ -88,7 +91,6 @@ export class EditedItem extends React.PureComponent<IEditedItemMergeProps, IEdit
   };
 
   render(): JSX.Element {
-    const {index} = this.props;
     const {text} = this.state;
     const inputClass: string = classNames('form-control', {
       'is-invalid': !isInputValid(text),
@@ -97,7 +99,7 @@ export class EditedItem extends React.PureComponent<IEditedItemMergeProps, IEdit
     return (
       <div className="input-group col-sm-8">
         <div className="input-group-prepend">
-          <span className="input-group-text">{index}.</span>
+          <span className="input-group-text">{this.props.index}.</span>
         </div>
         <input
           className={inputClass}

@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import {
   EditedItem as EditedItemComponent,
   IEditedItemDispatchProps,
-  IEditedItemMergeProps,
+  IEditedItemProps,
   IEditedItemOwnProps,
   IEditedItemStateProps,
 } from '../components/EditedItem';
@@ -28,8 +28,8 @@ const mapDispatchToProps = (
 const mergeProps = (
   stateProps: IEditedItemStateProps,
   dispatchProps: IEditedItemDispatchProps,
-  ownProps: IEditedItemOwnProps
-): IEditedItemMergeProps => ({
+  ownProps: IEditedItemOwnProps,
+): IEditedItemProps => ({
   saveChanges: (text: string) => dispatchProps.dispatchSaveChanges(text, stateProps.text),
   ...stateProps,
   ...dispatchProps,
