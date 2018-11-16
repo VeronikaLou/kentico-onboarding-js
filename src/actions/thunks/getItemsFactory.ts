@@ -30,13 +30,18 @@ export const receiveItemsFail = (): IListAction => ({
 export const getItemsFactory =
   (fetch: (input?: Request | string, init?: RequestInit) => Promise<Response>) =>
     () =>
-      (dispatch: Dispatch<IListAction>): Promise<IListAction> => {
+      async (dispatch: Dispatch<IListAction>): Promise<IListAction> => {
         dispatch(requestItems());
 
-        return fetch('/v1/List')
-          .then((response: Response) => validateGetResponse(response))
-          .then((items: Array<IFetchedItem>) => items
-            .map((item: IFetchedItem) => [item.id, new ListItem(item)]))
-          .then(items => dispatch(receiveItemsSuccess(OrderedMap<Uuid, ListItem>(items))))
-          .catch(() => dispatch(receiveItemsFail()));
+        try {
+          const response: Response = await fetch('/v1/List');
+          const fetchedItems: Array<IFetchedItem> = await validateGetResponse(response);
+          const items: OrderedMap<Uuid, ListItem> = OrderedMap<Uuid, ListItem>(
+            fetchedItems.map((item: IFetchedItem) => [item.id, new ListItem(item)])
+          );
+
+          return dispatch(receiveItemsSuccess(items));
+        } catch (exception) {
+          return dispatch(receiveItemsFail());
+        }
       };

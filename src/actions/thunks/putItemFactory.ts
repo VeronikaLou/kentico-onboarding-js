@@ -1,8 +1,7 @@
 import { IListAction } from '../types/IListAction';
-import { saveItemSuccess } from '../listActionCreators';
 import { IFetchedItem } from '../../models/IFetchedItem';
 import { ListError } from '../../models/ListError';
-import { ITEM_SAVE_FAIL, ITEM_SAVE_REQUESTED } from '../types/listActionTypes';
+import { ITEM_SAVE_FAIL, ITEM_SAVE_REQUESTED, ITEM_SAVE_SUCCESS } from '../types/listActionTypes';
 import { Dispatch } from '../types/Dispatcher';
 import { createError } from '../../utils/errorsCreator';
 import { validatePutResponse } from '../../utils/responseValidator';
@@ -13,7 +12,7 @@ export const saveItem = (id: Uuid, text: string, backupText: string = ''): IList
     id,
     text,
     isUpdating: true,
-    backupText
+    backupText,
   },
 });
 
@@ -25,23 +24,35 @@ export const saveItemFail = (id: Uuid, error: ListError): IListAction => ({
   },
 });
 
+export const saveItemSuccess = (id: Uuid): IListAction => ({
+  type: ITEM_SAVE_SUCCESS,
+  payload: {id},
+});
+
 export const putItemFactory =
   (fetch: (input?: Request | string, init?: RequestInit) => Promise<Response>) =>
-    (id: Uuid, text: string, backupText: string = '') => {
-      const error = createError(ITEM_SAVE_FAIL, 'Item Save failed.', id);
-
-      return (dispatch: Dispatch<IListAction>): Promise<IListAction> => {
+    (id: Uuid, text: string, backupText: string = '') =>
+      async (dispatch: Dispatch<IListAction>): Promise<IListAction> => {
         dispatch(saveItem(id, text, backupText));
 
-        return fetch('v1/List/' + id, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({id, text}),
-        })
-          .then((response: Response) => validatePutResponse(response))
-          .then((item: IFetchedItem) => dispatch(saveItemSuccess(item.id)))
-          .catch(() => dispatch(saveItemFail(id, error)));
+        try {
+          const response: Response = await fetch(
+            'v1/List/' + id,
+            {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({id, text}),
+            });
+
+          const fetchedItem: IFetchedItem = await validatePutResponse(response);
+
+          return dispatch(saveItemSuccess(fetchedItem.id));
+        } catch (exception) {
+          return dispatch(saveItemFail(
+            id,
+            createError(ITEM_SAVE_FAIL, 'Item Save failed.', id)),
+          );
+        }
       };
-    };
