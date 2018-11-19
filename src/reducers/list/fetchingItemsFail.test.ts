@@ -1,12 +1,12 @@
 import { fetchingItemsFail } from './fetchingItemsFail';
-import { receiveItemsFail, requestItems } from '../../actions/thunks/getItemsFactory';
+import { itemsFetchFail, requestItems } from '../../actions/thunks/getItemsFactory';
 
 describe('Fetching items fail', () => {
   const trueFalse = [true, false];
 
   trueFalse.forEach(initialState => {
     it('should return true when receive items fail', () => {
-      const receiveFail = receiveItemsFail();
+      const receiveFail = itemsFetchFail();
 
       const result = fetchingItemsFail(initialState, receiveFail);
 

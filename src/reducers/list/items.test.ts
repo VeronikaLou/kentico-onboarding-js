@@ -12,7 +12,7 @@ import {
 } from '../../actions/thunks/deleteItemFactory';
 import { saveItem, saveItemFail, saveItemSuccess } from '../../actions/thunks/putItemFactory';
 import { closeSaveError } from '../../actions/thunks/closeError';
-import { receiveItemsSuccess } from '../../actions/thunks/getItemsFactory';
+import { itemsFetchSuccess } from '../../actions/thunks/getItemsFactory';
 
 describe('Add item requested', () => {
   const id1 = '00000000-0000-0000-0000-000000000001';
@@ -278,7 +278,7 @@ describe('Receive items', () => {
       text: 'anything',
     });
     const initialState = OrderedMap<Uuid, ListItem>().set(item1.id, item1).set(item2.id, item2);
-    const receivedItems = receiveItemsSuccess(initialState);
+    const receivedItems = itemsFetchSuccess(initialState);
 
     const result = items(initialState, receivedItems);
 

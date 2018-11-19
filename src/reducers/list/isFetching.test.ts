@@ -1,7 +1,7 @@
 import { isFetching } from './isFetching';
 import { OrderedMap } from 'immutable';
 import { ListItem } from '../../models/ListItem';
-import { receiveItemsSuccess, requestItems } from '../../actions/thunks/getItemsFactory';
+import { itemsFetchSuccess, requestItems } from '../../actions/thunks/getItemsFactory';
 
 describe('IsFetching', () => {
   it('returns true when request items', () => {
@@ -13,7 +13,7 @@ describe('IsFetching', () => {
   });
 
   it('returns false when receive items', () => {
-    const receive = receiveItemsSuccess(OrderedMap<Uuid, ListItem>());
+    const receive = itemsFetchSuccess(OrderedMap<Uuid, ListItem>());
 
     const result = isFetching(undefined, receive);
 
