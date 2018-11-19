@@ -8,10 +8,9 @@ import {
 } from '../components/EditedItem';
 import { changeItemEditingMode } from '../actions/listActionCreators';
 import { ComponentClass } from 'react';
-import { putItem } from '../actions/thunks/putItem';
 import { Dispatch } from '../actions/types/Dispatcher';
 import { IStore } from '../store/types/IStore';
-import { deleteItem } from '../actions/thunks/deleteItem';
+import { deleteItem, putItem } from '../actions/listActions';
 
 const mapStateToProps = (state: IStore, ownProps: IEditedItemOwnProps): IEditedItemStateProps => ({
   text: state.items.get(ownProps.id).text,
