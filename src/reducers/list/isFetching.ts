@@ -1,12 +1,12 @@
 import { IListAction } from '../../actions/types/IListAction';
-import { ITEMS_RECEIVE_SUCCESS, ITEMS_REQUESTED } from '../../actions/types/listActionTypes';
+import { ITEMS_FETCH_SUCCESS, ITEMS_REQUEST } from '../../actions/types/listActionTypes';
 
 export const isFetching = (state: boolean = false, action: IListAction): boolean => {
   switch (action.type) {
-    case ITEMS_RECEIVE_SUCCESS:
+    case ITEMS_FETCH_SUCCESS:
       return false;
 
-    case ITEMS_REQUESTED:
+    case ITEMS_REQUEST:
       return true;
 
     default:

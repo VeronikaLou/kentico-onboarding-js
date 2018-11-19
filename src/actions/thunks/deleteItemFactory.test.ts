@@ -1,7 +1,7 @@
 import { deleteItemFactory } from './deleteItemFactory';
 import {
-  ITEM_DELETE_FAIL, ITEM_DELETE_REQUESTED,
-  ITEM_DELETE_SUCCESS
+  ITEM_DELETE_FAIL, ITEM_DELETE_REQUEST,
+  ITEM_DELETE_SUCCESS,
 } from '../types/listActionTypes';
 import { Dispatch } from '../types/Dispatcher';
 import { IListAction } from '../types/IListAction';
@@ -15,7 +15,7 @@ describe('Delete item', () => {
     Promise.resolve({
       status: 204,
       statusText: 'No Content',
-      ok: true
+      ok: true,
     }));
 
   const fetchNotFound = jest.fn(() =>
@@ -33,7 +33,7 @@ describe('Delete item', () => {
   it('dispatches request and success actions if the fetch response was successful', () => {
     return deleteItemFactory(fetchNoContent)(itemId)(dispatch).then(() => {
       expect(dispatch.mock.calls.length).toBe(2);
-      expect(dispatch.mock.calls[0][0].type).toEqual(ITEM_DELETE_REQUESTED);
+      expect(dispatch.mock.calls[0][0].type).toEqual(ITEM_DELETE_REQUEST);
       expect(dispatch.mock.calls[1][0].type).toEqual(ITEM_DELETE_SUCCESS);
     });
   });
@@ -41,7 +41,7 @@ describe('Delete item', () => {
   it('dispatches request and fail actions if the fetch response failed', () => {
     return deleteItemFactory(fetchNotFound)(itemId)(dispatch).then(() => {
       expect(dispatch.mock.calls.length).toBe(2);
-      expect(dispatch.mock.calls[0][0].type).toEqual(ITEM_DELETE_REQUESTED);
+      expect(dispatch.mock.calls[0][0].type).toEqual(ITEM_DELETE_REQUEST);
       expect(dispatch.mock.calls[1][0].type).toEqual(ITEM_DELETE_FAIL);
     });
   });

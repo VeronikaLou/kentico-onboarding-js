@@ -1,7 +1,7 @@
 import { IListAction } from '../types/IListAction';
 import {
   ITEM_DELETE_FAIL,
-  ITEM_DELETE_REQUESTED,
+  ITEM_DELETE_REQUEST,
   ITEM_DELETE_SUCCESS,
 } from '../types/listActionTypes';
 import { ListError } from '../../models/ListError';
@@ -10,7 +10,7 @@ import { createError } from '../../utils/errorsCreator';
 import { validateDeleteResponse } from '../../utils/responseValidator';
 
 export const deleteItem = (id: Uuid): IListAction => ({
-  type: ITEM_DELETE_REQUESTED,
+  type: ITEM_DELETE_REQUEST,
   payload: {id},
 });
 

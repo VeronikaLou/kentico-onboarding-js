@@ -1,8 +1,8 @@
 import { getItemsFactory } from './getItemsFactory';
 import {
-  ITEMS_RECEIVE_FAIL,
-  ITEMS_RECEIVE_SUCCESS,
-  ITEMS_REQUESTED
+  ITEMS_FETCH_FAIL,
+  ITEMS_FETCH_SUCCESS,
+  ITEMS_REQUEST,
 } from '../types/listActionTypes';
 import { OrderedMap } from 'immutable';
 import { ListItem } from '../../models/ListItem';
@@ -16,7 +16,7 @@ describe('Get items', () => {
     status: 200,
     statusText: 'OK',
     ok: true,
-    json: () => ([])
+    json: () => ([]),
   }));
 
   const fetchTimeout = jest.fn(() => Promise.resolve({
@@ -33,16 +33,16 @@ describe('Get items', () => {
   it('calls request and success actions if the fetch response was successful', () => {
     return getItemsFactory(fetchOk)()(dispatch).then(() => {
       expect(dispatch.mock.calls.length).toBe(2);
-      expect(dispatch.mock.calls[0][0].type).toEqual(ITEMS_REQUESTED);
-      expect(dispatch.mock.calls[1][0].type).toEqual(ITEMS_RECEIVE_SUCCESS);
+      expect(dispatch.mock.calls[0][0].type).toEqual(ITEMS_REQUEST);
+      expect(dispatch.mock.calls[1][0].type).toEqual(ITEMS_FETCH_SUCCESS);
     });
   });
 
   it('calls request and fail actions if the fetch response failed', () => {
     return getItemsFactory(fetchTimeout)()(dispatch).then(() => {
       expect(dispatch.mock.calls.length).toBe(2);
-      expect(dispatch.mock.calls[0][0].type).toEqual(ITEMS_REQUESTED);
-      expect(dispatch.mock.calls[1][0].type).toEqual(ITEMS_RECEIVE_FAIL);
+      expect(dispatch.mock.calls[0][0].type).toEqual(ITEMS_REQUEST);
+      expect(dispatch.mock.calls[1][0].type).toEqual(ITEMS_FETCH_FAIL);
     });
   });
 

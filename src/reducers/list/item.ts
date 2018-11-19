@@ -3,13 +3,13 @@ import {
   CLOSE_DELETE_ERROR,
   CLOSE_SAVE_ERROR,
   ITEM_ADD_FAIL,
-  ITEM_ADD_REQUESTED,
+  ITEM_ADD_REQUEST,
   ITEM_ADD_SUCCESS,
   ITEM_DELETE_FAIL,
-  ITEM_DELETE_REQUESTED,
-  ITEM_EDITING_MODE_CHANGED,
+  ITEM_DELETE_REQUEST,
+  ITEM_EDITING_MODE_CHANGE,
   ITEM_SAVE_FAIL,
-  ITEM_SAVE_REQUESTED,
+  ITEM_SAVE_REQUEST,
   ITEM_SAVE_SUCCESS,
 } from '../../actions/types/listActionTypes';
 import { IListAction } from '../../actions/types/IListAction';
@@ -20,7 +20,7 @@ export const item = (state: ListItem = new ListItem(), action: IListAction): Lis
       return state
         .with({id: action.payload.fetchedId, isUpdating: false});
 
-    case ITEM_DELETE_REQUESTED:
+    case ITEM_DELETE_REQUEST:
       return state
         .with({isUpdating: true, isEdited: false});
 
@@ -29,7 +29,7 @@ export const item = (state: ListItem = new ListItem(), action: IListAction): Lis
       return state
         .with({isUpdating: false});
 
-    case ITEM_EDITING_MODE_CHANGED:
+    case ITEM_EDITING_MODE_CHANGE:
       return state
         .with({isEdited: !state.isEdited});
 
@@ -39,8 +39,8 @@ export const item = (state: ListItem = new ListItem(), action: IListAction): Lis
       return state
         .with({isEdited: false, isUpdating: false});
 
-    case ITEM_ADD_REQUESTED:
-    case ITEM_SAVE_REQUESTED:
+    case ITEM_ADD_REQUEST:
+    case ITEM_SAVE_REQUEST:
     case CLOSE_SAVE_ERROR:
       return new ListItem({...action.payload});
 

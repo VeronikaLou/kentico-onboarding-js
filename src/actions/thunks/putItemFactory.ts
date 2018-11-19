@@ -1,13 +1,13 @@
 import { IListAction } from '../types/IListAction';
 import { IFetchedItem } from '../../models/IFetchedItem';
 import { ListError } from '../../models/ListError';
-import { ITEM_SAVE_FAIL, ITEM_SAVE_REQUESTED, ITEM_SAVE_SUCCESS } from '../types/listActionTypes';
+import { ITEM_SAVE_FAIL, ITEM_SAVE_REQUEST, ITEM_SAVE_SUCCESS } from '../types/listActionTypes';
 import { Dispatch } from '../types/Dispatcher';
 import { createError } from '../../utils/errorsCreator';
 import { validatePutResponse } from '../../utils/responseValidator';
 
 export const saveItem = (id: Uuid, text: string, backupText: string = ''): IListAction => ({
-  type: ITEM_SAVE_REQUESTED,
+  type: ITEM_SAVE_REQUEST,
   payload: {
     id,
     text,

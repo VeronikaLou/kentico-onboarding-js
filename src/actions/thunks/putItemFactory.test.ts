@@ -1,5 +1,5 @@
 import { putItemFactory } from './putItemFactory';
-import { ITEM_SAVE_FAIL, ITEM_SAVE_REQUESTED, ITEM_SAVE_SUCCESS } from '../types/listActionTypes';
+import { ITEM_SAVE_FAIL, ITEM_SAVE_REQUEST, ITEM_SAVE_SUCCESS } from '../types/listActionTypes';
 import { IListAction } from '../types/IListAction';
 import { Dispatch } from '../types/Dispatcher';
 import Mock = jest.Mock;
@@ -12,17 +12,17 @@ describe('Put item', () => {
     status: 200,
     statusText: 'OK',
     json: () => ({id: itemId, text: itemText}),
-    ok: true
+    ok: true,
   }));
 
   const fetchNotFound = jest.fn(() => Promise.resolve({
     status: 404,
-    statusText: 'Not Found'
+    statusText: 'Not Found',
   }));
 
   const fetchBadRequest = jest.fn(() => Promise.resolve({
     status: 400,
-    statusText: 'Bad Request'
+    statusText: 'Bad Request',
   }));
 
   const invalidFetchCases = [fetchNotFound, fetchBadRequest];
@@ -32,19 +32,19 @@ describe('Put item', () => {
     dispatch.mockClear();
   });
 
-  it('calls request and success actions if the fetch response was successful', () => {
+  it('dispatches request and success actions if the fetch response was successful', () => {
     return putItemFactory(fetchOk)(itemId, itemText)(dispatch).then(() => {
       expect(dispatch.mock.calls.length).toBe(2);
-      expect(dispatch.mock.calls[0][0].type).toEqual(ITEM_SAVE_REQUESTED);
+      expect(dispatch.mock.calls[0][0].type).toEqual(ITEM_SAVE_REQUEST);
       expect(dispatch.mock.calls[1][0].type).toEqual(ITEM_SAVE_SUCCESS);
     });
   });
 
   invalidFetchCases.forEach(fetch => {
-    it('calls request and fail actions if the fetch response failed', () => {
+    it('dispatches request and fail actions if the fetch response failed', () => {
       return putItemFactory(fetch)(itemId, itemText)(dispatch).then(() => {
         expect(dispatch.mock.calls.length).toBe(2);
-        expect(dispatch.mock.calls[0][0].type).toEqual(ITEM_SAVE_REQUESTED);
+        expect(dispatch.mock.calls[0][0].type).toEqual(ITEM_SAVE_REQUEST);
         expect(dispatch.mock.calls[1][0].type).toEqual(ITEM_SAVE_FAIL);
       });
     });

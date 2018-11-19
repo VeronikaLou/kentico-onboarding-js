@@ -2,28 +2,28 @@ import { OrderedMap } from 'immutable';
 import { ListItem } from '../../models/ListItem';
 import { IListAction } from '../types/IListAction';
 import {
-  ITEMS_RECEIVE_FAIL,
-  ITEMS_RECEIVE_SUCCESS,
-  ITEMS_REQUESTED
+  ITEMS_FETCH_FAIL,
+  ITEMS_FETCH_SUCCESS,
+  ITEMS_REQUEST
 } from '../types/listActionTypes';
 import { IFetchedItem } from '../../models/IFetchedItem';
 import { validateGetResponse } from '../../utils/responseValidator';
 import { Dispatch } from '../types/Dispatcher';
 
 export const receiveItemsSuccess = (items: OrderedMap<Uuid, ListItem>): IListAction => ({
-  type: ITEMS_RECEIVE_SUCCESS,
+  type: ITEMS_FETCH_SUCCESS,
   payload: {
     items,
   },
 });
 
 export const requestItems = (): IListAction => ({
-  type: ITEMS_REQUESTED,
+  type: ITEMS_REQUEST,
   payload: null,
 });
 
 export const receiveItemsFail = (): IListAction => ({
-  type: ITEMS_RECEIVE_FAIL,
+  type: ITEMS_FETCH_FAIL,
   payload: null,
 });
 
