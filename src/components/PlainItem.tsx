@@ -1,8 +1,8 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import { PulseLoader } from 'react-spinners';
 import { ListError } from '../models/ListError';
 import { ErrorItem } from '../containers/ErrorItem';
+import { ItemLoader } from './Loaders/ItemLoader';
 
 export interface IPlainItemOwnProps {
   readonly index: number;
@@ -34,13 +34,7 @@ export class PlainItem extends React.PureComponent<PlainItemProps> {
 
   _showLoader = (): JSX.Element | null =>
     this.props.isUpdating
-      ? (
-        <PulseLoader
-          color={'#007bff'}
-          size={10}
-          className={'float-right'}
-        />
-      )
+      ? <ItemLoader />
       : null;
 
   _showError = (): JSX.Element | null =>

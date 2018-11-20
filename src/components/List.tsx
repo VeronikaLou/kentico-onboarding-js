@@ -2,11 +2,8 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import { Item } from '../containers/Item';
 import { NewItem } from '../containers/NewItem';
-import { RingLoader } from 'react-spinners';
-import { css } from 'emotion';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faRedo } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { ListLoader } from './Loaders/ListLoader';
+import { Retry } from '../icons/retry';
 
 export interface IListStateProps {
   readonly items: Array<Uuid>;
@@ -19,10 +16,6 @@ export interface IListDispatchProps {
 }
 
 type ListProps = IListDispatchProps & IListStateProps;
-
-const loader = css`
-    margin: 0 auto;
-`;
 
 export class List extends React.PureComponent<ListProps> {
   static displayName = 'List';
@@ -38,12 +31,7 @@ export class List extends React.PureComponent<ListProps> {
     this.props.initItems();
   };
 
-  _showLoader = (): JSX.Element => (
-    <RingLoader
-      className={loader}
-      size={150}
-      color={'#007bff'}
-    />);
+  _showLoader = (): JSX.Element => <ListLoader />;
 
   _showError = (): JSX.Element => (
     <h5
@@ -53,14 +41,12 @@ export class List extends React.PureComponent<ListProps> {
         onClick={this.props.initItems}
         className="btn"
       >
-        <FontAwesomeIcon icon="redo" />
+        <Retry/>
       </span>
     </h5>
   );
 
   render(): JSX.Element {
-    library.add(faRedo);
-
     if (this.props.fetchingItemsFail)
       return this._showError();
 

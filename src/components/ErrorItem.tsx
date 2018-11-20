@@ -1,10 +1,9 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as React from 'react';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faRedo, faTimes } from '@fortawesome/free-solid-svg-icons';
 import * as PropTypes from 'prop-types';
 import { ListError } from '../models/ListError';
 import { IListAction } from '../actions/types/IListAction';
+import { Retry } from '../icons/retry';
+import { Close } from '../icons/close';
 
 export interface IErrorItemStateProps {
   readonly backupText: string;
@@ -37,9 +36,6 @@ export class ErrorItem extends React.PureComponent<ErrorItemProps> {
   };
 
   render(): JSX.Element {
-    library.add(faRedo);
-    library.add(faTimes);
-
     return (
       <div
         className={'float-right text-danger font-weight-bold'}
@@ -48,13 +44,13 @@ export class ErrorItem extends React.PureComponent<ErrorItemProps> {
           onClick={this.props.retry}
           className="btn"
         >
-          <FontAwesomeIcon icon="redo" />
+          <Retry />
         </span>
         <span
           onClick={this._close}
           className="btn"
         >
-          <FontAwesomeIcon icon="times" />
+          <Close />
         </span>
       </div>
     );
