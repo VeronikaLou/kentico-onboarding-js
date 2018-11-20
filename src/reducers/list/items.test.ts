@@ -1,37 +1,38 @@
 import { OrderedMap } from 'immutable';
 import { ListItem } from '../../models/ListItem';
 import { items } from './items';
-import { changeItemEditingMode, } from '../../actions/listActionCreators';
+import { changeItemEditingMode } from '../../actions/listActionCreators';
 import { IListAction } from '../../actions/types/IListAction';
 import { ListError } from '../../models/ListError';
 import { addItem, addItemFail, addItemSuccess } from '../../actions/thunks/postItemFactory';
 import {
   deleteItem,
   deleteItemFail,
-  deleteItemSuccess
+  deleteItemSuccess,
 } from '../../actions/thunks/deleteItemFactory';
 import { saveItem, saveItemFail, saveItemSuccess } from '../../actions/thunks/putItemFactory';
-import { closeSaveError } from '../../actions/thunks/closeError';
+import { closeAddError, closeDeleteError, closeSaveError } from '../../actions/thunks/closeError';
 import { itemsFetchSuccess } from '../../actions/thunks/getItemsFactory';
 
-describe('Add item requested', () => {
-  const id1 = '00000000-0000-0000-0000-000000000001';
-  const id2 = '00000000-0000-0000-0000-000000000002';
+const id1 = '00000000-0000-0000-0000-000000000001';
+const id2 = '00000000-0000-0000-0000-000000000002';
+
+describe('Add item request', () => {
   const id3 = '00000000-0000-0000-0000-000000000003';
   const listItem: ListItem = new ListItem({
     id: id1,
-    text: 'I am new item.'
+    text: 'I am new item.',
   });
   const newItem: IListAction = addItem(listItem.id, listItem.text);
   const newListItem = new ListItem({...newItem.payload});
   const initialState = OrderedMap<Uuid, ListItem>()
     .set(
       id2,
-      new ListItem({id: id2, text: 'A'})
+      new ListItem({id: id2, text: 'A'}),
     )
     .set(
       id3,
-      new ListItem({id: id3, text: 'B'})
+      new ListItem({id: id3, text: 'B'}),
     );
 
   it('should add item into empty state', () => {
@@ -65,12 +66,12 @@ describe('Add item requested', () => {
   });
 });
 
-describe('Delete item requested', () => {
-  const itemToDelete: IListAction = deleteItem('00000000-0000-0000-0000-000000000001');
+describe('Delete item request', () => {
+  const itemToDelete: IListAction = deleteItem(id1);
   const initialState = OrderedMap<Uuid, ListItem>()
     .set(itemToDelete.payload.id, new ListItem({
       id: itemToDelete.payload.id,
-      text: 'Delete me.'
+      text: 'Delete me.',
     }));
 
   it('shouldn\'t delete item from state', () => {
@@ -83,9 +84,9 @@ describe('Delete item requested', () => {
   });
 });
 
-describe('Save item requested', () => {
+describe('Save item request', () => {
   const item: ListItem = new ListItem({
-    id: '00000000-0000-0000-0000-000000000001',
+    id: id1,
     text: 'Change me.',
   });
   const initialState = OrderedMap<Uuid, ListItem>()
@@ -114,17 +115,16 @@ describe('Save item requested', () => {
 
 describe('Add item success', () => {
   const item: ListItem = new ListItem({
-    id: '00000000-0000-0000-0000-000000000001',
+    id: id1,
     text: 'Add me.',
     isUpdating: true,
   });
-  const newId = '00000000-0000-0000-0000-000000000003';
   const initialState = OrderedMap<Uuid, ListItem>().set(item.id, item);
-  const newItem: IListAction = addItemSuccess(item.id, newId);
+  const newItem: IListAction = addItemSuccess(item.id, id2);
 
   it('should add item with new id', () => {
     const result = items(initialState, newItem);
-    const containsItem = result.get(newId);
+    const containsItem = result.get(id2);
 
     expect(containsItem).toBeDefined();
   });
@@ -138,7 +138,7 @@ describe('Add item success', () => {
 
   it('should add item with new id and same text, remove item with old id', () => {
     const expectedResult = initialState
-      .set(newId, new ListItem({id: newId, text: item.text}))
+      .set(id2, new ListItem({id: id2, text: item.text}))
       .delete(item.id);
 
     const result = items(initialState, newItem);
@@ -147,41 +147,46 @@ describe('Add item success', () => {
   });
 });
 
-describe('Delete item success', () => {
-  const itemToDelete: IListAction = deleteItemSuccess('-1');
+describe('Delete item success, close add error', () => {
+  const itemToDelete: IListAction = deleteItemSuccess(id1);
+  const closeAdd: IListAction = closeAddError(id1);
   const initialState = OrderedMap<Uuid, ListItem>()
-    .set(itemToDelete.payload.id, new ListItem({
-      id: itemToDelete.payload.id,
+    .set(id1, new ListItem({
+      id: id1,
       text: 'Delete me.',
     }));
+  const deleteItemAndCloseAdd: IListAction[] = [itemToDelete, closeAdd];
 
-  it('should do nothing with empty state', () => {
-    const expectedResult = OrderedMap<Uuid, ListItem>();
+  deleteItemAndCloseAdd.forEach(action => {
+    it('should do nothing with empty state', () => {
+      const expectedResult = OrderedMap<Uuid, ListItem>();
 
-    const result = items(undefined, itemToDelete);
+      const result = items(undefined, action);
 
-    expect(result).toEqual(expectedResult);
-  });
+      expect(result).toEqual(expectedResult);
+    });
 
-  it('should delete item from state which contains it', () => {
-    const expectedResult = OrderedMap<Uuid, ListItem>();
 
-    const result = items(initialState, itemToDelete);
+    it('should delete item from state which contains it', () => {
+      const expectedResult = OrderedMap<Uuid, ListItem>();
 
-    expect(result).toEqual(expectedResult);
-  });
+      const result = items(initialState, itemToDelete);
 
-  it('should\'t modify state which doesn\'t contain item with given id', () => {
-    const notInStateItem: IListAction = deleteItemSuccess('1');
-    const result = items(initialState, notInStateItem);
+      expect(result).toEqual(expectedResult);
+    });
 
-    expect(result).toEqual(initialState);
+    it('should\'t modify state which doesn\'t contain item with given id', () => {
+      const notInStateItem: IListAction = deleteItemSuccess('1');
+      const result = items(initialState, notInStateItem);
+
+      expect(result).toEqual(initialState);
+    });
   });
 });
 
 describe('Change item editing mode', () => {
   const item: ListItem = new ListItem({
-    id: '00000000-0000-0000-0000-000000000001',
+    id: id1,
     text: 'Click me.',
   });
   const initialState = OrderedMap<Uuid, ListItem>()
@@ -201,13 +206,13 @@ describe('Change item editing mode', () => {
 describe('Close save item', () => {
   const backupText = 'Backup text.';
   const item: ListItem = new ListItem({
-    id: '00000000-0000-0000-0000-000000000001',
+    id: id1,
     text: 'Save me.',
   });
   const initialState = OrderedMap<Uuid, ListItem>().set(item.id, item);
   const savedItem: IListAction = closeSaveError(item.id, backupText);
 
-  it('shouldn\'t add or delete item from state', () => {
+  it('shouldn\'t modify state', () => {
     const expectedResult = initialState
       .set(item.id, new ListItem({id: item.id, text: backupText}));
 
@@ -217,26 +222,28 @@ describe('Close save item', () => {
   });
 });
 
-describe('Failed save, delete, add', () => {
+describe('Failed save, delete, add, save item success, close delete error', () => {
   const item: ListItem = new ListItem({
-    id: '00000000-0000-0000-0000-000000000001',
+    id: id1,
     text: 'something',
     isUpdating: true,
   });
 
   const error: ListError = new ListError({
     itemId: item.id,
-    errorId: '00000000-0000-0000-0000-000000000002',
+    errorId: id2,
   });
 
   const initialState = OrderedMap<Uuid, ListItem>().set(item.id, item);
-  const failActions = [
+  const actions: IListAction[] = [
     addItemFail(item.id, error),
     saveItemFail(item.id, error),
-    deleteItemFail(item.id, error)
+    deleteItemFail(item.id, error),
+    closeDeleteError(item.id),
+    saveItemSuccess(item.id),
   ];
 
-  failActions.forEach(action => {
+  actions.forEach(action => {
     it('shouldn\'t add or delete item from state', () => {
       const expectedResult = initialState
         .setIn([item.id, 'isUpdating'], false);
@@ -248,33 +255,14 @@ describe('Failed save, delete, add', () => {
   });
 });
 
-describe('Save item success', () => {
-  const item: ListItem = new ListItem({
-    id: '00000000-0000-0000-0000-000000000001',
-    text: 'nothing',
-    isUpdating: true
-  });
-  const initialState = OrderedMap<Uuid, ListItem>().set(item.id, item);
-  const savedItem: IListAction = saveItemSuccess(item.id);
-
-  it('shouldn\'t add or delete item from state', () => {
-    const expectedResult = initialState.setIn([item.id, 'isUpdating'], false);
-
-    const result = items(initialState, savedItem);
-
-    expect(result).toEqual(expectedResult);
-  });
-});
-
-
-describe('Receive items', () => {
+describe('Items fetch success', () => {
   it('should return given state', () => {
     const item1: ListItem = new ListItem({
-      id: '00000000-0000-0000-0000-000000000001',
+      id: id1,
       text: 'nothing',
     });
     const item2: ListItem = new ListItem({
-      id: '00000000-0000-0000-0000-000000000002',
+      id: id2,
       text: 'anything',
     });
     const initialState = OrderedMap<Uuid, ListItem>().set(item1.id, item1).set(item2.id, item2);

@@ -1,21 +1,25 @@
 import { OrderedMap } from 'immutable';
 import { ListError } from '../../models/ListError';
-import { ListItem } from '../../models/ListItem';
 import { errors } from './errors';
-import { addItem, addItemFail } from '../../actions/thunks/postItemFactory';
-import { saveItem, saveItemFail } from '../../actions/thunks/putItemFactory';
-import { deleteItem, deleteItemFail } from '../../actions/thunks/deleteItemFactory';
+import { addItem, addItemFail, addItemSuccess } from '../../actions/thunks/postItemFactory';
+import { saveItem, saveItemFail, saveItemSuccess } from '../../actions/thunks/putItemFactory';
+import {
+  deleteItem,
+  deleteItemFail,
+  deleteItemSuccess,
+} from '../../actions/thunks/deleteItemFactory';
 import { closeAddError, closeDeleteError, closeSaveError } from '../../actions/thunks/closeError';
+import { IListAction } from '../../actions/types/IListAction';
 
-describe('Fail', () => {
-  const itemId = '00000000-0000-0000-0000-0000001';
-  const errorId = '00000000-0000-0000-0000-0000002';
-  const item = new ListItem({id: itemId});
+const itemId = '00000000-0000-0000-0000-0000001';
+const errorId = '00000000-0000-0000-0000-0000002';
+
+describe('Fail actions', () => {
   const error = new ListError({itemId, errorId});
-  const failedActions = [
-    addItemFail(item.id, error),
-    saveItemFail(item.id, error),
-    deleteItemFail(item.id, error)
+  const failedActions: IListAction[] = [
+    addItemFail(itemId, error),
+    saveItemFail(itemId, error),
+    deleteItemFail(itemId, error),
   ];
 
   failedActions.forEach(failedItem =>
@@ -29,24 +33,44 @@ describe('Fail', () => {
 });
 
 describe('Requests, close error actions', () => {
-  const itemId = '00000000-0000-0000-0000-0000001';
-  const errorId = '00000000-0000-0000-0000-0000002';
-  const item = new ListItem({id: itemId});
   const error = new ListError({itemId, errorId});
   const initialState = OrderedMap<Uuid, ListError>().set(error.errorId, error);
-  const requestOrCloseErrorActions = [
-    saveItem(item.id, 'save me', ''),
-    deleteItem(item.id),
-    addItem(item.id, 'add me'),
-    closeSaveError(item.id, 'backup text'),
-    closeAddError(item.id),
-    closeDeleteError(item.id)
+  const requestOrCloseErrorActions: IListAction[] = [
+    saveItem(itemId, 'save me', ''),
+    deleteItem(itemId),
+    addItem(itemId, 'add me'),
+    closeSaveError(itemId, 'backup text'),
+    closeAddError(itemId),
+    closeDeleteError(itemId),
   ];
 
   requestOrCloseErrorActions.forEach(action =>
-    it('should remove error', () => {
+    it('should remove error from state', () => {
       const result = errors(initialState, action);
 
       expect(result).toEqual(OrderedMap<Uuid, ListError>());
     }));
+});
+
+describe('Success actions, invalid actions', () => {
+  const fetchedId = '00000000-0000-0000-0000-0000003';
+  const error = new ListError({itemId, errorId});
+  const initialState = OrderedMap<Uuid, ListError>().set(error.errorId, error);
+  const successAndInvalidActions: IListAction[] = [
+    saveItemSuccess(itemId),
+    deleteItemSuccess(itemId),
+    addItemSuccess(itemId, fetchedId),
+    {
+      type: 'INVALID_ACTION',
+      payload: null,
+    },
+  ];
+
+  successAndInvalidActions.forEach(action => {
+    it('shouldn\'t modify state', () => {
+      const result = errors(initialState, action);
+
+      expect(result).toBe(initialState);
+    });
+  });
 });

@@ -6,18 +6,20 @@ import { changeItemEditingMode } from '../../actions/listActionCreators';
 import { deleteItem, deleteItemFail } from '../../actions/thunks/deleteItemFactory';
 import { saveItem, saveItemFail, saveItemSuccess } from '../../actions/thunks/putItemFactory';
 import { addItem, addItemFail } from '../../actions/thunks/postItemFactory';
-import { closeSaveError } from '../../actions/thunks/closeError';
+import { closeDeleteError, closeSaveError } from '../../actions/thunks/closeError';
 
-describe('Save item, delete item, add item', () => {
+const id = '00000000-0000-0000-0000-000000000001';
+
+describe('Save item, delete item, add item requests', () => {
   const listItem: ListItem = new ListItem({
-    id: '00000000-0000-0000-0000-000000000001',
+    id,
     text: 'I am list item.',
   });
 
   const saveDeleteAddActions = [
     deleteItem(listItem.id),
     saveItem(listItem.id, 'new text'),
-    addItem(listItem.id, listItem.text)
+    addItem(listItem.id, listItem.text),
   ];
 
   saveDeleteAddActions.forEach(action =>
@@ -33,28 +35,18 @@ describe('Save item, delete item, add item', () => {
 });
 
 describe('Add item', () => {
-  const id = '00000000-0000-0000-0000-000000000001';
-  it('should return new item with same values as action\'s payload with undefined state', () => {
-    const listItem: ListItem = new ListItem({
-      id, text: 'I am new item.'
+  const states = [undefined, new ListItem()];
+
+  states.forEach(initialState => {
+    it('should return new item with same values as action\'s payload', () => {
+      const listItem: ListItem = new ListItem({id, text: 'I am new item.'});
+      const action: IListAction = addItem(listItem.id, listItem.text);
+      const expectedResult = new ListItem({...action.payload});
+
+      const result = item(initialState, action);
+
+      expect(result).toEqual(expectedResult);
     });
-    const action: IListAction = addItem(listItem.id, listItem.text);
-    const expectedResult = new ListItem({...action.payload});
-
-    const result = item(undefined, action);
-
-    expect(result).toEqual(expectedResult);
-  });
-
-  it('should return new item with same values as action\'s payload with defined state', () => {
-    const listItem: ListItem = new ListItem({id, text: 'I am new item.'});
-    const action: IListAction = addItem(listItem.id, listItem.text);
-    const initialState = new ListItem();
-    const expectedResult = new ListItem({...action.payload});
-
-    const result = item(initialState, action);
-
-    expect(result).toEqual(expectedResult);
   });
 
   it('should return new empty item when passing invalid action', () => {
@@ -73,7 +65,7 @@ describe('Add item', () => {
 });
 
 describe('Add item success', () => {
-    const listItem: ListItem = new ListItem({id: '1', isUpdating: true});
+    const listItem: ListItem = new ListItem({id, isUpdating: true});
     const newItem: IListAction = saveItemSuccess(listItem.id);
 
     it('old item\'s isUpdating should be true, new item\'s should be false', () => {
@@ -85,24 +77,23 @@ describe('Add item success', () => {
       expect(newItemIsUpdating).toBeFalsy();
       expect(originIsUpdating).toBeTruthy();
     });
-  }
+  },
 );
 
 describe('Add item fail, save item fail, delete item fail', () => {
-  const itemId = '00000000-0000-0000-0000-000000000001';
   const errorId = '00000000-0000-0000-0000-000000000002';
   const listItem: ListItem = new ListItem({
-    id: itemId,
+    id,
     text: 'text',
     isUpdating: true,
   });
 
-  const error: ListError = new ListError({errorId, itemId});
+  const error: ListError = new ListError({errorId, itemId: id});
 
   const failActions = [
     addItemFail(listItem.id, error),
     saveItemFail(listItem.id, error),
-    deleteItemFail(listItem.id, error)
+    deleteItemFail(listItem.id, error),
   ];
 
   failActions.forEach(action =>
@@ -118,50 +109,48 @@ describe('Add item fail, save item fail, delete item fail', () => {
 });
 
 
-describe('Save item changes', () => {
-  const action: IListAction = saveItem('1', 'saved');
+describe('Save item request', () => {
+  const states = [undefined, new ListItem()];
+  const action: IListAction = saveItem(id, 'saved');
 
-  it('should return new item with same values as action\'s payload with undefined state', () => {
-    const expectedResult = new ListItem({...action.payload});
+  states.forEach(initialState => {
+    it('should return new item with same values as action\'s payload with undefined state', () => {
+      const expectedResult = new ListItem({...action.payload});
 
-    const result = item(undefined, action);
+      const result = item(initialState, action);
 
-    expect(result).toEqual(expectedResult);
-  });
-
-  it('should return new item with same values as action\'s payload with defined state', () => {
-    const initialState = new ListItem();
-    const expectedResult = new ListItem({...action.payload});
-
-    const result = item(initialState, action);
-
-    expect(result).toEqual(expectedResult);
+      expect(result).toEqual(expectedResult);
+    });
   });
 });
 
-describe('Save item success', () => {
+describe('Save item success, close delete error', () => {
   const listItem: ListItem = new ListItem({
-    id: '00000000-0000-0000-0000-000000000001',
+    id,
     isUpdating: true,
     text: 'text',
   });
   const itemSaveSuccess: IListAction = saveItemSuccess(listItem.id);
+  const closeDelete: IListAction = closeDeleteError(listItem.id);
+  const itemSaveCloseDelete = [itemSaveSuccess, closeDelete];
 
-  it('should change isUpdating to false', () => {
-    const originItemIsUpdating = listItem.isUpdating;
+  itemSaveCloseDelete.forEach(action => {
+    it('should change isUpdating to false', () => {
+      const originItemIsUpdating = listItem.isUpdating;
 
-    const result = item(listItem, itemSaveSuccess);
-    const savedItemIsUpdating = result.isUpdating;
+      const result = item(listItem, action);
+      const savedItemIsUpdating = result.isUpdating;
 
-    expect(originItemIsUpdating).toBeTruthy();
-    expect(savedItemIsUpdating).toBeFalsy();
+      expect(originItemIsUpdating).toBeTruthy();
+      expect(savedItemIsUpdating).toBeFalsy();
+    });
   });
 });
 
 describe('Close save item', () => {
   const backupText = 'Backup text.';
   const listItem: ListItem = new ListItem({
-    id: '00000000-0000-0000-0000-000000000001',
+    id,
     text: 'Save me.',
   });
   const savedItem: IListAction = closeSaveError(listItem.id, backupText);
@@ -179,14 +168,14 @@ describe('Close save item', () => {
 
 describe('Change item editing mode', () => {
   const itemWithFalseMode: ListItem = new ListItem({
-    id: '00000000-0000-0000-0000-000000000001',
+    id,
     text: 'Click me.',
   });
   const clickedItem: IListAction = changeItemEditingMode(itemWithFalseMode.id);
   const itemWithTrueMode: ListItem = new ListItem({
     id: itemWithFalseMode.id,
     text: itemWithFalseMode.text,
-    isEdited: true
+    isEdited: true,
   });
 
   it('should change mode from false to true', () => {

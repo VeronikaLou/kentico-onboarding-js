@@ -4,27 +4,36 @@ import { ListItem } from '../../models/ListItem';
 import { itemsFetchSuccess, requestItems } from '../../actions/thunks/getItemsFactory';
 
 describe('IsFetching', () => {
-  it('returns true when request items', () => {
-    const request = requestItems();
+  const trueFalse: boolean[] = [true, false];
 
-    const result = isFetching(undefined, request);
+  trueFalse.forEach(initialState => {
+    it('returns true when request items', () => {
+      const request = requestItems();
 
-    expect(result).toBeTruthy();
+      const result = isFetching(initialState, request);
+
+      expect(result).toBeTruthy();
+    });
   });
 
-  it('returns false when receive items', () => {
-    const receive = itemsFetchSuccess(OrderedMap<Uuid, ListItem>());
 
-    const result = isFetching(undefined, receive);
+  trueFalse.forEach(initialState => {
+    it('returns false when receive items', () => {
+      const receive = itemsFetchSuccess(OrderedMap<Uuid, ListItem>());
 
-    expect(result).toBeFalsy();
+      const result = isFetching(initialState, receive);
+
+      expect(result).toBeFalsy();
+    });
   });
 
-  it('returns false with invalid action', () => {
-    const invalid = {type: 'INVALID', payload: {}};
+  trueFalse.forEach(initialState => {
+    it('invalid action doesn\'t modify state', () => {
+      const invalid = {type: 'INVALID', payload: null};
 
-    const result = isFetching(undefined, invalid);
+      const result = isFetching(initialState, invalid);
 
-    expect(result).toBeFalsy();
+      expect(result).toBe(initialState);
+    });
   });
 });

@@ -2,7 +2,7 @@ import { fetchingItemsFail } from './fetchingItemsFail';
 import { itemsFetchFail, requestItems } from '../../actions/thunks/getItemsFactory';
 
 describe('Fetching items fail', () => {
-  const trueFalse = [true, false];
+  const trueFalse: boolean[] = [true, false];
 
   trueFalse.forEach(initialState => {
     it('should return true when receive items fail', () => {
@@ -21,6 +21,19 @@ describe('Fetching items fail', () => {
       const result = fetchingItemsFail(initialState, request);
 
       expect(result).toBeFalsy();
+    });
+  });
+
+  trueFalse.forEach(initialState => {
+    it('invalid action shouldn\'t modify state', () => {
+      const invalidAction = {
+        type: 'INVALID_ACTION',
+        payload: null,
+      };
+
+      const result = fetchingItemsFail(initialState, invalidAction);
+
+      expect(result).toBe(initialState);
     });
   });
 });
