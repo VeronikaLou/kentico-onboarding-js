@@ -5,23 +5,23 @@ import { IListAction } from '../actions/types/IListAction';
 import { Retry } from '../icons/retry';
 import { Close } from '../icons/close';
 
-export interface IErrorItemStateProps {
+export interface IItemErrorStateProps {
   readonly backupText: string;
 }
 
-export interface IErrorItemOwnProps {
+export interface IItemErrorOwnProps {
   readonly id: Uuid;
   readonly error: ListError;
 }
 
-export interface IErrorItemDispatchProps {
+export interface IItemErrorDispatchProps {
   readonly retry: () => void;
   readonly closeError: (backupText: string) => IListAction;
 }
 
-type ErrorItemProps = IErrorItemOwnProps & IErrorItemDispatchProps & IErrorItemStateProps;
+type ItemErrorProps = IItemErrorOwnProps & IItemErrorDispatchProps & IItemErrorStateProps;
 
-export class ItemError extends React.PureComponent<ErrorItemProps> {
+export class ItemError extends React.PureComponent<ItemErrorProps> {
   static displayName = 'ErrorItem';
   static propTypes = {
     error: PropTypes.object.isRequired,
@@ -37,9 +37,8 @@ export class ItemError extends React.PureComponent<ErrorItemProps> {
 
   render(): JSX.Element {
     return (
-      <div
-        className={'float-right text-danger font-weight-bold'}
-      >{this.props.error.message}
+      <div className={'float-right text-danger font-weight-bold'}>
+        {this.props.error.message}
         <span
           onClick={this.props.retry}
           className="btn"

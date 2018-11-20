@@ -4,24 +4,24 @@ import { retry } from '../actions/listActions';
 import { closeError } from '../actions/thunks/closeError';
 import {
   ItemError as ItemErrorComponent,
-  IErrorItemDispatchProps,
-  IErrorItemOwnProps,
-  IErrorItemStateProps,
+  IItemErrorDispatchProps,
+  IItemErrorOwnProps,
+  IItemErrorStateProps,
 } from '../components/ItemError';
 import { ComponentClass } from 'react';
 import { connect } from 'react-redux';
 
-const mapStateToProps = (state: IStore, ownProps: IErrorItemOwnProps): IErrorItemStateProps => ({
+const mapStateToProps = (state: IStore, ownProps: IItemErrorOwnProps): IItemErrorStateProps => ({
   backupText: state.items.get(ownProps.id).backupText,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<IStore>, ownProps: IErrorItemOwnProps):
-  IErrorItemDispatchProps => ({
+const mapDispatchToProps = (dispatch: Dispatch<IStore>, ownProps: IItemErrorOwnProps):
+  IItemErrorDispatchProps => ({
   retry: () => dispatch(retry(ownProps.error)),
   closeError: (backupText: string) => dispatch(closeError(ownProps.error, backupText)),
 });
 
-export const ErrorItem: ComponentClass<IErrorItemOwnProps> = connect(
+export const ItemError: ComponentClass<IItemErrorOwnProps> = connect(
   mapStateToProps,
   mapDispatchToProps,
 )(ItemErrorComponent);

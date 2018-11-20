@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import { ListError } from '../models/ListError';
-import { ErrorItem } from '../containers/ErrorItem';
+import { ItemError } from '../containers/ItemError';
 import { ItemLoader } from './Loaders/ItemLoader';
 
 export interface IPlainItemOwnProps {
@@ -40,7 +40,7 @@ export class PlainItem extends React.PureComponent<PlainItemProps> {
   _showError = (): JSX.Element | null =>
     this.props.error
       ? (
-        <ErrorItem
+        <ItemError
           id={this.props.id}
           error={this.props.error}
         />
