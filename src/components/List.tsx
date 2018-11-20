@@ -3,7 +3,7 @@ import * as PropTypes from 'prop-types';
 import { Item } from '../containers/Item';
 import { NewItem } from '../containers/NewItem';
 import { ListLoader } from './Loaders/ListLoader';
-import { Retry } from '../icons/retry';
+import { ListError } from './ListError';
 
 export interface IListStateProps {
   readonly items: Array<Uuid>;
@@ -31,27 +31,12 @@ export class List extends React.PureComponent<ListProps> {
     this.props.initItems();
   };
 
-  _showLoader = (): JSX.Element => <ListLoader />;
-
-  _showError = (): JSX.Element => (
-    <h5
-      className={'text-center text-danger font-weight-bold'}
-    >Loading items failed
-      <span
-        onClick={this.props.initItems}
-        className="btn"
-      >
-        <Retry/>
-      </span>
-    </h5>
-  );
-
   render(): JSX.Element {
     if (this.props.fetchingItemsFail)
-      return this._showError();
+      return <ListError retry={this.props.initItems} />;
 
     else if (this.props.isFetching)
-      return this._showLoader();
+      return <ListLoader />;
 
     const renderItems: Array<JSX.Element> = this.props.items
       .map((id: Uuid, index: number) => (

@@ -16,7 +16,7 @@ export interface IPlainItemDispatchProps {
 export interface IPlainItemStateProps {
   readonly text: string;
   readonly isUpdating: boolean;
-  readonly error: ListError | undefined;
+  readonly error?: ListError;
 }
 
 type PlainItemProps = IPlainItemDispatchProps & IPlainItemOwnProps & IPlainItemStateProps;

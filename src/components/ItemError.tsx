@@ -21,7 +21,7 @@ export interface IErrorItemDispatchProps {
 
 type ErrorItemProps = IErrorItemOwnProps & IErrorItemDispatchProps & IErrorItemStateProps;
 
-export class ErrorItem extends React.PureComponent<ErrorItemProps> {
+export class ItemError extends React.PureComponent<ErrorItemProps> {
   static displayName = 'ErrorItem';
   static propTypes = {
     error: PropTypes.object.isRequired,

@@ -3,11 +3,11 @@ import { Dispatch } from '../actions/types/Dispatcher';
 import { retry } from '../actions/listActions';
 import { closeError } from '../actions/thunks/closeError';
 import {
-  ErrorItem as ErrorItemComponent,
+  ItemError as ItemErrorComponent,
   IErrorItemDispatchProps,
   IErrorItemOwnProps,
   IErrorItemStateProps,
-} from '../components/ErrorItem';
+} from '../components/ItemError';
 import { ComponentClass } from 'react';
 import { connect } from 'react-redux';
 
@@ -24,4 +24,4 @@ const mapDispatchToProps = (dispatch: Dispatch<IStore>, ownProps: IErrorItemOwnP
 export const ErrorItem: ComponentClass<IErrorItemOwnProps> = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ErrorItemComponent);
+)(ItemErrorComponent);
