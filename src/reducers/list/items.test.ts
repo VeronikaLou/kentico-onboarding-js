@@ -3,6 +3,7 @@ import { ListItem } from '../../models/ListItem';
 import { items } from './items';
 import {
   addItem,
+  // addItem,
   changeItemEditingMode,
   deleteItem,
   saveItemChanges,
@@ -10,7 +11,7 @@ import {
 import { IListAction } from '../../actions/types/IListAction';
 
 describe('Add item', () => {
-  const newItem: IListAction = addItem('New item.');
+  const newItem: IListAction = addItem('00000000-0000-0000-0000-000000000000', 'New item.');
   const newListItem = new ListItem({ ...newItem.payload });
   const initialState = OrderedMap<Uuid, ListItem>()
     .set('0', new ListItem({id: '0', text: 'A'}))

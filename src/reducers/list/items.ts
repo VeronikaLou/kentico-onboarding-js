@@ -3,7 +3,7 @@ import {
   ITEM_ADDED,
   ITEM_CHANGES_SAVED,
   ITEM_DELETED,
-  ITEM_EDITING_MODE_CHANGED,
+  ITEM_EDITING_MODE_CHANGED, ITEMS_RECEIVED,
 } from '../../actions/types/listActionTypes';
 import { ListItem } from '../../models/ListItem';
 import { IListAction } from '../../actions/types/IListAction';
@@ -30,6 +30,9 @@ export const items = (
           action.payload.id,
           item(state.get(action.payload.id), action),
         );
+
+     case ITEMS_RECEIVED:
+      return action.payload.items;
 
     default:
       return state;

@@ -1,5 +1,6 @@
 import { ItemsState } from './ItemsState';
 
 export interface IStore {
-  items: ItemsState;
+  readonly items: ItemsState;
+  readonly isFetching: boolean;
 }

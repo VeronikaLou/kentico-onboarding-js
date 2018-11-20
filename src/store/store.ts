@@ -6,16 +6,18 @@ import {
 } from 'redux';
 import { logger } from 'redux-logger';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { createItems } from '../utils/itemsCreator';
 import { applicationReducer } from '../reducers/applicationReducer';
 import { IStore } from './types/IStore';
+import { OrderedMap } from 'immutable';
+import { ListItem } from '../models/ListItem';
 
 const enhancer: StoreEnhancer = composeWithDevTools(
   applyMiddleware(logger),
 );
 
 const initialState: IStore = {
-  items: createItems(),
+  items: OrderedMap<Uuid, ListItem>(),
+  isFetching: false,
 };
 
 export const store: Store<IStore> = createStore(

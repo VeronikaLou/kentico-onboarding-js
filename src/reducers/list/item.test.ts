@@ -1,5 +1,6 @@
 import {
   addItem,
+  // addItem,
   saveItemChanges,
 } from '../../actions/listActionCreators';
 import { ListItem } from '../../models/ListItem';
@@ -7,9 +8,11 @@ import { item } from './item';
 import { IListAction } from '../../actions/types/IListAction';
 
 describe('Add item', () => {
+  const id = '00000000-0000-0000-0000-000000000000';
+
   it('should return new item with same values as action\'s payload with undefined state', () => {
-    const action: IListAction = addItem('I am new item.');
-    const expectedResult = new ListItem({ ...action.payload });
+    const action: IListAction = addItem(id, 'I am new item.');
+    const expectedResult = new ListItem({ id, ...action.payload });
 
     const result = item(undefined, action);
 
@@ -17,9 +20,9 @@ describe('Add item', () => {
   });
 
   it('should return new item with same values as action\'s payload with defined state', () => {
-    const action: IListAction = addItem('I am new item.');
+    const action: IListAction = addItem(id, 'I am new item.');
     const initialState = new ListItem();
-    const expectedResult = new ListItem({ ...action.payload });
+    const expectedResult = new ListItem({ id, ...action.payload });
 
     const result = item(initialState, action);
 
