@@ -1,13 +1,13 @@
-import { IStore } from '../store/types/IStore';
-import { Dispatch } from '../actions/types/Dispatcher';
-import { retry } from '../actions/listActions';
-import { closeError } from '../actions/thunks/closeError';
+import { IStore } from '../../../store/types/IStore';
+import { Dispatch } from '../../../actions/types/Dispatcher';
+import { retry } from '../../../actions/listActions';
+import { closeError } from '../../../actions/thunks/closeError';
 import {
   ItemError as ItemErrorComponent,
   IItemErrorDispatchProps,
   IItemErrorOwnProps,
   IItemErrorStateProps,
-} from '../components/ItemError';
+} from '../../../components/list/items/ItemError';
 import { ComponentClass } from 'react';
 import { connect } from 'react-redux';
 

@@ -2,11 +2,11 @@ import { connect } from 'react-redux';
 import {
   INewItemDispatchProps,
   NewItem as NewItemComponent,
-} from '../components/NewItem';
+} from '../../../components/list/items/NewItem';
 import { ComponentClass } from 'react';
-import { Dispatch } from '../actions/types/Dispatcher';
-import { IStore } from '../store/types/IStore';
-import { postItem } from '../actions/listActions';
+import { Dispatch } from '../../../actions/types/Dispatcher';
+import { IStore } from '../../../store/types/IStore';
+import { postItem } from '../../../actions/listActions';
 
 const mapDispatchToProps = (dispatch: Dispatch<IStore>): INewItemDispatchProps => ({
   addItem: (text: string) => dispatch(postItem(text)),

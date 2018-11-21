@@ -4,12 +4,12 @@ import {
   IPlainItemOwnProps,
   IPlainItemStateProps,
   PlainItem as PlainItemComponent,
-} from '../components/PlainItem';
-import { changeItemEditingMode } from '../actions/listActionCreators';
-import { IStore } from '../store/types/IStore';
+} from '../../../components/list/items/PlainItem';
+import { changeItemEditingMode } from '../../../actions/listActionCreators';
+import { IStore } from '../../../store/types/IStore';
 import { ComponentClass } from 'react';
-import { Dispatch } from '../actions/types/Dispatcher';
-import { ListError } from '../models/ListError';
+import { Dispatch } from '../../../actions/types/Dispatcher';
+import { ListError } from '../../../models/ListError';
 
 const mapStateToProps = (state: IStore, ownProps: IPlainItemOwnProps): IPlainItemStateProps => ({
   text: state.items.get(ownProps.id).text,

@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
-import { IListDispatchProps, IListStateProps, List as ListComponent } from '../components/List';
-import { getMemoizedIds } from '../utils/getMemoizedIds';
-import { IStore } from '../store/types/IStore';
+import { IListDispatchProps, IListStateProps, List as ListComponent } from '../../components/list/List';
+import { getMemoizedIds } from '../../utils/getMemoizedIds';
+import { IStore } from '../../store/types/IStore';
 import { ComponentClass } from 'react';
-import { IListAction } from '../actions/types/IListAction';
-import { Dispatch } from '../actions/types/Dispatcher';
-import { getItems } from '../actions/listActions';
+import { IListAction } from '../../actions/types/IListAction';
+import { Dispatch } from '../../actions/types/Dispatcher';
+import { getItems } from '../../actions/listActions';
 
 const mapStateToProps = (state: IStore): IListStateProps => ({
   items: getMemoizedIds(state.items.keySeq().toArray()),

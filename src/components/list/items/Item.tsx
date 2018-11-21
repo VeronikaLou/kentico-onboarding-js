@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import { PlainItem } from '../containers/PlainItem';
-import { EditedItem } from '../containers/EditedItem';
+import { PlainItem } from '../../../containers/list/items/PlainItem';
+import { EditedItem } from '../../../containers/list/items/EditedItem';
 
 export interface IItemOwnProps {
   readonly index: number;

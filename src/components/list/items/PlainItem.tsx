@@ -1,8 +1,8 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import { ListError } from '../models/ListError';
-import { ItemError } from '../containers/ItemError';
-import { ItemLoader } from './Loaders/ItemLoader';
+import { ListError } from '../../../models/ListError';
+import { ItemError } from '../../../containers/list/items/ItemError';
+import { ItemLoader } from './ItemLoader';
 
 export interface IPlainItemOwnProps {
   readonly index: number;

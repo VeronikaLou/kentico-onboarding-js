@@ -1,9 +1,9 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import { ListError } from '../models/ListError';
-import { IListAction } from '../actions/types/IListAction';
-import { Retry } from '../icons/retry';
-import { Close } from '../icons/close';
+import { ListError } from '../../../models/ListError';
+import { IListAction } from '../../../actions/types/IListAction';
+import { Retry } from '../../icons/retry';
+import { Close } from '../../icons/close';
 
 export interface IItemErrorStateProps {
   readonly backupText: string;
