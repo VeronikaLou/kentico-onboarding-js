@@ -1,7 +1,8 @@
 {
   "extends": [
     "react-set-state-usage",
-    "tslint-react"
+    "tslint-react",
+    "tslint-sonarts"
   ],
   "rules": {
     "align": [
