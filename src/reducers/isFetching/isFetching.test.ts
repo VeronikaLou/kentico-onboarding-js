@@ -1,7 +1,7 @@
 import { isFetching } from './isFetching';
 import { OrderedMap } from 'immutable';
 import { ListItem } from '../../models/ListItem';
-import { itemsFetchSuccess, requestItems } from '../../actions/thunks/getItemsFactory';
+import { itemsFetchSuccess, requestItems } from '../../actions/listActionCreators';
 
 describe('IsFetching', () => {
   const trueFalse: boolean[] = [true, false];

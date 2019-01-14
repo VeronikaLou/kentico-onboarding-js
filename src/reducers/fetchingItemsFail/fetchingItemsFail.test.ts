@@ -1,5 +1,5 @@
 import { fetchingItemsFail } from './fetchingItemsFail';
-import { itemsFetchFail, requestItems } from '../../actions/thunks/getItemsFactory';
+import { itemsFetchFail, requestItems } from '../../actions/listActionCreators';
 
 describe('Fetching items fail', () => {
   const trueFalse: boolean[] = [true, false];

@@ -1,18 +1,14 @@
 import { OrderedMap } from 'immutable';
 import { ListItem } from '../../models/ListItem';
 import { items } from './items';
-import { changeItemEditingMode } from '../../actions/listActionCreators';
+import {
+  addItem, addItemFail, addItemSuccess,
+  changeItemEditingMode, closeAddError, closeDeleteError, closeSaveError,
+  deleteItem, deleteItemFail, deleteItemSuccess, itemsFetchSuccess,
+  saveItem, saveItemFail, saveItemSuccess,
+} from '../../actions/listActionCreators';
 import { IListAction } from '../../actions/types/IListAction';
 import { ListError } from '../../models/ListError';
-import { addItem, addItemFail, addItemSuccess } from '../../actions/thunks/postItemFactory';
-import {
-  deleteItem,
-  deleteItemFail,
-  deleteItemSuccess,
-} from '../../actions/thunks/deleteItemFactory';
-import { saveItem, saveItemFail, saveItemSuccess } from '../../actions/thunks/putItemFactory';
-import { closeAddError, closeDeleteError, closeSaveError } from '../../actions/thunks/closeError';
-import { itemsFetchSuccess } from '../../actions/thunks/getItemsFactory';
 
 const id1 = '00000000-0000-0000-0000-000000000001';
 const id2 = '00000000-0000-0000-0000-000000000002';

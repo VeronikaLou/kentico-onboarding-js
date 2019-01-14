@@ -1,15 +1,14 @@
 import { OrderedMap } from 'immutable';
 import { ListError } from '../../models/ListError';
 import { errors } from './errors';
-import { addItem, addItemFail, addItemSuccess } from '../../actions/thunks/postItemFactory';
-import { saveItem, saveItemFail, saveItemSuccess } from '../../actions/thunks/putItemFactory';
-import {
-  deleteItem,
-  deleteItemFail,
-  deleteItemSuccess,
-} from '../../actions/thunks/deleteItemFactory';
-import { closeAddError, closeDeleteError, closeSaveError } from '../../actions/thunks/closeError';
 import { IListAction } from '../../actions/types/IListAction';
+import {
+  addItem,
+  addItemFail, addItemSuccess, closeAddError, closeDeleteError, closeSaveError, deleteItem,
+  deleteItemFail, deleteItemSuccess,
+  saveItem,
+  saveItemFail, saveItemSuccess,
+} from '../../actions/listActionCreators';
 
 const itemId = '00000000-0000-0000-0000-0000001';
 const errorId = '00000000-0000-0000-0000-0000002';

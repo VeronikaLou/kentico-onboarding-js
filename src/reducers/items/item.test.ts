@@ -2,11 +2,12 @@ import { ListItem } from '../../models/ListItem';
 import { item } from './item';
 import { IListAction } from '../../actions/types/IListAction';
 import { ListError } from '../../models/ListError';
-import { changeItemEditingMode } from '../../actions/listActionCreators';
-import { deleteItem, deleteItemFail } from '../../actions/thunks/deleteItemFactory';
-import { saveItem, saveItemFail, saveItemSuccess } from '../../actions/thunks/putItemFactory';
-import { addItem, addItemFail } from '../../actions/thunks/postItemFactory';
-import { closeDeleteError, closeSaveError } from '../../actions/thunks/closeError';
+import {
+  addItem, addItemFail,
+  changeItemEditingMode, closeDeleteError, closeSaveError,
+  deleteItem, deleteItemFail,
+  saveItem, saveItemFail, saveItemSuccess,
+} from '../../actions/listActionCreators';
 
 const id = '00000000-0000-0000-0000-000000000001';
 
