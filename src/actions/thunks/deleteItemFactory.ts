@@ -1,31 +1,9 @@
 import { IListAction } from '../types/IListAction';
-import {
-  ITEM_DELETE_FAIL,
-  ITEM_DELETE_REQUEST,
-  ITEM_DELETE_SUCCESS,
-} from '../types/listActionTypes';
-import { ListError } from '../../models/ListError';
+import { ITEM_DELETE_FAIL } from '../types/listActionTypes';
 import { Dispatch } from '../types/Dispatcher';
 import { createError } from '../../utils/errorsCreator';
 import { validateDeleteResponse } from '../../utils/responseValidator';
-
-export const deleteItem = (id: Uuid): IListAction => ({
-  type: ITEM_DELETE_REQUEST,
-  payload: {id},
-});
-
-export const deleteItemFail = (id: Uuid, error: ListError): IListAction => ({
-  type: ITEM_DELETE_FAIL,
-  payload: {
-    id,
-    error,
-  },
-});
-
-export const deleteItemSuccess = (id: Uuid): IListAction => ({
-  type: ITEM_DELETE_SUCCESS,
-  payload: {id},
-});
+import { deleteItem, deleteItemFail, deleteItemSuccess } from '../listActionCreators';
 
 export const deleteItemFactory =
   (fetch: (input?: Request | string, init?: RequestInit) => Promise<Response>) =>

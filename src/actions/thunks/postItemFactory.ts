@@ -1,29 +1,9 @@
 import { Dispatch } from 'redux';
 import { IListAction } from '../types/IListAction';
-import { ListError } from '../../models/ListError';
-import { ITEM_ADD_FAIL, ITEM_ADD_SUCCESS } from '../types/listActionTypes';
-import { addItem as addItemFactory } from '../factories/addItem';
+import { ITEM_ADD_FAIL } from '../types/listActionTypes';
 import { createError } from '../../utils/errorsCreator';
 import { validatePostResponse } from '../../utils/responseValidator';
-
-export const addItem = (id: Uuid, text: string): IListAction =>
-  addItemFactory(() => id)(text);
-
-export const addItemSuccess = (id: Uuid, fetchedId: Uuid): IListAction => ({
-  type: ITEM_ADD_SUCCESS,
-  payload: {
-    id,
-    fetchedId,
-  },
-});
-
-export const addItemFail = (id: Uuid, error: ListError): IListAction => ({
-  type: ITEM_ADD_FAIL,
-  payload: {
-    id,
-    error,
-  },
-});
+import { addItem, addItemFail, addItemSuccess } from '../listActionCreators';
 
 export const postItemFactory =
   (fetch: (input?: Request | string, init?: RequestInit) => Promise<Response>) =>

@@ -1,33 +1,10 @@
 import { IListAction } from '../types/IListAction';
 import { IFetchedItem } from '../../models/IFetchedItem';
-import { ListError } from '../../models/ListError';
-import { ITEM_SAVE_FAIL, ITEM_SAVE_REQUEST, ITEM_SAVE_SUCCESS } from '../types/listActionTypes';
+import { ITEM_SAVE_FAIL } from '../types/listActionTypes';
 import { Dispatch } from '../types/Dispatcher';
 import { createError } from '../../utils/errorsCreator';
 import { validatePutResponse } from '../../utils/responseValidator';
-
-export const saveItem = (id: Uuid, text: string, backupText: string = ''): IListAction => ({
-  type: ITEM_SAVE_REQUEST,
-  payload: {
-    id,
-    text,
-    isUpdating: true,
-    backupText,
-  },
-});
-
-export const saveItemFail = (id: Uuid, error: ListError): IListAction => ({
-  type: ITEM_SAVE_FAIL,
-  payload: {
-    id,
-    error,
-  },
-});
-
-export const saveItemSuccess = (id: Uuid): IListAction => ({
-  type: ITEM_SAVE_SUCCESS,
-  payload: {id},
-});
+import { saveItem, saveItemFail, saveItemSuccess } from '../listActionCreators';
 
 export const putItemFactory =
   (fetch: (input?: Request | string, init?: RequestInit) => Promise<Response>) =>
