@@ -27,54 +27,65 @@ describe('Post item', () => {
     dispatch.mockClear();
   });
 
-  it('dispatches request and success actions if the fetch response was successful', () => {
-    return postItemFactory(fetchCreated)('text', generateId())(dispatch).then(() => {
-      expect(dispatch.mock.calls.length).toBe(2);
-      expect(dispatch.mock.calls[0][0].type).toEqual(ITEM_ADD_REQUEST);
-      expect(dispatch.mock.calls[1][0].type).toEqual(ITEM_ADD_SUCCESS);
-    });
+  it('dispatches request and success actions if the fetch response was successful', async () => {
+    const postItem = postItemFactory(fetchCreated);
+    const dispatchable = postItem('text', generateId());
+
+    await dispatchable(dispatch);
+
+    expect(dispatch.mock.calls.length).toBe(2);
+    expect(dispatch.mock.calls[0][0].type).toEqual(ITEM_ADD_REQUEST);
+    expect(dispatch.mock.calls[1][0].type).toEqual(ITEM_ADD_SUCCESS);
   });
 
   fetchCases.forEach(fetch => {
-    it('should set id, text and isUpdating in payload in request action', () => {
+    it('should set id, text and isUpdating in payload in request action', async () => {
       const text = 'text';
+      const postItem = postItemFactory(fetch);
+      const dispatchable = postItem('text', generateId());
 
-      return postItemFactory(fetch)(text, generateId())(dispatch).then(() => {
-        const requestPayload = dispatch.mock.calls[0][0].payload;
+      await dispatchable(dispatch);
+      const requestPayload = dispatch.mock.calls[0][0].payload;
 
-        expect(Object.keys(requestPayload).length).toBe(3);
-        expect(requestPayload.text).toEqual(text);
-        expect(requestPayload.id).toEqual(itemId);
-        expect(requestPayload.isUpdating).toBeTruthy();
-      });
+      expect(Object.keys(requestPayload).length).toBe(3);
+      expect(requestPayload.text).toEqual(text);
+      expect(requestPayload.id).toEqual(itemId);
+      expect(requestPayload.isUpdating).toBeTruthy();
     });
   });
 
-  it('should set id and fetched id in payload in success action', () => {
-    return postItemFactory(fetchCreated)('text', generateId())(dispatch).then(() => {
-      const successPayload = dispatch.mock.calls[1][0].payload;
+  it('should set id and fetched id in payload in success action', async () => {
+    const postItem = postItemFactory(fetchCreated);
+    const dispatchable = postItem('text', generateId());
 
-      expect(Object.keys(successPayload).length).toBe(2);
-      expect(successPayload.id).toEqual(itemId);
-      expect(successPayload.fetchedId).toEqual(fetchedId);
-    });
+    await dispatchable(dispatch);
+    const successPayload = dispatch.mock.calls[1][0].payload;
+
+    expect(Object.keys(successPayload).length).toBe(2);
+    expect(successPayload.id).toEqual(itemId);
+    expect(successPayload.fetchedId).toEqual(fetchedId);
   });
 
-  it('dispatches request and fail actions if the fetch response failed', () => {
-    return postItemFactory(fetchBadRequest)('text', generateId())(dispatch).then(() => {
-      expect(dispatch.mock.calls.length).toBe(2);
-      expect(dispatch.mock.calls[0][0].type).toEqual(ITEM_ADD_REQUEST);
-      expect(dispatch.mock.calls[1][0].type).toEqual(ITEM_ADD_FAIL);
-    });
+  it('dispatches request and fail actions if the fetch response failed', async () => {
+    const postItem = postItemFactory(fetchBadRequest);
+    const dispatchable = postItem('text', generateId());
+
+    await dispatchable(dispatch);
+
+    expect(dispatch.mock.calls.length).toBe(2);
+    expect(dispatch.mock.calls[0][0].type).toEqual(ITEM_ADD_REQUEST);
+    expect(dispatch.mock.calls[1][0].type).toEqual(ITEM_ADD_FAIL);
   });
 
-  it('should set id and error in payload in fail action', () => {
-    return postItemFactory(fetchBadRequest)('text', generateId())(dispatch).then(() => {
-      const failPayload = dispatch.mock.calls[1][0].payload;
+  it('should set id and error in payload in fail action', async () => {
+    const postItem = postItemFactory(fetchBadRequest);
+    const dispatchable = postItem('text', generateId());
 
-      expect(Object.keys(failPayload).length).toBe(2);
-      expect(failPayload.id).toEqual(itemId);
-      expect(failPayload.error).toBeDefined();
-    });
+    await dispatchable(dispatch);
+    const failPayload = dispatch.mock.calls[1][0].payload;
+
+    expect(Object.keys(failPayload).length).toBe(2);
+    expect(failPayload.id).toEqual(itemId);
+    expect(failPayload.error).toBeDefined();
   });
 });
