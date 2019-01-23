@@ -2,7 +2,6 @@ import * as React from 'react';
 import * as classNames from 'classnames';
 import * as PropTypes from 'prop-types';
 import { isInputValid } from '../../../utils/isInputValid';
-import { IListAction } from '../../../actions/types/IListAction';
 
 export interface IEditedItemOwnProps {
   readonly index: number;
@@ -14,20 +13,18 @@ export interface IEditedItemStateProps {
 }
 
 export interface IEditedItemDispatchProps {
-  readonly dispatchSaveChanges: (text: string, backupText: string) => Promise<IListAction>;
+  readonly saveChanges: (text: string) => void;
   readonly cancelEditing: () => void;
   readonly deleteItem: () => void;
 }
+
+export type EditedItemProps = IEditedItemStateProps & IEditedItemDispatchProps & IEditedItemOwnProps;
 
 export interface IEditedItemState {
   readonly text: string;
 }
 
-export interface IEditedItemProps extends IEditedItemOwnProps, IEditedItemDispatchProps, IEditedItemStateProps {
-  readonly saveChanges: (text: string) => void;
-}
-
-export class EditedItem extends React.PureComponent<IEditedItemProps, IEditedItemState> {
+export class EditedItem extends React.PureComponent<EditedItemProps, IEditedItemState> {
   static displayName = 'EditedItem';
 
   static propTypes = {
@@ -36,7 +33,6 @@ export class EditedItem extends React.PureComponent<IEditedItemProps, IEditedIte
     saveChanges: PropTypes.func.isRequired,
     cancelEditing: PropTypes.func.isRequired,
     deleteItem: PropTypes.func.isRequired,
-    dispatchSaveChanges: PropTypes.func.isRequired,
     text: PropTypes.string.isRequired,
   };
 
@@ -51,47 +47,9 @@ export class EditedItem extends React.PureComponent<IEditedItemProps, IEditedIte
 
   _saveChanges = (): void => this.props.saveChanges(this.state.text);
 
-  _showButtons = (): JSX.Element => {
-    const isValid: boolean = isInputValid(this.state.text);
-    const saveButtonTitle: string | undefined =
-      !isValid
-        ? 'Insert text.'
-        : undefined;
-
-    return (
-      <div
-        className="input-group-append"
-        id="button-addon4"
-      >
-        <button
-          className="btn btn-primary"
-          type="button"
-          onClick={this._saveChanges}
-          disabled={!isValid}
-          title={saveButtonTitle}
-        >
-          Save
-        </button>
-        <button
-          className="btn btn-outline-secondary"
-          type="button"
-          onClick={this.props.cancelEditing}
-        >
-          Cancel
-        </button>
-        <button
-          className="btn btn-danger"
-          type="button"
-          onClick={this.props.deleteItem}
-        >
-          Delete
-        </button>
-      </div>
-    );
-  };
-
   render(): JSX.Element {
     const {text} = this.state;
+    const isValid: boolean = isInputValid(this.state.text);
     const inputClass: string = classNames('form-control', {
       'is-invalid': !isInputValid(text),
     });
@@ -107,7 +65,34 @@ export class EditedItem extends React.PureComponent<IEditedItemProps, IEditedIte
           value={text}
           onChange={this._editText}
         />
-        {this._showButtons()}
+        <div
+          className="input-group-append"
+          id="button-addon4"
+        >
+          <button
+            className="btn btn-primary"
+            type="button"
+            onClick={this._saveChanges}
+            disabled={!isValid}
+            title={!isValid ? 'Insert text.' : undefined}
+          >
+            Save
+          </button>
+          <button
+            className="btn btn-outline-secondary"
+            type="button"
+            onClick={this.props.cancelEditing}
+          >
+            Cancel
+          </button>
+          <button
+            className="btn btn-danger"
+            type="button"
+            onClick={this.props.deleteItem}
+          >
+            Delete
+          </button>
+        </div>
       </div>
     );
   }

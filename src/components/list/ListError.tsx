@@ -8,15 +8,15 @@ export interface ListErrorProps {
 
 export const ListError: React.StatelessComponent<ListErrorProps> =
   ({retry}: ListErrorProps): JSX.Element => (
-    <h5 className={'text-center text-danger font-weight-bold'}>
+    <div className="lead text-center text-danger font-weight-bold">
       Loading items failed
-      <span
+      <button
         onClick={retry}
-        className="btn"
+        className="btn btn-outline-danger border-0"
       >
         <Retry />
-      </span>
-    </h5>);
+      </button>
+    </div>);
 
 ListError.displayName = 'ListError';
 

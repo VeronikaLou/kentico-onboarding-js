@@ -37,20 +37,22 @@ export class ItemError extends React.PureComponent<ItemErrorProps> {
 
   render(): JSX.Element {
     return (
-      <div className={'float-right text-danger font-weight-bold'}>
+      <div className="alert-danger float-right text-danger font-weight-bold">
         {this.props.error.message}
-        <span
-          onClick={this.props.retry}
-          className="btn"
-        >
-          <Retry />
-        </span>
-        <span
-          onClick={this._close}
-          className="btn"
-        >
-          <Close />
-        </span>
+        <div className="btn-group">
+          <button
+            onClick={this.props.retry}
+            className="btn btn-outline-danger border-0"
+          >
+            <Retry />
+          </button>
+          <button
+            onClick={this._close}
+            className="btn btn-outline-danger border-0"
+          >
+            <Close />
+          </button>
+        </div>
       </div>
     );
   }

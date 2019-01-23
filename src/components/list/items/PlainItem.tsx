@@ -32,11 +32,6 @@ export class PlainItem extends React.PureComponent<PlainItemProps> {
     startEditing: PropTypes.func.isRequired,
   };
 
-  _showLoader = (): JSX.Element | null =>
-    this.props.isUpdating
-      ? <ItemLoader />
-      : null;
-
   _showError = (): JSX.Element | null =>
     this.props.error
       ? (
@@ -47,25 +42,17 @@ export class PlainItem extends React.PureComponent<PlainItemProps> {
       )
       : null;
 
-  _startEditing = (): void => {
-    if (!this.props.error) {
-      return this.props.startEditing();
-    }
-  };
-
   render(): JSX.Element {
-    const textClass = 'float-right col ' +
-      (this.props.isUpdating || this.props.error
-        ? 'text-black-50'
-        : 'text-dark');
+    const textClass = `float-right col
+      ${this.props.isUpdating || this.props.error ? 'text-black-50' : 'text-dark'}`;
 
     return (
       <div
-        onClick={this._startEditing}
+        onClick={this.props.error ? undefined : this.props.startEditing}
         className={textClass}
       >
         {this.props.index}.&nbsp;{this.props.text}
-        {this._showLoader()}
+        {this.props.isUpdating && <ItemLoader />}
         {this._showError()}
       </div>
     );

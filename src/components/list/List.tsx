@@ -27,16 +27,18 @@ export class List extends React.PureComponent<ListProps> {
     initItems: PropTypes.func.isRequired,
   };
 
-  componentDidMount = () => {
+  componentDidMount(): void {
     this.props.initItems();
-  };
+  }
 
   render(): JSX.Element {
-    if (this.props.fetchingItemsFail)
+    if (this.props.fetchingItemsFail) {
       return <ListError retry={this.props.initItems} />;
+    }
 
-    else if (this.props.isFetching)
+    if (this.props.isFetching) {
       return <ListLoader />;
+    }
 
     const renderItems: Array<JSX.Element> = this.props.items
       .map((id: Uuid, index: number) => (
@@ -51,6 +53,7 @@ export class List extends React.PureComponent<ListProps> {
       <div className="row">
         <div className="col-sm-12 col-md-offset-2 col-md-8">
           <ul className="list-group">
+            {this.props.isFetching && <ListLoader />}
             {renderItems}
             <NewItem />
           </ul>
