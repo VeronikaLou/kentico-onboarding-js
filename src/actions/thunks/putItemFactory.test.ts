@@ -1,5 +1,5 @@
 import { putItemFactory } from './putItemFactory';
-import { ITEM_SAVE_FAIL, ITEM_SAVE_REQUEST, ITEM_SAVE_SUCCESS } from '../types/listActionTypes';
+import { ITEM_SAVE_FAILED, ITEM_SAVE_STARTED, ITEM_SAVE_SUCCEEDED } from '../types/listActionTypes';
 import { IListAction } from '../types/IListAction';
 import { Dispatch } from '../types/Dispatcher';
 import Mock = jest.Mock;
@@ -22,8 +22,8 @@ describe('Put item', () => {
     await dispatchable(dispatch);
 
     expect(dispatch.mock.calls.length).toBe(2);
-    expect(dispatch.mock.calls[0][0].type).toEqual(ITEM_SAVE_REQUEST);
-    expect(dispatch.mock.calls[1][0].type).toEqual(ITEM_SAVE_SUCCESS);
+    expect(dispatch.mock.calls[0][0].type).toEqual(ITEM_SAVE_STARTED);
+    expect(dispatch.mock.calls[1][0].type).toEqual(ITEM_SAVE_SUCCEEDED);
   });
 
   it('dispatches request and fail actions if the fetch response failed', async () => {
@@ -33,8 +33,8 @@ describe('Put item', () => {
     await dispatchable(dispatch);
 
     expect(dispatch.mock.calls.length).toBe(2);
-    expect(dispatch.mock.calls[0][0].type).toEqual(ITEM_SAVE_REQUEST);
-    expect(dispatch.mock.calls[1][0].type).toEqual(ITEM_SAVE_FAIL);
+    expect(dispatch.mock.calls[0][0].type).toEqual(ITEM_SAVE_STARTED);
+    expect(dispatch.mock.calls[1][0].type).toEqual(ITEM_SAVE_FAILED);
   });
 
   [getFailedFetch, getFetchedItem].forEach(fetch => {

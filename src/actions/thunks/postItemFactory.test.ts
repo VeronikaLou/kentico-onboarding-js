@@ -1,4 +1,4 @@
-import { ITEM_ADD_FAIL, ITEM_ADD_REQUEST, ITEM_ADD_SUCCESS } from '../types/listActionTypes';
+import { ITEM_ADD_FAILED, ITEM_ADD_STARTED, ITEM_ADD_SUCCEEDED } from '../types/listActionTypes';
 import { Dispatch } from '../types/Dispatcher';
 import { IListAction } from '../types/IListAction';
 import { postItemFactory } from './postItemFactory';
@@ -23,8 +23,8 @@ describe('Post item', () => {
     await dispatchable(dispatch);
 
     expect(dispatch.mock.calls.length).toBe(2);
-    expect(dispatch.mock.calls[0][0].type).toEqual(ITEM_ADD_REQUEST);
-    expect(dispatch.mock.calls[1][0].type).toEqual(ITEM_ADD_SUCCESS);
+    expect(dispatch.mock.calls[0][0].type).toEqual(ITEM_ADD_STARTED);
+    expect(dispatch.mock.calls[1][0].type).toEqual(ITEM_ADD_SUCCEEDED);
   });
 
   [getFetchedItem, getFailedFetch].forEach(fetch => {
@@ -62,8 +62,8 @@ describe('Post item', () => {
     await dispatchable(dispatch);
 
     expect(dispatch.mock.calls.length).toBe(2);
-    expect(dispatch.mock.calls[0][0].type).toEqual(ITEM_ADD_REQUEST);
-    expect(dispatch.mock.calls[1][0].type).toEqual(ITEM_ADD_FAIL);
+    expect(dispatch.mock.calls[0][0].type).toEqual(ITEM_ADD_STARTED);
+    expect(dispatch.mock.calls[1][0].type).toEqual(ITEM_ADD_FAILED);
   });
 
   it('should set id and error in payload in fail action', async () => {

@@ -3,17 +3,17 @@ import {
   CLOSE_ADD_ERROR,
   CLOSE_DELETE_ERROR,
   CLOSE_SAVE_ERROR,
-  ITEM_ADD_FAIL,
-  ITEM_ADD_REQUEST,
-  ITEM_ADD_SUCCESS,
-  ITEM_DELETE_FAIL,
-  ITEM_DELETE_REQUEST,
-  ITEM_DELETE_SUCCESS,
-  ITEM_EDITING_MODE_CHANGE,
-  ITEM_SAVE_FAIL,
-  ITEM_SAVE_REQUEST,
-  ITEM_SAVE_SUCCESS,
-  ITEMS_FETCH_SUCCESS,
+  ITEM_ADD_FAILED,
+  ITEM_ADD_STARTED,
+  ITEM_ADD_SUCCEEDED,
+  ITEM_DELETE_FAILED,
+  ITEM_DELETE_STARTED,
+  ITEM_DELETE_SUCCEEDED,
+  ITEM_EDITING_MODE_CHANGED,
+  ITEM_SAVE_FAILED,
+  ITEM_SAVE_STARTED,
+  ITEM_SAVE_SUCCEEDED,
+  ITEMS_FETCH_SUCCEEDED,
 } from '../../actions/types/listActionTypes';
 import { IListAction } from '../../actions/types/IListAction';
 import { OrderedMap } from 'immutable';
@@ -24,15 +24,15 @@ export const items = (
   action: IListAction,
 ): ItemsState => {
   switch (action.type) {
-    case ITEM_DELETE_SUCCESS:
+    case ITEM_DELETE_SUCCEEDED:
     case CLOSE_ADD_ERROR:
       return state
         .delete(action.payload.id);
 
-    case ITEMS_FETCH_SUCCESS:
+    case ITEMS_FETCH_SUCCEEDED:
       return action.payload.items;
 
-    case ITEM_ADD_SUCCESS: {
+    case ITEM_ADD_SUCCEEDED: {
       const itemFromState = state.get(action.payload.id);
       const updatedItem = item(itemFromState, action);
 
@@ -44,8 +44,8 @@ export const items = (
         .delete(action.payload.id);
     }
 
-    case ITEM_ADD_REQUEST:
-    case ITEM_SAVE_REQUEST:
+    case ITEM_ADD_STARTED:
+    case ITEM_SAVE_STARTED:
     case CLOSE_SAVE_ERROR: {
       const updatedItem = item(undefined, action);
 
@@ -53,12 +53,12 @@ export const items = (
         .set(action.payload.id, updatedItem);
     }
 
-    case ITEM_SAVE_FAIL:
-    case ITEM_ADD_FAIL:
-    case ITEM_DELETE_FAIL:
-    case ITEM_DELETE_REQUEST:
-    case ITEM_EDITING_MODE_CHANGE:
-    case ITEM_SAVE_SUCCESS:
+    case ITEM_SAVE_FAILED:
+    case ITEM_ADD_FAILED:
+    case ITEM_DELETE_FAILED:
+    case ITEM_DELETE_STARTED:
+    case ITEM_EDITING_MODE_CHANGED:
+    case ITEM_SAVE_SUCCEEDED:
     case CLOSE_DELETE_ERROR: {
       const itemFromState = state.get(action.payload.id);
       const updatedItem = item(itemFromState, action);

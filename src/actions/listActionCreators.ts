@@ -2,15 +2,15 @@ import {
   CLOSE_ADD_ERROR,
   CLOSE_DELETE_ERROR,
   CLOSE_SAVE_ERROR,
-  ITEM_ADD_FAIL,
-  ITEM_ADD_SUCCESS,
-  ITEM_DELETE_FAIL,
-  ITEM_DELETE_REQUEST,
-  ITEM_DELETE_SUCCESS,
-  ITEM_EDITING_MODE_CHANGE, ITEM_SAVE_FAIL, ITEM_SAVE_REQUEST, ITEM_SAVE_SUCCESS,
-  ITEMS_FETCH_FAIL,
-  ITEMS_FETCH_SUCCESS,
-  ITEMS_REQUEST,
+  ITEM_ADD_FAILED,
+  ITEM_ADD_SUCCEEDED,
+  ITEM_DELETE_FAILED,
+  ITEM_DELETE_STARTED,
+  ITEM_DELETE_SUCCEEDED,
+  ITEM_EDITING_MODE_CHANGED, ITEM_SAVE_FAILED, ITEM_SAVE_STARTED, ITEM_SAVE_SUCCEEDED,
+  ITEMS_FETCH_FAILED,
+  ITEMS_FETCH_SUCCEEDED,
+  ITEMS_FETCH_STARTED,
 } from './types/listActionTypes';
 import { IListAction } from './types/IListAction';
 import { ListError } from '../models/ListError';
@@ -19,7 +19,7 @@ import { ListItem } from '../models/ListItem';
 import { addItem as addItemFactory } from './factories/addItem';
 
 export const changeItemEditingMode = (id: Uuid): IListAction => ({
-  type: ITEM_EDITING_MODE_CHANGE,
+  type: ITEM_EDITING_MODE_CHANGED,
   payload: {id},
 });
 
@@ -42,12 +42,12 @@ export const closeAddError = (id: Uuid): IListAction => ({
 });
 
 export const deleteItem = (id: Uuid): IListAction => ({
-  type: ITEM_DELETE_REQUEST,
+  type: ITEM_DELETE_STARTED,
   payload: {id},
 });
 
 export const deleteItemFail = (id: Uuid, error: ListError): IListAction => ({
-  type: ITEM_DELETE_FAIL,
+  type: ITEM_DELETE_FAILED,
   payload: {
     id,
     error,
@@ -55,24 +55,24 @@ export const deleteItemFail = (id: Uuid, error: ListError): IListAction => ({
 });
 
 export const deleteItemSuccess = (id: Uuid): IListAction => ({
-  type: ITEM_DELETE_SUCCESS,
+  type: ITEM_DELETE_SUCCEEDED,
   payload: {id},
 });
 
 export const itemsFetchSuccess = (items: OrderedMap<Uuid, ListItem>): IListAction => ({
-  type: ITEMS_FETCH_SUCCESS,
+  type: ITEMS_FETCH_SUCCEEDED,
   payload: {
     items,
   },
 });
 
 export const requestItems = (): IListAction => ({
-  type: ITEMS_REQUEST,
+  type: ITEMS_FETCH_STARTED,
   payload: null,
 });
 
 export const itemsFetchFail = (): IListAction => ({
-  type: ITEMS_FETCH_FAIL,
+  type: ITEMS_FETCH_FAILED,
   payload: null,
 });
 
@@ -80,7 +80,7 @@ export const addItem = (id: Uuid, text: string): IListAction =>
   addItemFactory(() => id)(text);
 
 export const addItemSuccess = (id: Uuid, fetchedId: Uuid): IListAction => ({
-  type: ITEM_ADD_SUCCESS,
+  type: ITEM_ADD_SUCCEEDED,
   payload: {
     id,
     fetchedId,
@@ -88,7 +88,7 @@ export const addItemSuccess = (id: Uuid, fetchedId: Uuid): IListAction => ({
 });
 
 export const addItemFail = (id: Uuid, error: ListError): IListAction => ({
-  type: ITEM_ADD_FAIL,
+  type: ITEM_ADD_FAILED,
   payload: {
     id,
     error,
@@ -96,7 +96,7 @@ export const addItemFail = (id: Uuid, error: ListError): IListAction => ({
 });
 
 export const saveItem = (id: Uuid, text: string, backupText: string = ''): IListAction => ({
-  type: ITEM_SAVE_REQUEST,
+  type: ITEM_SAVE_STARTED,
   payload: {
     id,
     text,
@@ -106,7 +106,7 @@ export const saveItem = (id: Uuid, text: string, backupText: string = ''): IList
 });
 
 export const saveItemFail = (id: Uuid, error: ListError): IListAction => ({
-  type: ITEM_SAVE_FAIL,
+  type: ITEM_SAVE_FAILED,
   payload: {
     id,
     error,
@@ -114,6 +114,6 @@ export const saveItemFail = (id: Uuid, error: ListError): IListAction => ({
 });
 
 export const saveItemSuccess = (id: Uuid): IListAction => ({
-  type: ITEM_SAVE_SUCCESS,
+  type: ITEM_SAVE_SUCCEEDED,
   payload: {id},
 });

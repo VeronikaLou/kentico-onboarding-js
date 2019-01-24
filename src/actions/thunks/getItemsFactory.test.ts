@@ -1,5 +1,5 @@
 import { getItemsFactory } from './getItemsFactory';
-import { ITEMS_FETCH_FAIL, ITEMS_FETCH_SUCCESS, ITEMS_REQUEST } from '../types/listActionTypes';
+import { ITEMS_FETCH_FAILED, ITEMS_FETCH_SUCCEEDED, ITEMS_FETCH_STARTED } from '../types/listActionTypes';
 import { OrderedMap } from 'immutable';
 import { ListItem } from '../../models/ListItem';
 import { Dispatch } from '../types/Dispatcher';
@@ -21,8 +21,8 @@ describe('Get items', () => {
     await dispatchableGetItems(dispatch);
 
     expect(dispatch.mock.calls.length).toBe(2);
-    expect(dispatch.mock.calls[0][0].type).toEqual(ITEMS_REQUEST);
-    expect(dispatch.mock.calls[1][0].type).toEqual(ITEMS_FETCH_SUCCESS);
+    expect(dispatch.mock.calls[0][0].type).toEqual(ITEMS_FETCH_STARTED);
+    expect(dispatch.mock.calls[1][0].type).toEqual(ITEMS_FETCH_SUCCEEDED);
 
   });
 
@@ -32,8 +32,8 @@ describe('Get items', () => {
     await dispatchableGetItems(dispatch);
 
     expect(dispatch.mock.calls.length).toBe(2);
-    expect(dispatch.mock.calls[0][0].type).toEqual(ITEMS_REQUEST);
-    expect(dispatch.mock.calls[1][0].type).toEqual(ITEMS_FETCH_FAIL);
+    expect(dispatch.mock.calls[0][0].type).toEqual(ITEMS_FETCH_STARTED);
+    expect(dispatch.mock.calls[1][0].type).toEqual(ITEMS_FETCH_FAILED);
   });
 
   [getItems, getFailedFetch].forEach(fetch => {

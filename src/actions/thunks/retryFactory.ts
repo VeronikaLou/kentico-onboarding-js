@@ -1,5 +1,5 @@
 import { ListError } from '../../models/ListError';
-import { ITEM_ADD_FAIL, ITEM_DELETE_FAIL, ITEM_SAVE_FAIL } from '../types/listActionTypes';
+import { ITEM_ADD_FAILED, ITEM_DELETE_FAILED, ITEM_SAVE_FAILED } from '../types/listActionTypes';
 import { Dispatch } from '../types/Dispatcher';
 import { IListAction } from '../types/IListAction';
 import { IStore } from '../../store/types/IStore';
@@ -16,13 +16,13 @@ export const retryFactory =
       (dispatch: Dispatch<IListAction>, getState: () => IStore): Promise<IListAction> => {
         const item = getState().items.get(error.itemId);
         switch (error.action) {
-          case ITEM_DELETE_FAIL:
+          case ITEM_DELETE_FAILED:
             return dispatch(deleteItem(item.id));
 
-          case ITEM_ADD_FAIL:
+          case ITEM_ADD_FAILED:
             return dispatch(postItem(item.text, item.id));
 
-          case ITEM_SAVE_FAIL:
+          case ITEM_SAVE_FAILED:
             return dispatch(putItem(item.id, item.text, item.backupText));
 
           default:

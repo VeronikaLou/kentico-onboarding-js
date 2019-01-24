@@ -1,5 +1,5 @@
 import { IListAction } from '../types/IListAction';
-import { ITEM_DELETE_FAIL } from '../types/listActionTypes';
+import { ITEM_DELETE_FAILED } from '../types/listActionTypes';
 import { Dispatch } from '../types/Dispatcher';
 import { createError } from '../../utils/errorsCreator';
 import { deleteItem, deleteItemFail, deleteItemSuccess } from '../listActionCreators';
@@ -21,7 +21,7 @@ export const deleteItemFactory =
         } catch (exception) {
           return dispatch(deleteItemFail(
             id,
-            createError(ITEM_DELETE_FAIL, 'Item Delete failed.', id)),
+            createError(ITEM_DELETE_FAILED, 'Item Delete failed.', id)),
           );
         }
       };

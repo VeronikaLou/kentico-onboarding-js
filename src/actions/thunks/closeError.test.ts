@@ -4,10 +4,10 @@ import {
   CLOSE_ADD_ERROR,
   CLOSE_DELETE_ERROR,
   CLOSE_SAVE_ERROR,
-  ITEM_ADD_FAIL,
-  ITEM_ADD_SUCCESS,
-  ITEM_DELETE_FAIL,
-  ITEM_SAVE_FAIL,
+  ITEM_ADD_FAILED,
+  ITEM_ADD_SUCCEEDED,
+  ITEM_DELETE_FAILED,
+  ITEM_SAVE_FAILED,
 } from '../types/listActionTypes';
 import { closeError } from './closeError';
 import { ListError } from '../../models/ListError';
@@ -25,7 +25,7 @@ describe('Close error', () => {
   });
 
   it('dispatches CLOSE_DELETE_ERROR when passing error with failed delete', () => {
-    const deleteFailError = new ListError({...errorIds, action: ITEM_DELETE_FAIL});
+    const deleteFailError = new ListError({...errorIds, action: ITEM_DELETE_FAILED});
 
     closeError(deleteFailError, '')(dispatch);
 
@@ -34,7 +34,7 @@ describe('Close error', () => {
   });
 
   it('dispatches CLOSE_ADD_ERROR when passing error with failed add', () => {
-    const addFailError = new ListError({...errorIds, action: ITEM_ADD_FAIL});
+    const addFailError = new ListError({...errorIds, action: ITEM_ADD_FAILED});
 
     closeError(addFailError, '')(dispatch);
 
@@ -43,7 +43,7 @@ describe('Close error', () => {
   });
 
   it('dispatches CLOSE_SAVE_ERROR when passing error with failed save', () => {
-    const saveFailError = new ListError({...errorIds, action: ITEM_SAVE_FAIL});
+    const saveFailError = new ListError({...errorIds, action: ITEM_SAVE_FAILED});
 
     closeError(saveFailError, '')(dispatch);
 
@@ -52,7 +52,7 @@ describe('Close error', () => {
   });
 
   it('throws error when passing error with other actions', () => {
-    const addSuccessError = new ListError({...errorIds, action: ITEM_ADD_SUCCESS});
+    const addSuccessError = new ListError({...errorIds, action: ITEM_ADD_SUCCEEDED});
 
     expect(() => closeError(addSuccessError, '')(dispatch))
       .toThrow('Invalid action was dispatched.');

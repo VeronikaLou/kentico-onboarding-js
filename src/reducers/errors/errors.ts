@@ -2,13 +2,13 @@ import { ErrorsState } from '../../store/types/ErrorsState';
 import { ListError } from '../../models/ListError';
 import { IListAction } from '../../actions/types/IListAction';
 import {
-  ITEM_ADD_FAIL,
-  ITEM_ADD_REQUEST,
-  ITEM_DELETE_FAIL,
-  ITEM_DELETE_REQUEST,
+  ITEM_ADD_FAILED,
+  ITEM_ADD_STARTED,
+  ITEM_DELETE_FAILED,
+  ITEM_DELETE_STARTED,
   CLOSE_SAVE_ERROR,
-  ITEM_SAVE_FAIL,
-  ITEM_SAVE_REQUEST,
+  ITEM_SAVE_FAILED,
+  ITEM_SAVE_STARTED,
   CLOSE_ADD_ERROR, CLOSE_DELETE_ERROR,
 } from '../../actions/types/listActionTypes';
 import { OrderedMap } from 'immutable';
@@ -18,14 +18,14 @@ export const errors = (
   action: IListAction,
 ): ErrorsState => {
   switch (action.type) {
-    case ITEM_DELETE_FAIL:
-    case ITEM_SAVE_FAIL:
-    case ITEM_ADD_FAIL:
+    case ITEM_DELETE_FAILED:
+    case ITEM_SAVE_FAILED:
+    case ITEM_ADD_FAILED:
       return state.set(action.payload.error.errorId, action.payload.error);
 
-    case ITEM_ADD_REQUEST:
-    case ITEM_SAVE_REQUEST:
-    case ITEM_DELETE_REQUEST:
+    case ITEM_ADD_STARTED:
+    case ITEM_SAVE_STARTED:
+    case ITEM_DELETE_STARTED:
     case CLOSE_ADD_ERROR:
     case CLOSE_DELETE_ERROR:
     case CLOSE_SAVE_ERROR: {

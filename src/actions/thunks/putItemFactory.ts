@@ -1,6 +1,6 @@
 import { IListAction } from '../types/IListAction';
 import { IFetchedItem } from '../../models/IFetchedItem';
-import { ITEM_SAVE_FAIL } from '../types/listActionTypes';
+import { ITEM_SAVE_FAILED } from '../types/listActionTypes';
 import { Dispatch } from '../types/Dispatcher';
 import { createError } from '../../utils/errorsCreator';
 import { saveItem, saveItemFail, saveItemSuccess } from '../listActionCreators';
@@ -21,7 +21,7 @@ export const putItemFactory =
         } catch (exception) {
           return dispatch(saveItemFail(
             id,
-            createError(ITEM_SAVE_FAIL, 'Item Save failed.', id)),
+            createError(ITEM_SAVE_FAILED, 'Item Save failed.', id)),
           );
         }
       };

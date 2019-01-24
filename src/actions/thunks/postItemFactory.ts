@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
 import { IListAction } from '../types/IListAction';
-import { ITEM_ADD_FAIL } from '../types/listActionTypes';
+import { ITEM_ADD_FAILED } from '../types/listActionTypes';
 import { createError } from '../../utils/errorsCreator';
 import { addItem, addItemFail, addItemSuccess } from '../listActionCreators';
 import { IFetchedItem } from '../../models/IFetchedItem';
@@ -22,7 +22,7 @@ export const postItemFactory =
         } catch (exception) {
           return dispatch(addItemFail(
             id,
-            createError(ITEM_ADD_FAIL, 'Item Add failed.', id)),
+            createError(ITEM_ADD_FAILED, 'Item Add failed.', id)),
           );
         }
       };

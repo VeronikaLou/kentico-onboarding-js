@@ -1,8 +1,8 @@
 import { deleteItemFactory } from './deleteItemFactory';
 import {
-  ITEM_DELETE_FAIL,
-  ITEM_DELETE_REQUEST,
-  ITEM_DELETE_SUCCESS,
+  ITEM_DELETE_FAILED,
+  ITEM_DELETE_STARTED,
+  ITEM_DELETE_SUCCEEDED,
 } from '../types/listActionTypes';
 import { Dispatch } from '../types/Dispatcher';
 import { IListAction } from '../types/IListAction';
@@ -25,8 +25,8 @@ describe('Delete item', () => {
     await dispatchable(dispatch);
 
     expect(dispatch.mock.calls.length).toBe(2);
-    expect(dispatch.mock.calls[0][0].type).toEqual(ITEM_DELETE_REQUEST);
-    expect(dispatch.mock.calls[1][0].type).toEqual(ITEM_DELETE_SUCCESS);
+    expect(dispatch.mock.calls[0][0].type).toEqual(ITEM_DELETE_STARTED);
+    expect(dispatch.mock.calls[1][0].type).toEqual(ITEM_DELETE_SUCCEEDED);
 
   });
 
@@ -37,8 +37,8 @@ describe('Delete item', () => {
     await dispatchable(dispatch);
 
     expect(dispatch.mock.calls.length).toBe(2);
-    expect(dispatch.mock.calls[0][0].type).toEqual(ITEM_DELETE_REQUEST);
-    expect(dispatch.mock.calls[1][0].type).toEqual(ITEM_DELETE_FAIL);
+    expect(dispatch.mock.calls[0][0].type).toEqual(ITEM_DELETE_STARTED);
+    expect(dispatch.mock.calls[1][0].type).toEqual(ITEM_DELETE_FAILED);
   });
 
   [performDelete, getFailedFetch].forEach(fetch => {

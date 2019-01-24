@@ -1,10 +1,10 @@
 import { Dispatch } from '../types/Dispatcher';
 import { IListAction } from '../types/IListAction';
 import {
-  ITEM_ADD_FAIL,
-  ITEM_ADD_SUCCESS,
-  ITEM_DELETE_FAIL,
-  ITEM_SAVE_FAIL,
+  ITEM_ADD_FAILED,
+  ITEM_ADD_SUCCEEDED,
+  ITEM_DELETE_FAILED,
+  ITEM_SAVE_FAILED,
 } from '../types/listActionTypes';
 import { OrderedMap } from 'immutable';
 import { ListItem } from '../../models/ListItem';
@@ -47,7 +47,7 @@ describe('Retry', () => {
   it('calls post add item when passing error with failed add', () => {
     const addFailError = new ListError({
       ...errorIds,
-      action: ITEM_ADD_FAIL,
+      action: ITEM_ADD_FAILED,
     });
 
     retry(addFailError)(dispatch, getState);
@@ -58,7 +58,7 @@ describe('Retry', () => {
   it('calls delete item when passing error with failed delete', () => {
     const deleteFailError = new ListError({
       ...errorIds,
-      action: ITEM_DELETE_FAIL,
+      action: ITEM_DELETE_FAILED,
     });
 
     retry(deleteFailError)(dispatch, getState);
@@ -69,7 +69,7 @@ describe('Retry', () => {
   it('calls put item when passing error with failed save', () => {
     const addFailError = new ListError({
       ...errorIds,
-      action: ITEM_SAVE_FAIL,
+      action: ITEM_SAVE_FAILED,
     });
 
     retry(addFailError)(dispatch, getState);
@@ -80,7 +80,7 @@ describe('Retry', () => {
   it('throws error when passing error with other actions', () => {
     const addSuccessError = new ListError({
       ...errorIds,
-      action: ITEM_ADD_SUCCESS,
+      action: ITEM_ADD_SUCCEEDED,
     });
 
     expect(() => retry(addSuccessError)(dispatch, getState))
