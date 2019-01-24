@@ -37,7 +37,7 @@ export class ItemError extends React.PureComponent<ItemErrorProps> {
 
   render(): JSX.Element {
     return (
-      <div className="alert-danger float-right text-danger font-weight-bold">
+      <div className="float-right text-danger font-weight-bold">
         {this.props.error.message}
         <div className="btn-group">
           <button

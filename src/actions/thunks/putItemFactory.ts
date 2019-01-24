@@ -5,8 +5,12 @@ import { Dispatch } from '../types/Dispatcher';
 import { createError } from '../../utils/errorsCreator';
 import { saveItem, saveItemFail, saveItemSuccess } from '../listActionCreators';
 
+interface IPutDeps {
+  readonly getFetchedItem: (id: Uuid, text: string) => Promise<IFetchedItem>;
+}
+
 export const putItemFactory =
-  (getFetchedItem: (id: Uuid, text: string) => Promise<IFetchedItem>) =>
+  ({getFetchedItem}: IPutDeps) =>
     (id: Uuid, text: string, backupText: string = '') =>
       async (dispatch: Dispatch<IListAction>): Promise<IListAction> => {
         dispatch(saveItem(id, text, backupText));

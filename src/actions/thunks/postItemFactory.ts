@@ -2,33 +2,27 @@ import { Dispatch } from 'redux';
 import { IListAction } from '../types/IListAction';
 import { ITEM_ADD_FAIL } from '../types/listActionTypes';
 import { createError } from '../../utils/errorsCreator';
-import { validatePostResponse } from '../../utils/responseValidator';
 import { addItem, addItemFail, addItemSuccess } from '../listActionCreators';
+import { IFetchedItem } from '../../models/IFetchedItem';
+
+interface IPostDeps {
+  readonly getFetchedItem: (text: string) => Promise<IFetchedItem>;
+}
 
 export const postItemFactory =
-  (fetch: (input?: Request | string, init?: RequestInit) => Promise<Response>) =>
-    (text: string, itemId: Uuid) =>
+  ({getFetchedItem}: IPostDeps) =>
+    (id: Uuid, text: string) =>
       async (dispatch: Dispatch<IListAction>): Promise<IListAction> => {
-        dispatch(addItem(itemId, text));
+        dispatch(addItem(id, text));
 
         try {
-          const response: Response = await fetch(
-            'v1/List/',
-            {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({text}),
-            });
+          const fetchedItem = await getFetchedItem(text);
 
-          const fetchedItem = await validatePostResponse(response);
-
-          return dispatch(addItemSuccess(itemId, fetchedItem.id));
+          return dispatch(addItemSuccess(id, fetchedItem.id));
         } catch (exception) {
           return dispatch(addItemFail(
-            itemId,
-            createError(ITEM_ADD_FAIL, 'Item Add failed.', itemId)),
+            id,
+            createError(ITEM_ADD_FAIL, 'Item Add failed.', id)),
           );
         }
       };

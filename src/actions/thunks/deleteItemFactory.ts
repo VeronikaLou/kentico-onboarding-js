@@ -2,23 +2,20 @@ import { IListAction } from '../types/IListAction';
 import { ITEM_DELETE_FAIL } from '../types/listActionTypes';
 import { Dispatch } from '../types/Dispatcher';
 import { createError } from '../../utils/errorsCreator';
-import { validateDeleteResponse } from '../../utils/responseValidator';
 import { deleteItem, deleteItemFail, deleteItemSuccess } from '../listActionCreators';
 
+interface IDeleteDeps {
+  readonly performDelete: (id: Uuid) => Promise<void>;
+}
+
 export const deleteItemFactory =
-  (fetch: (input?: Request | string, init?: RequestInit) => Promise<Response>) =>
+  ({performDelete}: IDeleteDeps) =>
     (id: Uuid) =>
       async (dispatch: Dispatch<IListAction>): Promise<IListAction> => {
         dispatch(deleteItem(id));
 
         try {
-          const response: Response = await fetch(
-            'v1/List/' + id,
-            {
-              method: 'DELETE',
-              body: JSON.stringify({id}),
-            });
-          validateDeleteResponse(response);
+          await performDelete(id);
 
           return dispatch(deleteItemSuccess(id));
         } catch (exception) {

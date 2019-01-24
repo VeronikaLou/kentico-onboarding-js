@@ -11,28 +11,15 @@ import Mock = jest.Mock;
 describe('Delete item', () => {
   const dispatch: Mock<Dispatch<IListAction>> = jest.fn();
   const itemId = '00000000-0000-0000-0000-000000000001';
-
-  const fetchNoContent = jest.fn(() =>
-    Promise.resolve({
-      status: 204,
-      statusText: 'No Content',
-      ok: true,
-    }));
-
-  const fetchNotFound = jest.fn(() =>
-    Promise.resolve(({
-      status: 404,
-      statusText: 'Not Found',
-    })));
-
-  const fetchCases = [fetchNoContent, fetchNotFound];
+  const performDelete = jest.fn(() => Promise.resolve());
+  const getFailedFetch = jest.fn(() => Promise.reject(new Error('Invalid response.')));
 
   beforeEach(() => {
     dispatch.mockClear();
   });
 
   it('dispatches request and success actions if the fetch response was successful', async () => {
-    const deleteItem = deleteItemFactory(fetchNoContent);
+    const deleteItem = deleteItemFactory({performDelete});
     const dispatchable = deleteItem(itemId);
 
     await dispatchable(dispatch);
@@ -44,7 +31,7 @@ describe('Delete item', () => {
   });
 
   it('dispatches request and fail actions if the fetch response failed', async () => {
-    const deleteItem = deleteItemFactory(fetchNotFound);
+    const deleteItem = deleteItemFactory({performDelete: getFailedFetch});
     const dispatchable = deleteItem(itemId);
 
     await dispatchable(dispatch);
@@ -54,9 +41,9 @@ describe('Delete item', () => {
     expect(dispatch.mock.calls[1][0].type).toEqual(ITEM_DELETE_FAIL);
   });
 
-  fetchCases.forEach(fetch => {
+  [performDelete, getFailedFetch].forEach(fetch => {
     it('should set id in payload in request action', async () => {
-      const deleteItem = deleteItemFactory(fetch);
+      const deleteItem = deleteItemFactory({performDelete: fetch});
       const dispatchable = deleteItem(itemId);
 
       await dispatchable(dispatch);
@@ -68,7 +55,7 @@ describe('Delete item', () => {
   });
 
   it('should set id in payload in success action', async () => {
-    const deleteItem = deleteItemFactory(fetchNoContent);
+    const deleteItem = deleteItemFactory({performDelete});
     const dispatchable = deleteItem(itemId);
 
     await dispatchable(dispatch);
@@ -79,7 +66,7 @@ describe('Delete item', () => {
   });
 
   it('should set id and error in payload in fail action', async () => {
-    const deleteItem = deleteItemFactory(fetchNotFound);
+    const deleteItem = deleteItemFactory({performDelete: getFailedFetch});
     const dispatchable = deleteItem(itemId);
 
     await dispatchable(dispatch);
