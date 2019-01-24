@@ -17,6 +17,7 @@ const initialState: IStore = {
   isFetching: false,
   errors: OrderedMap<Uuid, ListError>(),
   fetchingItemsFail: false,
+  backupTexts: OrderedMap<Uuid, string>(),
 };
 
 export const store: Store<IStore> = createStore(

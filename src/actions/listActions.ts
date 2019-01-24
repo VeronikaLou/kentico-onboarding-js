@@ -72,6 +72,6 @@ const performPost =
 
 export const putItem = putItemFactory({getFetchedItem: performPut(fetch)});
 export const deleteItem = deleteItemFactory({performDelete: performDelete(fetch)});
-export const postItem = (text: string, id: Uuid = generateId()) => postItemFactory({getFetchedItem: performPost(fetch)})(text, id);
+export const postItem = (text: string, id: Uuid = generateId()) => postItemFactory({getFetchedItem: performPost(fetch)})(id, text);
 export const getItems = getItemsFactory({getItems: performGet(fetch)});
 export const retry = retryFactory({deleteItem, postItem, putItem});

@@ -12,7 +12,7 @@ import { ComponentClass } from 'react';
 import { connect } from 'react-redux';
 
 const mapStateToProps = (state: IStore, ownProps: IItemErrorOwnProps): IItemErrorStateProps => ({
-  backupText: state.items.get(ownProps.id).backupText,
+  backupText: state.backupTexts.get(ownProps.id),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<IStore>, ownProps: IItemErrorOwnProps):

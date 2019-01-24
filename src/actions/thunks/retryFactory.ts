@@ -7,7 +7,7 @@ import { IStore } from '../../store/types/IStore';
 interface IRetryActions {
   readonly deleteItem: (id: Uuid) => ((dispatch: Dispatch<IListAction>) => Promise<IListAction>);
   readonly postItem: (text: string, id: Uuid) => ((dispatch: Dispatch<IListAction>) => Promise<IListAction>);
-  readonly putItem: (id: Uuid, text: string, backupText: string) => ((Dispatch: Dispatch<IListAction>) => Promise<IListAction>);
+  readonly putItem: (id: Uuid, text: string) => ((Dispatch: Dispatch<IListAction>) => Promise<IListAction>);
 }
 
 export const retryFactory =
@@ -23,7 +23,7 @@ export const retryFactory =
             return dispatch(postItem(item.text, item.id));
 
           case ITEM_SAVE_FAILED:
-            return dispatch(putItem(item.id, item.text, item.backupText));
+            return dispatch(putItem(item.id, item.text));
 
           default:
             throw 'Invalid action was dispatched.';
