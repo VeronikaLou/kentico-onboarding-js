@@ -9,15 +9,16 @@ describe('Post item', () => {
   const itemId = '00000000-0000-0000-0000-000000000001';
   const generateId = jest.fn(() => itemId);
   const fetchedId = '00000000-0000-0000-0000-000000000002';
-  const getFetchedItem = jest.fn((text: string) => Promise.resolve({id: fetchedId, text}));
-  const getFailedFetch = jest.fn(() => Promise.reject(new Error('Invalid response.')));
+  const getItemSuccessfully = jest.fn((text: string) => Promise.resolve({id: fetchedId, text}));
+  const getItemUnsuccessfully = jest.fn(() => Promise.reject(new Error('Invalid response.')));
+  const failedAndSucceededItem = [getItemSuccessfully, getItemUnsuccessfully];
 
   beforeEach(() => {
     dispatch.mockClear();
   });
 
   it('dispatches request and success actions if the fetch response was successful', async () => {
-    const postItem = postItemFactory({getFetchedItem});
+    const postItem = postItemFactory({getFetchedItem: getItemSuccessfully});
     const dispatchable = postItem(generateId(), 'text');
 
     await dispatchable(dispatch);
@@ -27,10 +28,10 @@ describe('Post item', () => {
     expect(dispatch.mock.calls[1][0].type).toEqual(ITEM_ADD_SUCCEEDED);
   });
 
-  [getFetchedItem, getFailedFetch].forEach(fetch => {
+  failedAndSucceededItem.forEach(getFetchedItem => {
     it('should set id, text and isUpdating in payload in request action', async () => {
       const text = 'text';
-      const postItem = postItemFactory({getFetchedItem: fetch});
+      const postItem = postItemFactory({getFetchedItem});
       const dispatchable = postItem(generateId(), 'text');
 
       await dispatchable(dispatch);
@@ -44,7 +45,7 @@ describe('Post item', () => {
   });
 
   it('should set id and fetched id in payload in success action', async () => {
-    const postItem = postItemFactory({getFetchedItem});
+    const postItem = postItemFactory({getFetchedItem: getItemSuccessfully});
     const dispatchable = postItem(generateId(), 'text');
 
     await dispatchable(dispatch);
@@ -56,7 +57,7 @@ describe('Post item', () => {
   });
 
   it('dispatches request and fail actions if the fetch response failed', async () => {
-    const postItem = postItemFactory({getFetchedItem: getFailedFetch});
+    const postItem = postItemFactory({getFetchedItem: getItemUnsuccessfully});
     const dispatchable = postItem(generateId(), 'text');
 
     await dispatchable(dispatch);
@@ -67,7 +68,7 @@ describe('Post item', () => {
   });
 
   it('should set id and error in payload in fail action', async () => {
-    const postItem = postItemFactory({getFetchedItem: getFailedFetch});
+    const postItem = postItemFactory({getFetchedItem: getItemUnsuccessfully});
     const dispatchable = postItem(generateId(), 'text');
 
     await dispatchable(dispatch);

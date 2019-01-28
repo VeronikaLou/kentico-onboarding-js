@@ -5,17 +5,17 @@ import { createError } from '../../utils/errorsCreator';
 import { deleteItem, deleteItemFail, deleteItemSuccess } from '../listActionCreators';
 
 interface IDeleteDeps {
-  readonly performDelete: (id: Uuid) => Promise<void>;
+  readonly performDeletion: (id: Uuid) => Promise<void>;
 }
 
 export const deleteItemFactory =
-  ({performDelete}: IDeleteDeps) =>
+  ({performDeletion}: IDeleteDeps) =>
     (id: Uuid) =>
       async (dispatch: Dispatch<IListAction>): Promise<IListAction> => {
         dispatch(deleteItem(id));
 
         try {
-          await performDelete(id);
+          await performDeletion(id);
 
           return dispatch(deleteItemSuccess(id));
         } catch (exception) {

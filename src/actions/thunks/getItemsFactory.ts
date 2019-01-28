@@ -14,7 +14,7 @@ export const getItemsFactory =
         dispatch(requestItems());
 
         try {
-          const items = await getItems();
+          const items: ItemsState = await getItems();
 
           return dispatch(itemsFetchSuccess(items));
         } catch (exception) {

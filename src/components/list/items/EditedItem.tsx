@@ -49,7 +49,7 @@ export class EditedItem extends React.PureComponent<EditedItemProps, IEditedItem
 
   render(): JSX.Element {
     const {text} = this.state;
-    const isValid: boolean = isInputValid(this.state.text);
+    const isValid: boolean = isInputValid(text);
     const inputClass: string = classNames('form-control', {
       'is-invalid': !isInputValid(text),
     });

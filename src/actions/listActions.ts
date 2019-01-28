@@ -15,7 +15,7 @@ import { ItemsState } from '../store/types/ItemsState';
 import { OrderedMap } from 'immutable';
 import { ListItem } from '../models/ListItem';
 
-const performPut =
+const fetchablePut =
   (fetch: (input?: Request | string, init?: RequestInit) => Promise<Response>) =>
     async (id: Uuid, text: string): Promise<IFetchedItem> => {
       const response: Response = await fetch(
@@ -31,7 +31,7 @@ const performPut =
       return await validatePutResponse(response);
     };
 
-const performGet =
+const fetchableGet =
   (fetch: (input?: Request | string, init?: RequestInit) => Promise<Response>) =>
     async (): Promise<ItemsState> => {
       const response: Response = await fetch('/v1/List');
@@ -42,7 +42,7 @@ const performGet =
       );
     };
 
-const performDelete =
+const fetchableDelete =
   (fetch: (input?: Request | string, init?: RequestInit) => Promise<Response>) =>
     async (id: Uuid): Promise<void> => {
       const response: Response = await fetch(
@@ -54,7 +54,7 @@ const performDelete =
       validateDeleteResponse(response);
     };
 
-const performPost =
+const fetchablePost =
   (fetch: (input?: Request | string, init?: RequestInit) => Promise<Response>) =>
     async (text: string): Promise<IFetchedItem> => {
       const response: Response = await fetch(
@@ -70,8 +70,9 @@ const performPost =
       return await validatePostResponse(response);
     };
 
-export const putItem = putItemFactory({getFetchedItem: performPut(fetch)});
-export const deleteItem = deleteItemFactory({performDelete: performDelete(fetch)});
-export const postItem = (text: string, id: Uuid = generateId()) => postItemFactory({getFetchedItem: performPost(fetch)})(id, text);
-export const getItems = getItemsFactory({getItems: performGet(fetch)});
+export const putItem = putItemFactory({getFetchedItem: fetchablePut(fetch)});
+export const deleteItem = deleteItemFactory({performDeletion: fetchableDelete(fetch)});
+export const postItem = (text: string, id: Uuid = generateId()) =>
+  postItemFactory({getFetchedItem: fetchablePost(fetch)})(id, text);
+export const getItems = getItemsFactory({getItems: fetchableGet(fetch)});
 export const retry = retryFactory({deleteItem, postItem, putItem});

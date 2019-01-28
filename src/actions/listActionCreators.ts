@@ -7,16 +7,18 @@ import {
   ITEM_DELETE_FAILED,
   ITEM_DELETE_STARTED,
   ITEM_DELETE_SUCCEEDED,
-  ITEM_EDITING_MODE_CHANGED, ITEM_SAVE_FAILED, ITEM_SAVE_STARTED, ITEM_SAVE_SUCCEEDED,
+  ITEM_EDITING_MODE_CHANGED,
+  ITEM_SAVE_FAILED,
+  ITEM_SAVE_STARTED,
+  ITEM_SAVE_SUCCEEDED,
   ITEMS_FETCH_FAILED,
-  ITEMS_FETCH_SUCCEEDED,
   ITEMS_FETCH_STARTED,
+  ITEMS_FETCH_SUCCEEDED,
 } from './types/listActionTypes';
 import { IListAction } from './types/IListAction';
 import { ListError } from '../models/ListError';
-import { OrderedMap } from 'immutable';
-import { ListItem } from '../models/ListItem';
 import { addItem as addItemFactory } from './factories/addItem';
+import { ItemsState } from '../store/types/ItemsState';
 
 export const changeItemEditingMode = (id: Uuid): IListAction => ({
   type: ITEM_EDITING_MODE_CHANGED,
@@ -59,11 +61,9 @@ export const deleteItemSuccess = (id: Uuid): IListAction => ({
   payload: {id},
 });
 
-export const itemsFetchSuccess = (items: OrderedMap<Uuid, ListItem>): IListAction => ({
+export const itemsFetchSuccess = (items: ItemsState): IListAction => ({
   type: ITEMS_FETCH_SUCCEEDED,
-  payload: {
-    items,
-  },
+  payload: {items},
 });
 
 export const requestItems = (): IListAction => ({

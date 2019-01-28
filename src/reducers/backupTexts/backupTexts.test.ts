@@ -7,6 +7,10 @@ describe('Save started action should add text to state', () => {
   const backupText = 'backupText';
   const text = 'text';
   const nonemptyState = OrderedMap<Uuid, string>().set(itemId, backupText);
+  const actionsWhichRemoveText = [
+    saveItemSuccess(itemId),
+    closeSaveError(itemId, backupText),
+  ];
 
   it('should add error to state', () => {
     const saveFail = saveItem(itemId, text, backupText);
@@ -16,10 +20,7 @@ describe('Save started action should add text to state', () => {
     expect(result).toEqual(nonemptyState);
   });
 
-  [
-    saveItemSuccess(itemId),
-    closeSaveError(itemId, backupText),
-  ].forEach(action =>
+  actionsWhichRemoveText.forEach(action =>
     it('Save succeeded, close save error should remove text from state', () => {
       const expectedResult = OrderedMap<Uuid, string>();
 

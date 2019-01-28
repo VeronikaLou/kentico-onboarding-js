@@ -8,15 +8,16 @@ import Mock = jest.Mock;
 
 describe('Get items', () => {
   const dispatch: Mock<Dispatch<IListAction>> = jest.fn();
-  const getItems = jest.fn(() => Promise.resolve(OrderedMap<Uuid, ListItem>()));
-  const getFailedFetch = jest.fn(() => Promise.reject(new Error('Invalid response.')));
+  const getItemsSuccessfully = jest.fn(() => Promise.resolve(OrderedMap<Uuid, ListItem>()));
+  const getItemsUnsuccessfully = jest.fn(() => Promise.reject(new Error('Invalid response.')));
+  const failedAndSucceededItems = [getItemsSuccessfully, getItemsUnsuccessfully];
 
   beforeEach(() => {
     dispatch.mockClear();
   });
 
   it('calls request and success actions if the fetch response was successful', async () => {
-    const dispatchableGetItems = getItemsFactory({getItems})();
+    const dispatchableGetItems = getItemsFactory({getItems: getItemsSuccessfully})();
 
     await dispatchableGetItems(dispatch);
 
@@ -27,7 +28,7 @@ describe('Get items', () => {
   });
 
   it('calls request and fail actions if the fetch response failed', async () => {
-    const dispatchableGetItems = getItemsFactory({getItems: getFailedFetch})();
+    const dispatchableGetItems = getItemsFactory({getItems: getItemsUnsuccessfully})();
 
     await dispatchableGetItems(dispatch);
 
@@ -36,9 +37,9 @@ describe('Get items', () => {
     expect(dispatch.mock.calls[1][0].type).toEqual(ITEMS_FETCH_FAILED);
   });
 
-  [getItems, getFailedFetch].forEach(fetch => {
+  failedAndSucceededItems.forEach(getItems => {
     it('payload should be null in request action', async () => {
-      const dispatchableGetItems = getItemsFactory({getItems: fetch})();
+      const dispatchableGetItems = getItemsFactory({getItems})();
 
       await dispatchableGetItems(dispatch);
       const requestPayload = dispatch.mock.calls[0][0].payload;
@@ -48,7 +49,7 @@ describe('Get items', () => {
   });
 
   it('should set items in payload in success action', async () => {
-    const dispatchableGetItems = getItemsFactory({getItems})();
+    const dispatchableGetItems = getItemsFactory({getItems: getItemsSuccessfully})();
 
     await dispatchableGetItems(dispatch);
     const successPayload = dispatch.mock.calls[1][0].payload;
@@ -58,7 +59,7 @@ describe('Get items', () => {
   });
 
   it('should set payload to null in fail action', async () => {
-    const dispatchableGetItems = getItemsFactory({getItems: getFailedFetch})();
+    const dispatchableGetItems = getItemsFactory({getItems: getItemsUnsuccessfully})();
 
     await dispatchableGetItems(dispatch);
     const failPayload = dispatch.mock.calls[1][0].payload;

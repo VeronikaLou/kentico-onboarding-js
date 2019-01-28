@@ -16,7 +16,7 @@ export const postItemFactory =
         dispatch(addItem(id, text));
 
         try {
-          const fetchedItem = await getFetchedItem(text);
+          const fetchedItem: IFetchedItem = await getFetchedItem(text);
 
           return dispatch(addItemSuccess(id, fetchedItem.id));
         } catch (exception) {

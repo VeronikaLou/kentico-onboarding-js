@@ -38,7 +38,7 @@ export const items = (
 
       return state
         .set(
-          action.payload.fetchedId,
+          updatedItem.id,
           updatedItem,
         )
         .delete(action.payload.id);
@@ -64,10 +64,7 @@ export const items = (
       const updatedItem = item(itemFromState, action);
 
       return state
-        .set(
-          action.payload.id,
-          updatedItem,
-        );
+        .set(action.payload.id, updatedItem);
     }
 
     default:

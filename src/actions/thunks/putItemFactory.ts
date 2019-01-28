@@ -16,7 +16,7 @@ export const putItemFactory =
         dispatch(saveItem(id, text, backupText));
 
         try {
-          const fetchedItem = await getFetchedItem(id, text);
+          const fetchedItem: IFetchedItem = await getFetchedItem(id, text);
           return dispatch(saveItemSuccess(fetchedItem.id));
         } catch (exception) {
           return dispatch(saveItemFail(

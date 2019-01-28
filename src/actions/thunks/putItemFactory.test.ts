@@ -8,15 +8,16 @@ describe('Put item', () => {
   const dispatch: Mock<Dispatch<IListAction>> = jest.fn();
   const itemId = '00000000-0000-0000-0000-000000000001';
   const itemText = 'updated';
-  const getFetchedItem = jest.fn((id: Uuid, text: string) => Promise.resolve({id, text}));
-  const getFailedFetch = jest.fn(() => Promise.reject(new Error('Invalid response.')));
+  const getItemSuccessfully = jest.fn((id: Uuid, text: string) => Promise.resolve({id, text}));
+  const getItemUnsuccessfully = jest.fn(() => Promise.reject(new Error('Invalid response.')));
+  const failedAndSucceededItem = [getItemUnsuccessfully, getItemSuccessfully];
 
   beforeEach(() => {
     dispatch.mockClear();
   });
 
   it('dispatches request and success actions if the fetch response was successful', async () => {
-    const putItem = putItemFactory({getFetchedItem});
+    const putItem = putItemFactory({getFetchedItem: getItemSuccessfully});
     const dispatchable = putItem(itemId, itemText);
 
     await dispatchable(dispatch);
@@ -27,7 +28,7 @@ describe('Put item', () => {
   });
 
   it('dispatches request and fail actions if the fetch response failed', async () => {
-    const putItem = putItemFactory({getFetchedItem: getFailedFetch});
+    const putItem = putItemFactory({getFetchedItem: getItemUnsuccessfully});
     const dispatchable = putItem(itemId, itemText);
 
     await dispatchable(dispatch);
@@ -37,10 +38,10 @@ describe('Put item', () => {
     expect(dispatch.mock.calls[1][0].type).toEqual(ITEM_SAVE_FAILED);
   });
 
-  [getFailedFetch, getFetchedItem].forEach(fetch => {
+  failedAndSucceededItem.forEach(getFetchedItem => {
     it('should set id, text, backupText and isUpdating in payload in request action', async () => {
       const backupText = 'backup';
-      const putItem = putItemFactory({getFetchedItem: fetch});
+      const putItem = putItemFactory({getFetchedItem});
       const dispatchable = putItem(itemId, itemText, backupText);
 
       await dispatchable(dispatch);
@@ -55,7 +56,7 @@ describe('Put item', () => {
   });
 
   it('should set id in payload in success action', async () => {
-    const putItem = putItemFactory({getFetchedItem});
+    const putItem = putItemFactory({getFetchedItem: getItemSuccessfully});
     const dispatchable = putItem(itemId, itemText);
 
     await dispatchable(dispatch);
@@ -66,7 +67,7 @@ describe('Put item', () => {
   });
 
   it('should set id and error in payload in failed action', async () => {
-    const putItem = putItemFactory({getFetchedItem: getFailedFetch});
+    const putItem = putItemFactory({getFetchedItem: getItemUnsuccessfully});
     const dispatchable = putItem(itemId, itemText);
 
     await dispatchable(dispatch);
