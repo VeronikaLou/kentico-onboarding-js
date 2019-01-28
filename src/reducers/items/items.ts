@@ -1,6 +1,7 @@
 import { item } from './item';
 import {
-  ITEM_ADDED,
+  ITEM_ADD_STARTED,
+  ITEM_ADD_SUCCEEDED,
   ITEM_CHANGES_SAVED,
   ITEM_DELETED,
   ITEM_EDITING_MODE_CHANGED,
@@ -18,7 +19,16 @@ export const items = (
     case ITEMS_FETCH_SUCCEEDED:
       return action.payload.items;
 
-    case ITEM_ADDED:
+    case ITEM_ADD_SUCCEEDED: {
+      const itemFromState = state.get(action.payload.id);
+      const updatedItem = item(itemFromState, action);
+
+      return state
+        .set(updatedItem.id, updatedItem)
+        .delete(action.payload.id);
+    }
+
+    case ITEM_ADD_STARTED:
     case ITEM_CHANGES_SAVED: {
       const updatedItem = item(undefined, action);
 

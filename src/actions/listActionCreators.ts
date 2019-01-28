@@ -1,14 +1,33 @@
-import { generateId } from '../utils/generateId';
 import {
+  ITEM_ADD_STARTED,
+  ITEM_ADD_SUCCEEDED,
   ITEM_CHANGES_SAVED,
   ITEM_DELETED,
-  ITEM_EDITING_MODE_CHANGED, ITEMS_FETCH_FAILED, ITEMS_FETCH_STARTED, ITEMS_FETCH_SUCCEEDED,
+  ITEM_EDITING_MODE_CHANGED,
+  ITEMS_FETCH_FAILED,
+  ITEMS_FETCH_STARTED,
+  ITEMS_FETCH_SUCCEEDED,
 } from './types/listActionTypes';
-import { addItem as addItemFactory } from './factories/addItem';
 import { IListAction } from './types/IListAction';
 import { ItemsState } from '../store/types/ItemsState';
 
-export const addItem = addItemFactory(generateId);
+export const addItem = (id: Uuid, text: string): IListAction => ({
+  type: ITEM_ADD_STARTED,
+  payload: {
+    id,
+    text,
+    isUpdating: true,
+  },
+});
+
+export const addItemSuccess = (id: Uuid, fetchedId: Uuid): IListAction => ({
+  type: ITEM_ADD_SUCCEEDED,
+  payload: {
+    id,
+    fetchedId,
+  },
+});
+
 
 export const deleteItem = (id: Uuid): IListAction => ({
   type: ITEM_DELETED,

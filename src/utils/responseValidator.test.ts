@@ -1,5 +1,5 @@
 import { IFetchedItem } from '../models/IFetchedItem';
-import { validateGetResponse } from './responseValidator';
+import { validateGetResponse, validatePostResponse } from './responseValidator';
 import 'isomorphic-fetch';
 
 describe('Validate get response', () => {
@@ -26,5 +26,31 @@ describe('Validate get response', () => {
 
     return validateGetResponse(response)
       .catch(error => expect(error).toBeTruthy());
+  });
+});
+
+describe('Validate post response', () => {
+  it('should return json if status code is 201', () => {
+    const validResponse = new Response(
+      '{}',
+      {
+        'status': 201,
+      });
+    const expectedResult = {};
+
+    return validatePostResponse(validResponse).then(result =>
+      expect(result).toEqual(expectedResult));
+  });
+
+  it('should throw error if status code is not 201', () => {
+    const invalidResponse = new Response(
+      '{}',
+      {
+        'status': 504,
+      });
+
+    return validatePostResponse(invalidResponse).catch(
+      error => expect(error).toBeTruthy(),
+    );
   });
 });

@@ -43,7 +43,6 @@ export class NewItem extends React.PureComponent<INewItemDispatchProps, INewItem
     const inputClass: string = classNames('form-control', {
       'is-invalid': isFocused && !isValid,
     });
-    const addButtonTitle: string | undefined = !isValid ? 'Insert text.' : undefined;
 
     return (
       <li className="list-group-item">
@@ -63,7 +62,7 @@ export class NewItem extends React.PureComponent<INewItemDispatchProps, INewItem
               id="button-addon2"
               onClick={this._addItem}
               disabled={!isValid}
-              title={addButtonTitle}
+              title={!isValid ? 'Insert text.' : undefined}
             >
               Add
             </button>

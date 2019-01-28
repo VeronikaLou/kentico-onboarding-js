@@ -12,7 +12,7 @@ import { IListAction } from '../../../actions/types/IListAction';
 import { ComponentClass } from 'react';
 
 const mapStateToProps = (state: IStore, ownProps: IPlainItemOwnProps): IPlainItemStateProps => ({
-  text: state.items.get(ownProps.id).text,
+  item: state.items.get(ownProps.id),
 });
 
 const mapDispatchToProps = (

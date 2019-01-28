@@ -1,7 +1,14 @@
 import { IFetchedItem } from '../models/IFetchedItem';
 
-export const validateGetResponse = (response: Response): Promise<Array<IFetchedItem>> => {
-  if (response.status === 200 && response.ok)
-    return response.json();
-  return Promise.reject(new Error('Invalid response.'));
-};
+const errorMessage = 'Invalid response.';
+
+function validateResponse<Result>(expectedStatusCode: number): (response: Response) => Promise<Result> {
+  return (response: Response) => {
+    if (response.status === expectedStatusCode && response.ok)
+      return response.json();
+    return Promise.reject(new Error(errorMessage));
+  };
+}
+
+export const validatePostResponse = validateResponse<IFetchedItem>(201);
+export const validateGetResponse = validateResponse<ReadonlyArray<IFetchedItem>>(200);

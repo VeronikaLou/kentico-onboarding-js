@@ -2,7 +2,7 @@ import { OrderedMap } from 'immutable';
 import { ListItem } from '../../models/ListItem';
 import { items } from './items';
 import {
-  addItem,
+  addItem, addItemSuccess,
   changeItemEditingMode,
   deleteItem, itemsFetchSuccess,
   saveItemChanges,
@@ -12,12 +12,23 @@ import { IListAction } from '../../actions/types/IListAction';
 const id1 = '00000000-0000-0000-0000-000000000001';
 const id2 = '00000000-0000-0000-0000-000000000002';
 
-describe('Add item', () => {
-  const newItem: IListAction = addItem('New item.');
-  const newListItem = new ListItem({ ...newItem.payload });
+describe('Add item request', () => {
+  const id3 = '00000000-0000-0000-0000-000000000003';
+  const listItem: ListItem = new ListItem({
+    id: id1,
+    text: 'I am new item.',
+  });
+  const newItem: IListAction = addItem(listItem.id, listItem.text);
+  const newListItem = new ListItem({...newItem.payload});
   const initialState = OrderedMap<Uuid, ListItem>()
-    .set('0', new ListItem({id: '0', text: 'A'}))
-    .set('1', new ListItem({id: '1', text: 'B'}));
+    .set(
+      id2,
+      new ListItem({id: id2, text: 'A'}),
+    )
+    .set(
+      id3,
+      new ListItem({id: id3, text: 'B'}),
+    );
 
   it('should add item into empty state', () => {
     const expectedResult = OrderedMap<Uuid, ListItem>()
@@ -29,6 +40,7 @@ describe('Add item', () => {
   });
 
   it('should add third item', () => {
+
     const expectedResult = initialState
       .set(newListItem.id, newListItem);
 
@@ -46,6 +58,40 @@ describe('Add item', () => {
     const result = items(initialState, invalidItem);
 
     expect(result).toEqual(initialState);
+  });
+});
+
+describe('Add item success', () => {
+  const item: ListItem = new ListItem({
+    id: id1,
+    text: 'Add me.',
+    isUpdating: true,
+  });
+  const initialState = OrderedMap<Uuid, ListItem>().set(item.id, item);
+  const newItem: IListAction = addItemSuccess(item.id, id2);
+
+  it('should add item with new id', () => {
+    const result = items(initialState, newItem);
+    const containsItem = result.get(id2);
+
+    expect(containsItem).toBeDefined();
+  });
+
+  it('should delete item with old id', () => {
+    const result = items(initialState, newItem);
+    const containsItem = result.get(item.id);
+
+    expect(containsItem).toBeUndefined();
+  });
+
+  it('should add item with new id and same text, remove item with old id', () => {
+    const expectedResult = initialState
+      .set(id2, new ListItem({id: id2, text: item.text}))
+      .delete(item.id);
+
+    const result = items(initialState, newItem);
+
+    expect(result).toEqual(expectedResult);
   });
 });
 

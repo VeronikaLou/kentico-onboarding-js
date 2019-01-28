@@ -1,5 +1,7 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
+import { ItemLoader } from './ItemLoader';
+import { ListItem } from '../../../models/ListItem';
 
 export interface IPlainItemOwnProps {
   readonly index: number;
@@ -11,26 +13,32 @@ export interface IPlainItemDispatchProps {
 }
 
 export interface IPlainItemStateProps {
-  readonly text: string;
+  readonly item: ListItem;
 }
 
 type PlainItemProps = IPlainItemOwnProps & IPlainItemDispatchProps & IPlainItemStateProps;
 
-export const PlainItem: React.StatelessComponent<PlainItemProps> = (
-  {
-    index, text, startEditing,
-  }: PlainItemProps): JSX.Element =>
-  (
-    <div onClick={startEditing}>
-      {index}.&nbsp;{text}
-    </div>
-  );
+export class PlainItem extends React.PureComponent<PlainItemProps> {
+  static displayName = 'PlainItem';
+  static propTypes = {
+    index: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
+    startEditing: PropTypes.func.isRequired,
+    item: PropTypes.object.isRequired,
+  };
 
-PlainItem.displayName = 'PlainItem';
+  render(): JSX.Element {
+    const textClass = `float-right col mt-1 py-1
+      ${this.props.item.isUpdating ? 'text-black-50' : 'text-dark'}`;
 
-PlainItem.propTypes = {
-  index: PropTypes.number.isRequired,
-  id: PropTypes.string.isRequired,
-  startEditing: PropTypes.func.isRequired,
-  text: PropTypes.string.isRequired,
-};
+    return (
+      <div
+        onClick={this.props.startEditing}
+        className={textClass}
+      >
+        {this.props.index}.&nbsp;{this.props.item.text}
+        {this.props.item.isUpdating && <ItemLoader />}
+      </div>
+    );
+  }
+}
