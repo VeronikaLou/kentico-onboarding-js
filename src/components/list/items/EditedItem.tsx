@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
 import * as PropTypes from 'prop-types';
-import { isInputValid } from '../utils/isInputValid';
+import { isInputValid } from '../../../utils/isInputValid';
 
 export interface IEditedItemOwnProps {
   readonly index: number;

@@ -1,6 +1,6 @@
 import '../styles/sticky-footer.css';
 import * as React from 'react';
-import { List } from '../containers/List';
+import { List } from '../containers/list/List';
 
 export const App: React.StatelessComponent = (): JSX.Element => (
   <div>

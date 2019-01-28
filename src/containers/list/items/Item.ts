@@ -1,8 +1,8 @@
-import { IStore } from '../store/types/IStore';
+import { IStore } from '../../../store/types/IStore';
 import {
   IItemOwnProps,
   IItemStateProps, Item as ItemComponent,
-} from '../components/Item';
+} from '../../../components/list/items/Item';
 import { connect } from 'react-redux';
 import { ComponentClass } from 'react';
 

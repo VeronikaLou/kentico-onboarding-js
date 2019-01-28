@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import { Item } from '../containers/Item';
-import { NewItem } from '../containers/NewItem';
+import { Item } from '../../containers/list/items/Item';
+import { NewItem } from '../../containers/list/items/NewItem';
 
 export interface IListStateProps {
   readonly items: Array<Uuid>;

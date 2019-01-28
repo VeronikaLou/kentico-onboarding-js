@@ -2,9 +2,9 @@ import { connect } from 'react-redux';
 import {
   INewItemDispatchProps,
   NewItem as NewItemComponent,
-} from '../components/NewItem';
-import { addItem } from '../actions/listActionCreators';
-import { IListAction } from '../actions/types/IListAction';
+} from '../../../components/list/items/NewItem';
+import { addItem } from '../../../actions/listActionCreators';
+import { IListAction } from '../../../actions/types/IListAction';
 import { Dispatch } from 'redux';
 import { ComponentClass } from 'react';
 
