@@ -4,8 +4,8 @@ import {
   ITEM_CHANGES_SAVED,
   ITEM_DELETED,
   ITEM_EDITING_MODE_CHANGED,
+  ITEMS_FETCH_SUCCEEDED,
 } from '../../actions/types/listActionTypes';
-import { ListItem } from '../../models/ListItem';
 import { IListAction } from '../../actions/types/IListAction';
 import { OrderedMap } from 'immutable';
 import { ItemsState } from '../../store/types/ItemsState';
@@ -13,23 +13,27 @@ import { ItemsState } from '../../store/types/ItemsState';
 export const items = (
   state: ItemsState = OrderedMap(),
   action: IListAction,
-): OrderedMap<Uuid, ListItem> => {
+): ItemsState => {
   switch (action.type) {
+    case ITEMS_FETCH_SUCCEEDED:
+      return action.payload.items;
+
     case ITEM_ADDED:
-    case ITEM_CHANGES_SAVED:
-      return state
-        .set(action.payload.id, item(undefined, action));
+    case ITEM_CHANGES_SAVED: {
+      const updatedItem = item(undefined, action);
+
+      return state.set(action.payload.id, updatedItem);
+    }
 
     case ITEM_DELETED:
-      return state
-        .delete(action.payload.id);
+      return state.delete(action.payload.id);
 
-    case ITEM_EDITING_MODE_CHANGED:
-      return state
-        .set(
-          action.payload.id,
-          item(state.get(action.payload.id), action),
-        );
+    case ITEM_EDITING_MODE_CHANGED: {
+      const itemFromState = state.get(action.payload.id);
+      const updatedItem = item(itemFromState, action);
+
+      return state.set(action.payload.id, updatedItem);
+    }
 
     default:
       return state;

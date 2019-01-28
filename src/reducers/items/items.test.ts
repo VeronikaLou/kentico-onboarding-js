@@ -4,10 +4,13 @@ import { items } from './items';
 import {
   addItem,
   changeItemEditingMode,
-  deleteItem,
+  deleteItem, itemsFetchSuccess,
   saveItemChanges,
 } from '../../actions/listActionCreators';
 import { IListAction } from '../../actions/types/IListAction';
+
+const id1 = '00000000-0000-0000-0000-000000000001';
+const id2 = '00000000-0000-0000-0000-000000000002';
 
 describe('Add item', () => {
   const newItem: IListAction = addItem('New item.');
@@ -79,26 +82,21 @@ describe('Delete item', () => {
 });
 
 describe('Change item editing mode', () => {
-  const item = new ListItem({
-    id: '1',
+  const item: ListItem = new ListItem({
+    id: id1,
     text: 'Click me.',
   });
-  const clickedItem: IListAction = changeItemEditingMode(item.id);
   const initialState = OrderedMap<Uuid, ListItem>()
     .set(item.id, item);
-  const stateWithClicked = initialState
-    .setIn([item.id, 'isEdited'], true);
+  const clickedItem: IListAction = changeItemEditingMode(item.id);
 
-  it('should change mode from false to true', () => {
+  it('shouldn\'t add or delete item from state', () => {
+    const expectedResult = initialState
+      .updateIn([item.id, 'isEdited'], isEdited => !isEdited);
+
     const result = items(initialState, clickedItem);
 
-    expect(result).toEqual(stateWithClicked);
-  });
-
-  it('should change mode from true to false', () => {
-    const result = items(stateWithClicked, clickedItem);
-
-    expect(result).toEqual(initialState);
+    expect(result).toEqual(expectedResult);
   });
 });
 
@@ -128,5 +126,24 @@ describe('Save item changes', () => {
     const result = items(stateWithClickedItem, changedItem);
 
     expect(result).toEqual(expectedResult);
+  });
+});
+
+describe('Items fetch success', () => {
+  it('should return given state', () => {
+    const item1: ListItem = new ListItem({
+      id: id1,
+      text: 'nothing',
+    });
+    const item2: ListItem = new ListItem({
+      id: id2,
+      text: 'anything',
+    });
+    const initialState = OrderedMap<Uuid, ListItem>().set(item1.id, item1).set(item2.id, item2);
+    const receivedItems = itemsFetchSuccess(initialState);
+
+    const result = items(initialState, receivedItems);
+
+    expect(result).toEqual(initialState);
   });
 });

@@ -2,10 +2,11 @@ import { generateId } from '../utils/generateId';
 import {
   ITEM_CHANGES_SAVED,
   ITEM_DELETED,
-  ITEM_EDITING_MODE_CHANGED,
+  ITEM_EDITING_MODE_CHANGED, ITEMS_FETCH_FAILED, ITEMS_FETCH_STARTED, ITEMS_FETCH_SUCCEEDED,
 } from './types/listActionTypes';
 import { addItem as addItemFactory } from './factories/addItem';
 import { IListAction } from './types/IListAction';
+import { ItemsState } from '../store/types/ItemsState';
 
 export const addItem = addItemFactory(generateId);
 
@@ -29,4 +30,19 @@ export const changeItemEditingMode = (id: Uuid): IListAction => ({
   payload: {
     id,
   },
+});
+
+export const itemsFetchSuccess = (items: ItemsState): IListAction => ({
+  type: ITEMS_FETCH_SUCCEEDED,
+  payload: {items},
+});
+
+export const requestItems = (): IListAction => ({
+  type: ITEMS_FETCH_STARTED,
+  payload: null,
+});
+
+export const itemsFetchFail = (): IListAction => ({
+  type: ITEMS_FETCH_FAILED,
+  payload: null,
 });

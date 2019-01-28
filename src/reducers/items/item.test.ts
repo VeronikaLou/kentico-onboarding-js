@@ -1,5 +1,5 @@
 import {
-  addItem,
+  addItem, changeItemEditingMode,
   saveItemChanges,
 } from '../../actions/listActionCreators';
 import { ListItem } from '../../models/ListItem';
@@ -58,5 +58,30 @@ describe('Save item changes', () => {
     const result = item(initialState, action);
 
     expect(result).toEqual(expectedResult);
+  });
+});
+
+describe('Change item editing mode', () => {
+  const itemWithFalseMode: ListItem = new ListItem({
+    id: '00000000-0000-0000-0000-000000000001',
+    text: 'Click me.',
+  });
+  const clickedItem: IListAction = changeItemEditingMode(itemWithFalseMode.id);
+  const itemWithTrueMode: ListItem = new ListItem({
+    id: itemWithFalseMode.id,
+    text: itemWithFalseMode.text,
+    isEdited: true,
+  });
+
+  it('should change mode from false to true', () => {
+    const result = item(itemWithFalseMode, clickedItem);
+
+    expect(result).toEqual(itemWithTrueMode);
+  });
+
+  it('should change mode from true to false', () => {
+    const result = item(itemWithTrueMode, clickedItem);
+
+    expect(result).toEqual(itemWithFalseMode);
   });
 });
