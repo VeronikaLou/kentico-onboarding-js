@@ -1,5 +1,6 @@
 import { ListItem } from '../../models/ListItem';
 import {
+  ITEM_ADD_FAILED,
   ITEM_ADD_STARTED,
   ITEM_ADD_SUCCEEDED,
   ITEM_DELETE_STARTED,
@@ -30,6 +31,10 @@ export const item = (state: ListItem = new ListItem(), action: IListAction): Lis
     case ITEM_EDITING_MODE_CHANGED:
       return state
         .with({isEdited: !state.isEdited});
+
+    case ITEM_ADD_FAILED:
+      return state
+        .with({isEdited: false, isUpdating: false});
 
     default:
       return state;

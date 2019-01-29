@@ -12,6 +12,7 @@ import {
 import { postItemFactory } from './thunks/postItemFactory';
 import { deleteItemFactory } from './thunks/deleteItemFactory';
 import { putItemFactory } from './thunks/putItemFactory';
+import { retryFactory } from './thunks/retryFactory';
 
 const listRoute = '/v1/List/';
 
@@ -71,7 +72,7 @@ const updateItem =
     };
 
 export const getItems = getItemsFactory({obtainItems: obtainItems(fetch)});
-export const postItem = (text: string) =>
-  postItemFactory({createItem: createItem(fetch)})(text);
+export const postItem = postItemFactory({createItem: createItem(fetch)});
 export const deleteItem = deleteItemFactory({removeItem: removeItem(fetch)});
 export const putItem = putItemFactory({updateItem: updateItem(fetch)});
+export const retry = retryFactory({postItem});

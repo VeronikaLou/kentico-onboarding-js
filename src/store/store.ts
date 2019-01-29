@@ -11,6 +11,7 @@ import { IStore } from './types/IStore';
 import thunk from 'redux-thunk';
 import { OrderedMap } from 'immutable';
 import { ListItem } from '../models/ListItem';
+import { ListError } from '../models/ListError';
 
 const enhancer: StoreEnhancer = composeWithDevTools(
   applyMiddleware(thunk, logger),
@@ -20,6 +21,7 @@ const initialState: IStore = {
   items: OrderedMap<Uuid, ListItem>(),
   isFetching: false,
   fetchingItemsFail: false,
+  errors: OrderedMap<Uuid, ListError>(),
 };
 
 export const store: Store<IStore> = createStore(

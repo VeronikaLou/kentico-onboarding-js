@@ -1,5 +1,5 @@
 import {
-  addItem,
+  addItem, addItemFail,
   addItemSuccess,
   initItemDelete,
   changeItemEditingMode,
@@ -9,6 +9,7 @@ import {
 import { ListItem } from '../../models/ListItem';
 import { item } from './item';
 import { IListAction } from '../../actions/types/IListAction';
+import { ListError } from '../../models/ListError';
 
 
 const id = '00000000-0000-0000-0000-000000000001';
@@ -92,6 +93,28 @@ describe('Add item success', () => {
     });
   },
 );
+
+describe('Add item fail', () => {
+  const errorId = '00000000-0000-0000-0000-000000000002';
+  const listItem: ListItem = new ListItem({
+    id,
+    text: 'text',
+    isUpdating: true,
+  });
+
+  const error: ListError = new ListError({errorId, itemId: id});
+
+  it('should set isUpdating to false', () => {
+    const originItemIsUpdating = listItem.isUpdating;
+    const failedAdd = addItemFail(listItem.id, error);
+
+    const result = item(listItem, failedAdd);
+    const changedItemIsUpdating = result.isUpdating;
+
+    expect(originItemIsUpdating).toBeTruthy();
+    expect(changedItemIsUpdating).toBeFalsy();
+  });
+});
 
 describe('Save item request', () => {
   const states = [undefined, new ListItem()];

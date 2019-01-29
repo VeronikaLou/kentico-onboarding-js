@@ -3,13 +3,18 @@ import { ListItem } from '../../models/ListItem';
 import { items } from './items';
 import {
   addItem,
+  addItemFail,
   addItemSuccess,
   changeItemEditingMode,
-  initItemDelete,
+  closeAddError,
   deleteItemSuccess,
-  itemsFetchSuccess, saveItem,
+  initItemDelete,
+  itemsFetchSuccess,
+  saveItem,
+  saveItemSuccess,
 } from '../../actions/listActionCreators';
 import { IListAction } from '../../actions/types/IListAction';
+import { ListError } from '../../models/ListError';
 
 const id1 = '00000000-0000-0000-0000-000000000001';
 const id2 = '00000000-0000-0000-0000-000000000002';
@@ -115,36 +120,40 @@ describe('Delete item request', () => {
   });
 });
 
-describe('Delete item success', () => {
+describe('Delete item success, close add error', () => {
   const itemToDelete: IListAction = deleteItemSuccess(id1);
+  const closeAdd: IListAction = closeAddError(id1);
   const initialState = OrderedMap<Uuid, ListItem>()
     .set(id1, new ListItem({
       id: id1,
       text: 'Delete me.',
     }));
+  const deleteItemAndCloseAdd: IListAction[] = [itemToDelete, closeAdd];
 
-  it('should do nothing with empty state', () => {
-    const expectedResult = OrderedMap<Uuid, ListItem>();
+  deleteItemAndCloseAdd.forEach(action => {
+    it('should do nothing with empty state', () => {
+      const expectedResult = OrderedMap<Uuid, ListItem>();
 
-    const result = items(undefined, itemToDelete);
+      const result = items(undefined, action);
 
-    expect(result).toEqual(expectedResult);
-  });
+      expect(result).toEqual(expectedResult);
+    });
 
 
-  it('should delete item from state which contains it', () => {
-    const expectedResult = OrderedMap<Uuid, ListItem>();
+    it('should delete item from state which contains it', () => {
+      const expectedResult = OrderedMap<Uuid, ListItem>();
 
-    const result = items(initialState, itemToDelete);
+      const result = items(initialState, itemToDelete);
 
-    expect(result).toEqual(expectedResult);
-  });
+      expect(result).toEqual(expectedResult);
+    });
 
-  it('should\'t modify state which doesn\'t contain item with given id', () => {
-    const notInStateItem: IListAction = deleteItemSuccess('1');
-    const result = items(initialState, notInStateItem);
+    it('should\'t modify state which doesn\'t contain item with given id', () => {
+      const notInStateItem: IListAction = deleteItemSuccess('1');
+      const result = items(initialState, notInStateItem);
 
-    expect(result).toEqual(initialState);
+      expect(result).toEqual(initialState);
+    });
   });
 });
 
@@ -193,6 +202,36 @@ describe('Save item request', () => {
     const result = items(stateWithClickedItem, changedItem);
 
     expect(result).toEqual(expectedResult);
+  });
+});
+
+describe('Failed add, save item success', () => {
+  const item: ListItem = new ListItem({
+    id: id1,
+    text: 'something',
+    isUpdating: true,
+  });
+
+  const error: ListError = new ListError({
+    itemId: item.id,
+    errorId: id2,
+  });
+
+  const initialState = OrderedMap<Uuid, ListItem>().set(item.id, item);
+  const actions: IListAction[] = [
+    addItemFail(item.id, error),
+    saveItemSuccess(item.id),
+  ];
+
+  actions.forEach(action => {
+    it('shouldn\'t add or delete item from state', () => {
+      const expectedResult = initialState
+        .setIn([item.id, 'isUpdating'], false);
+
+      const result = items(initialState, action);
+
+      expect(result).toEqual(expectedResult);
+    });
   });
 });
 

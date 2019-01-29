@@ -2,12 +2,10 @@ import { item } from './item';
 import {
   ITEM_ADD_STARTED,
   ITEM_ADD_SUCCEEDED,
-  ITEM_DELETE_STARTED,
-  ITEM_DELETE_SUCCEEDED,
-  ITEM_EDITING_MODE_CHANGED,
   ITEM_SAVE_STARTED,
-  ITEM_SAVE_SUCCEEDED,
-  ITEMS_FETCH_SUCCEEDED,
+  ITEM_DELETE_STARTED, ITEM_DELETE_SUCCEEDED,
+  ITEM_EDITING_MODE_CHANGED,
+  ITEMS_FETCH_SUCCEEDED, ITEM_SAVE_SUCCEEDED, ITEM_ADD_FAILED, CLOSE_ADD_ERROR,
 } from '../../actions/types/listActionTypes';
 import { IListAction } from '../../actions/types/IListAction';
 import { OrderedMap } from 'immutable';
@@ -38,10 +36,12 @@ export const items = (
     }
 
     case ITEM_DELETE_SUCCEEDED:
+    case CLOSE_ADD_ERROR:
       return state.delete(action.payload.id);
 
     case ITEM_DELETE_STARTED:
     case ITEM_SAVE_SUCCEEDED:
+    case ITEM_ADD_FAILED:
     case ITEM_EDITING_MODE_CHANGED: {
       const itemFromState = state.get(action.payload.id);
       const updatedItem = item(itemFromState, action);

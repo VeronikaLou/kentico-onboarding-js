@@ -1,7 +1,9 @@
 import { IListAction } from '../types/IListAction';
-import { addItem, addItemSuccess } from '../listActionCreators';
+import { createError } from '../../utils/errorsCreator';
+import { addItem, addItemFail, addItemSuccess } from '../listActionCreators';
 import { IFetchedItem } from '../../models/IFetchedItem';
 import { Dispatch } from '../types/Dispatcher';
+import { ErrorType } from '../../models/ErrorType';
 import { generateId } from '../../utils/generateId';
 
 interface IPostDeps {
@@ -10,9 +12,9 @@ interface IPostDeps {
 
 export const postItemFactory =
   ({createItem}: IPostDeps) =>
-    (text: string) =>
+    (text: string, currentId?: Uuid) =>
       async (dispatch: Dispatch): Promise<IListAction> => {
-        const id = generateId();
+        const id = currentId ? currentId : generateId();
         dispatch(addItem(id, text));
 
         try {
@@ -20,6 +22,9 @@ export const postItemFactory =
 
           return dispatch(addItemSuccess(id, fetchedItem.id));
         } catch (exception) {
-          throw 'Post failed';
+          return dispatch(addItemFail(
+            id,
+            createError(ErrorType.ADD, id)),
+          );
         }
       };

@@ -1,4 +1,6 @@
 import {
+  CLOSE_ADD_ERROR,
+  ITEM_ADD_FAILED,
   ITEM_ADD_STARTED,
   ITEM_ADD_SUCCEEDED,
   ITEM_DELETE_STARTED,
@@ -12,6 +14,7 @@ import {
 } from './types/listActionTypes';
 import { IListAction } from './types/IListAction';
 import { ItemsState } from '../store/types/ItemsState';
+import { IError } from '../models/ListError';
 
 export const addItem = (id: Uuid, text: string): IListAction => ({
   type: ITEM_ADD_STARTED,
@@ -30,6 +33,13 @@ export const addItemSuccess = (id: Uuid, fetchedId: Uuid): IListAction => ({
   },
 });
 
+export const addItemFail = (id: Uuid, error: IError): IListAction => ({
+  type: ITEM_ADD_FAILED,
+  payload: {
+    id,
+    error,
+  },
+});
 
 export const initItemDelete = (id: Uuid): IListAction => ({
   type: ITEM_DELETE_STARTED,
@@ -76,4 +86,9 @@ export const requestItems = (): IListAction => ({
 export const itemsFetchFail = (): IListAction => ({
   type: ITEMS_FETCH_FAILED,
   payload: null,
+});
+
+export const closeAddError = (id: Uuid): IListAction => ({
+  type: CLOSE_ADD_ERROR,
+  payload: {id},
 });
