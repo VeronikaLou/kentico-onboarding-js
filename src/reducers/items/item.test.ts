@@ -1,8 +1,9 @@
 import {
   addItem,
   addItemSuccess,
-  changeItemEditingMode,
+  initItemDelete,
   saveItemChanges,
+  changeItemEditingMode,
 } from '../../actions/listActionCreators';
 import { ListItem } from '../../models/ListItem';
 import { item } from './item';
@@ -11,21 +12,27 @@ import { IListAction } from '../../actions/types/IListAction';
 
 const id = '00000000-0000-0000-0000-000000000001';
 
-describe('Add item request', () => {
+describe('Add item, delete item request', () => {
   const listItem: ListItem = new ListItem({
     id,
     text: 'I am list item.',
   });
 
-  it('should change item\'s isUpdating to true', () => {
-    const originItemIsUpdating = listItem.isUpdating;
-    const newItem = addItem(listItem.id, listItem.text);
+  const deleteAddActions = [
+    initItemDelete(listItem.id),
+    addItem(listItem.id, listItem.text),
+  ];
 
-    const result = item(listItem, newItem);
-    const changedItemIsUpdating = result.isUpdating;
+  deleteAddActions.forEach(action => {
+    it('should change item\'s isUpdating to true', () => {
+      const originItemIsUpdating = listItem.isUpdating;
 
-    expect(originItemIsUpdating).toBeFalsy();
-    expect(changedItemIsUpdating).toBeTruthy();
+      const result = item(listItem, action);
+      const changedItemIsUpdating = result.isUpdating;
+
+      expect(originItemIsUpdating).toBeFalsy();
+      expect(changedItemIsUpdating).toBeTruthy();
+    });
   });
 });
 

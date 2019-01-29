@@ -2,9 +2,12 @@ import { OrderedMap } from 'immutable';
 import { ListItem } from '../../models/ListItem';
 import { items } from './items';
 import {
-  addItem, addItemSuccess,
+  addItem,
+  addItemSuccess,
   changeItemEditingMode,
-  deleteItem, itemsFetchSuccess,
+  initItemDelete,
+  deleteItemSuccess,
+  itemsFetchSuccess,
   saveItemChanges,
 } from '../../actions/listActionCreators';
 import { IListAction } from '../../actions/types/IListAction';
@@ -95,11 +98,29 @@ describe('Add item success', () => {
   });
 });
 
-describe('Delete item', () => {
-  const itemToDelete: IListAction = deleteItem('-1');
+describe('Delete item request', () => {
+  const itemToDelete: IListAction = initItemDelete(id1);
   const initialState = OrderedMap<Uuid, ListItem>()
     .set(itemToDelete.payload.id, new ListItem({
       id: itemToDelete.payload.id,
+      text: 'Delete me.',
+    }));
+
+  it('shouldn\'t delete item from state', () => {
+    const expectedResult = initialState
+      .setIn([itemToDelete.payload.id, 'isUpdating'], true);
+
+    const result = items(initialState, itemToDelete);
+
+    expect(result).toEqual(expectedResult);
+  });
+});
+
+describe('Delete item success', () => {
+  const itemToDelete: IListAction = deleteItemSuccess(id1);
+  const initialState = OrderedMap<Uuid, ListItem>()
+    .set(id1, new ListItem({
+      id: id1,
       text: 'Delete me.',
     }));
 
@@ -111,7 +132,8 @@ describe('Delete item', () => {
     expect(result).toEqual(expectedResult);
   });
 
-  it('should delete item from array which contains it', () => {
+
+  it('should delete item from state which contains it', () => {
     const expectedResult = OrderedMap<Uuid, ListItem>();
 
     const result = items(initialState, itemToDelete);
@@ -120,7 +142,7 @@ describe('Delete item', () => {
   });
 
   it('should\'t modify state which doesn\'t contain item with given id', () => {
-    const notInStateItem: IListAction = deleteItem('1');
+    const notInStateItem: IListAction = deleteItemSuccess('1');
     const result = items(initialState, notInStateItem);
 
     expect(result).toEqual(initialState);

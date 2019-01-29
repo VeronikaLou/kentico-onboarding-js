@@ -3,7 +3,8 @@ import {
   ITEM_ADD_STARTED,
   ITEM_ADD_SUCCEEDED,
   ITEM_CHANGES_SAVED,
-  ITEM_DELETED,
+  ITEM_DELETE_STARTED,
+  ITEM_DELETE_SUCCEEDED,
   ITEM_EDITING_MODE_CHANGED,
   ITEMS_FETCH_SUCCEEDED,
 } from '../../actions/types/listActionTypes';
@@ -35,9 +36,10 @@ export const items = (
       return state.set(action.payload.id, updatedItem);
     }
 
-    case ITEM_DELETED:
+    case ITEM_DELETE_SUCCEEDED:
       return state.delete(action.payload.id);
 
+    case ITEM_DELETE_STARTED:
     case ITEM_EDITING_MODE_CHANGED: {
       const itemFromState = state.get(action.payload.id);
       const updatedItem = item(itemFromState, action);

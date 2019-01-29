@@ -1,5 +1,9 @@
 import { IFetchedItem } from '../models/IFetchedItem';
-import { validateGetResponse, validatePostResponse } from './responseValidator';
+import {
+  validateDeleteResponse,
+  validateGetResponse,
+  validatePostResponse,
+} from './responseValidator';
 import 'isomorphic-fetch';
 
 describe('Validate get response', () => {
@@ -52,5 +56,28 @@ describe('Validate post response', () => {
     return validatePostResponse(invalidResponse).catch(
       error => expect(error).toBeTruthy(),
     );
+  });
+});
+
+describe('Validate delete response', () => {
+  it('should throw exception if status code is not 204', () => {
+      const invalidResponse = new Response(
+        '{}',
+        {
+          'status': 404,
+        });
+
+      expect(() => validateDeleteResponse(invalidResponse)).toThrow('Invalid response');
+    },
+  );
+
+  it('should not throw exception if status code is 204', () => {
+    const deleteResponse = new Response(
+      '{}',
+      {
+        'status': 204,
+      });
+
+    validateDeleteResponse(deleteResponse);
   });
 });

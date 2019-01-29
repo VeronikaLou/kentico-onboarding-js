@@ -10,5 +10,11 @@ function validateResponse<Result>(expectedStatusCode: number): (response: Respon
   };
 }
 
+export const validateDeleteResponse = (response: Response): void => {
+  if (!response.ok || response.status !== 204) {
+    throw errorMessage;
+  }
+};
+
 export const validatePostResponse = validateResponse<IFetchedItem>(201);
 export const validateGetResponse = validateResponse<ReadonlyArray<IFetchedItem>>(200);
