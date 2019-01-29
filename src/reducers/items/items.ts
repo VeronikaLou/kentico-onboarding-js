@@ -2,10 +2,11 @@ import { item } from './item';
 import {
   ITEM_ADD_STARTED,
   ITEM_ADD_SUCCEEDED,
-  ITEM_CHANGES_SAVED,
   ITEM_DELETE_STARTED,
   ITEM_DELETE_SUCCEEDED,
   ITEM_EDITING_MODE_CHANGED,
+  ITEM_SAVE_STARTED,
+  ITEM_SAVE_SUCCEEDED,
   ITEMS_FETCH_SUCCEEDED,
 } from '../../actions/types/listActionTypes';
 import { IListAction } from '../../actions/types/IListAction';
@@ -30,7 +31,7 @@ export const items = (
     }
 
     case ITEM_ADD_STARTED:
-    case ITEM_CHANGES_SAVED: {
+    case ITEM_SAVE_STARTED: {
       const updatedItem = item(undefined, action);
 
       return state.set(action.payload.id, updatedItem);
@@ -40,6 +41,7 @@ export const items = (
       return state.delete(action.payload.id);
 
     case ITEM_DELETE_STARTED:
+    case ITEM_SAVE_SUCCEEDED:
     case ITEM_EDITING_MODE_CHANGED: {
       const itemFromState = state.get(action.payload.id);
       const updatedItem = item(itemFromState, action);

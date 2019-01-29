@@ -7,8 +7,7 @@ import {
   changeItemEditingMode,
   initItemDelete,
   deleteItemSuccess,
-  itemsFetchSuccess,
-  saveItemChanges,
+  itemsFetchSuccess, saveItem,
 } from '../../actions/listActionCreators';
 import { IListAction } from '../../actions/types/IListAction';
 
@@ -168,26 +167,26 @@ describe('Change item editing mode', () => {
   });
 });
 
-describe('Save item changes', () => {
-  const item = new ListItem({
-    id: '1',
+describe('Save item request', () => {
+  const item: ListItem = new ListItem({
+    id: id1,
     text: 'Change me.',
   });
   const initialState = OrderedMap<Uuid, ListItem>()
     .set(item.id, item);
-  const changedItem: IListAction = saveItemChanges(item.id, 'Text changed.');
+  const changedItem: IListAction = saveItem(item.id, 'Text changed.', '');
+  const expectedResult = initialState
+    .setIn([item.id, 'text'], changedItem.payload.text)
+    .setIn([item.id, 'isUpdating'], true);
+
 
   it('should change original text to text given as argument', () => {
-    const expectedResult = initialState.setIn([item.id, 'text'], changedItem.payload.text);
-
     const result = items(initialState, changedItem);
 
     expect(result).toEqual(expectedResult);
   });
 
   it('should change editing mode to false', () => {
-    const expectedResult = initialState
-      .setIn([item.id, 'text'], changedItem.payload.text);
     const stateWithClickedItem = initialState
       .setIn([item.id, 'isEdited'], true);
 

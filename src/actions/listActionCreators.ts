@@ -1,10 +1,11 @@
 import {
   ITEM_ADD_STARTED,
   ITEM_ADD_SUCCEEDED,
-  ITEM_CHANGES_SAVED,
   ITEM_DELETE_STARTED,
   ITEM_DELETE_SUCCEEDED,
   ITEM_EDITING_MODE_CHANGED,
+  ITEM_SAVE_STARTED,
+  ITEM_SAVE_SUCCEEDED,
   ITEMS_FETCH_FAILED,
   ITEMS_FETCH_STARTED,
   ITEMS_FETCH_SUCCEEDED,
@@ -40,12 +41,19 @@ export const deleteItemSuccess = (id: Uuid): IListAction => ({
   payload: {id},
 });
 
-export const saveItemChanges = (id: Uuid, text: string): IListAction => ({
-  type: ITEM_CHANGES_SAVED,
+export const saveItem = (id: Uuid, text: string, backupText: string): IListAction => ({
+  type: ITEM_SAVE_STARTED,
   payload: {
     id,
     text,
+    isUpdating: true,
+    backupText,
   },
+});
+
+export const saveItemSuccess = (id: Uuid): IListAction => ({
+  type: ITEM_SAVE_SUCCEEDED,
+  payload: {id},
 });
 
 export const changeItemEditingMode = (id: Uuid): IListAction => ({

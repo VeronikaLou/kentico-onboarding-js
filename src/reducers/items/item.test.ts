@@ -2,8 +2,9 @@ import {
   addItem,
   addItemSuccess,
   initItemDelete,
-  saveItemChanges,
   changeItemEditingMode,
+  saveItem,
+  saveItemSuccess,
 } from '../../actions/listActionCreators';
 import { ListItem } from '../../models/ListItem';
 import { item } from './item';
@@ -12,7 +13,7 @@ import { IListAction } from '../../actions/types/IListAction';
 
 const id = '00000000-0000-0000-0000-000000000001';
 
-describe('Add item, delete item request', () => {
+describe('Add item, delete item, save item request', () => {
   const listItem: ListItem = new ListItem({
     id,
     text: 'I am list item.',
@@ -20,6 +21,7 @@ describe('Add item, delete item request', () => {
 
   const deleteAddActions = [
     initItemDelete(listItem.id),
+    saveItem(listItem.id, 'new text', ''),
     addItem(listItem.id, listItem.text),
   ];
 
@@ -91,24 +93,37 @@ describe('Add item success', () => {
   },
 );
 
-describe('Save item changes', () => {
-  it('should return new item with same values as action\'s payload with undefined state', () => {
-    const action: IListAction = saveItemChanges('1', 'saved');
-    const expectedResult = new ListItem({...action.payload});
+describe('Save item request', () => {
+  const states = [undefined, new ListItem()];
+  const action: IListAction = saveItem(id, 'saved', '');
 
-    const result = item(undefined, action);
+  states.forEach(initialState => {
+    it('should return new item with same values as action\'s payload with undefined state', () => {
+      const expectedResult = new ListItem({...action.payload});
 
-    expect(result).toEqual(expectedResult);
+      const result = item(initialState, action);
+
+      expect(result).toEqual(expectedResult);
+    });
   });
+});
 
-  it('should return new item with same values as action\'s payload with defined state', () => {
-    const action: IListAction = saveItemChanges('1', 'saved');
-    const initialState = new ListItem();
-    const expectedResult = new ListItem({...action.payload});
+describe('Save item success', () => {
+  const listItem: ListItem = new ListItem({
+    id,
+    isUpdating: true,
+    text: 'text',
+  });
+  const itemSaveSuccess: IListAction = saveItemSuccess(listItem.id);
 
-    const result = item(initialState, action);
+  it('should change isUpdating to false', () => {
+    const originItemIsUpdating = listItem.isUpdating;
 
-    expect(result).toEqual(expectedResult);
+    const result = item(listItem, itemSaveSuccess);
+    const savedItemIsUpdating = result.isUpdating;
+
+    expect(originItemIsUpdating).toBeTruthy();
+    expect(savedItemIsUpdating).toBeFalsy();
   });
 });
 

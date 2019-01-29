@@ -7,9 +7,11 @@ import {
   validateDeleteResponse,
   validateGetResponse,
   validatePostResponse,
+  validatePutResponse,
 } from '../utils/responseValidator';
 import { postItemFactory } from './thunks/postItemFactory';
 import { deleteItemFactory } from './thunks/deleteItemFactory';
+import { putItemFactory } from './thunks/putItemFactory';
 
 const listRoute = '/v1/List/';
 
@@ -52,7 +54,24 @@ const removeItem =
       validateDeleteResponse(response);
     };
 
+const updateItem =
+  (fetch: (input?: Request | string, init?: RequestInit) => Promise<Response>) =>
+    async (id: Uuid, text: string): Promise<IFetchedItem> => {
+      const response: Response = await fetch(
+        listRoute + id,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({id, text}),
+        });
+
+      return await validatePutResponse(response);
+    };
+
 export const getItems = getItemsFactory({obtainItems: obtainItems(fetch)});
 export const postItem = (text: string) =>
   postItemFactory({createItem: createItem(fetch)})(text);
 export const deleteItem = deleteItemFactory({removeItem: removeItem(fetch)});
+export const putItem = putItemFactory({updateItem: updateItem(fetch)});

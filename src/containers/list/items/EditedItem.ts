@@ -5,13 +5,10 @@ import {
   IEditedItemOwnProps,
   IEditedItemStateProps,
 } from '../../../components/list/items/EditedItem';
-import {
-  changeItemEditingMode,
-  saveItemChanges,
-} from '../../../actions/listActionCreators';
+import { changeItemEditingMode} from '../../../actions/listActionCreators';
 import { IStore } from '../../../store/types/IStore';
 import { ComponentClass } from 'react';
-import { deleteItem } from '../../../actions/listActions';
+import { deleteItem, putItem } from '../../../actions/listActions';
 import { Dispatch } from '../../../actions/types/Dispatcher';
 
 const mapStateToProps = (state: IStore, ownProps: IEditedItemOwnProps): IEditedItemStateProps => ({
@@ -22,7 +19,7 @@ const mapDispatchToProps = (
   dispatch: Dispatch,
   ownProps: IEditedItemOwnProps,
 ): IEditedItemDispatchProps => ({
-  saveChanges: (text: string) => dispatch(saveItemChanges(ownProps.id, text)),
+  saveChanges: (text: string) => dispatch(putItem(ownProps.id, text)),
   deleteItem: () => dispatch(deleteItem(ownProps.id)),
   cancelEditing: () => dispatch(changeItemEditingMode(ownProps.id)),
 });

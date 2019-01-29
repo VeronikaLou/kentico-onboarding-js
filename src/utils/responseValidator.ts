@@ -17,4 +17,5 @@ export const validateDeleteResponse = (response: Response): void => {
 };
 
 export const validatePostResponse = validateResponse<IFetchedItem>(201);
+export const validatePutResponse = validateResponse<IFetchedItem>(200);
 export const validateGetResponse = validateResponse<ReadonlyArray<IFetchedItem>>(200);

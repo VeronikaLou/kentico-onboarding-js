@@ -3,6 +3,7 @@ import {
   validateDeleteResponse,
   validateGetResponse,
   validatePostResponse,
+  validatePutResponse,
 } from './responseValidator';
 import 'isomorphic-fetch';
 
@@ -79,5 +80,31 @@ describe('Validate delete response', () => {
       });
 
     validateDeleteResponse(deleteResponse);
+  });
+});
+
+describe('Validate put response', () => {
+  it('should return json if status code is 200', () => {
+    const validResponse = new Response(
+      '{}',
+      {
+        'status': 200,
+      });
+    const expectedResult = {};
+
+    return validatePutResponse(validResponse).then(result =>
+      expect(result).toEqual(expectedResult));
+  });
+
+  it('should throw error if status code is not 200', () => {
+    const invalidResponse = new Response(
+      '{}',
+      {
+        'status': 504,
+      });
+
+    return validatePutResponse(invalidResponse).catch(
+      error => expect(error).toBeTruthy(),
+    );
   });
 });
