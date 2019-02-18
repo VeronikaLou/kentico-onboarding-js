@@ -15,7 +15,7 @@ export interface IItemStateProps {
 type ItemProps = IItemOwnProps & IItemStateProps;
 
 export const Item: React.StatelessComponent<ItemProps> =
-  ({index, id, isEdited}: ItemProps): JSX.Element => {
+  ({index, id, isEdited}) => {
     const renderItem = isEdited
       ? (
         <EditedItem
