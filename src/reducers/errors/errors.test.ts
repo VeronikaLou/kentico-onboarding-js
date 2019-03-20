@@ -12,7 +12,7 @@ import {
   deleteItemFail,
   deleteItemSuccess,
   saveItem,
-  saveItemSuccess,
+  saveItemSuccess, saveItemFail, closeSaveError,
 } from '../../actions/listActionCreators';
 
 const itemId = '00000000-0000-0000-0000-0000001';
@@ -23,6 +23,7 @@ describe('Fail actions', () => {
   const failedActions: IListAction[] = [
     addItemFail(itemId, error),
     deleteItemFail(itemId, error),
+    saveItemFail(itemId, error),
   ];
 
   failedActions.forEach(failedItem =>
@@ -42,6 +43,7 @@ describe('Requests, close error actions', () => {
     saveItem(itemId, 'save me', ''),
     initItemDelete(itemId),
     addItem(itemId, 'add me'),
+    closeSaveError(itemId, 'backup text'),
     closeAddError(itemId),
     closeDeleteError(itemId),
   ];

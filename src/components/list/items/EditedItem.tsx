@@ -8,21 +8,21 @@ export interface IEditedItemOwnProps {
   readonly id: Uuid;
 }
 
+export interface IEditedItemStateProps {
+  readonly text: string;
+}
+
 export interface IEditedItemDispatchProps {
   readonly saveChanges: (text: string) => void;
   readonly cancelEditing: () => void;
   readonly deleteItem: () => void;
 }
 
-export interface IEditedItemStateProps {
-  readonly text: string;
-}
+export type EditedItemProps = IEditedItemStateProps & IEditedItemDispatchProps & IEditedItemOwnProps;
 
 interface IEditedItemState {
   readonly text: string;
 }
-
-type EditedItemProps = IEditedItemOwnProps & IEditedItemDispatchProps & IEditedItemStateProps;
 
 export class EditedItem extends React.PureComponent<EditedItemProps, IEditedItemState> {
   static displayName = 'EditedItem';
@@ -41,51 +41,15 @@ export class EditedItem extends React.PureComponent<EditedItemProps, IEditedItem
   };
 
   _editText = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    event.persist();
-    this.setState(() => ({text: event.target.value}));
+    const {value} = event.target;
+    this.setState(() => ({text: value}));
   };
 
   _saveChanges = (): void => this.props.saveChanges(this.state.text);
 
-  _showButtons = (): JSX.Element => {
-    const isValid: boolean = isInputValid(this.state.text);
-    const saveButtonTitle: string | undefined = !isValid ? 'Insert text.' : undefined;
-
-    return (
-      <div
-        className="input-group-append"
-        id="button-addon4"
-      >
-        <button
-          className="btn btn-primary"
-          type="button"
-          onClick={this._saveChanges}
-          disabled={!isValid}
-          title={saveButtonTitle}
-        >
-          Save
-        </button>
-        <button
-          className="btn btn-outline-secondary"
-          type="button"
-          onClick={this.props.cancelEditing}
-        >
-          Cancel
-        </button>
-        <button
-          className="btn btn-danger"
-          type="button"
-          onClick={this.props.deleteItem}
-        >
-          Delete
-        </button>
-      </div>
-    );
-  };
-
   render(): JSX.Element {
-    const {index} = this.props;
     const {text} = this.state;
+    const isValid: boolean = isInputValid(text);
     const inputClass: string = classNames('form-control', {
       'is-invalid': !isInputValid(text),
     });
@@ -93,7 +57,7 @@ export class EditedItem extends React.PureComponent<EditedItemProps, IEditedItem
     return (
       <div className="input-group col-sm-8">
         <div className="input-group-prepend">
-          <span className="input-group-text">{index}.</span>
+          <span className="input-group-text">{this.props.index}.</span>
         </div>
         <input
           className={inputClass}
@@ -101,7 +65,34 @@ export class EditedItem extends React.PureComponent<EditedItemProps, IEditedItem
           value={text}
           onChange={this._editText}
         />
-        {this._showButtons()}
+        <div
+          className="input-group-append"
+          id="button-addon4"
+        >
+          <button
+            className="btn btn-primary"
+            type="button"
+            onClick={this._saveChanges}
+            disabled={!isValid}
+            title={!isValid ? 'Insert text.' : undefined}
+          >
+            Save
+          </button>
+          <button
+            className="btn btn-outline-secondary"
+            type="button"
+            onClick={this.props.cancelEditing}
+          >
+            Cancel
+          </button>
+          <button
+            className="btn btn-danger"
+            type="button"
+            onClick={this.props.deleteItem}
+          >
+            Delete
+          </button>
+        </div>
       </div>
     );
   }

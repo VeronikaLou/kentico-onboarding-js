@@ -1,18 +1,20 @@
 import { ListItem } from '../../models/ListItem';
 import { item } from './item';
 import { IListAction } from '../../actions/types/IListAction';
+import { ListError } from '../../models/ListError';
 import {
   addItem,
   addItemFail,
   addItemSuccess,
   changeItemEditingMode,
   closeDeleteError,
+  closeSaveError,
   deleteItemFail,
   initItemDelete,
   saveItem,
+  saveItemFail,
   saveItemSuccess,
 } from '../../actions/listActionCreators';
-import { ListError } from '../../models/ListError';
 
 const id = '00000000-0000-0000-0000-000000000001';
 
@@ -90,7 +92,6 @@ describe('Add item success', () => {
       const newItemId = result.id;
 
       expect(newItemId).toEqual(fetchedId);
-
     });
   },
 );
@@ -108,6 +109,7 @@ describe('Add item fail, save item fail, delete item fail', () => {
   const failActions = [
     addItemFail(listItem.id, error),
     deleteItemFail(listItem.id, error),
+    saveItemFail(listItem.id, error),
   ];
 
   failActions.forEach(action =>
@@ -157,6 +159,25 @@ describe('Save item success, close delete error', () => {
       expect(originItemIsUpdating).toBeTruthy();
       expect(savedItemIsUpdating).toBeFalsy();
     });
+  });
+});
+
+describe('Close save item', () => {
+  const backupText = 'Backup text';
+  const listItem: ListItem = new ListItem({
+    id,
+    text: 'Save me',
+  });
+  const savedItem: IListAction = closeSaveError(listItem.id, backupText);
+
+  it('should change text', () => {
+    const originItemText = listItem.text;
+
+    const result = item(listItem, savedItem);
+    const savedItemText = result.text;
+
+    expect(originItemText).toEqual(listItem.text);
+    expect(savedItemText).toEqual(backupText);
   });
 });
 

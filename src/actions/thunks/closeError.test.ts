@@ -5,7 +5,7 @@ import { ErrorType } from '../../models/ErrorType';
 import { IStore } from '../../store/types/IStore';
 import { OrderedMap } from 'immutable';
 import { ListItem } from '../../models/ListItem';
-import { CLOSE_ADD_ERROR, CLOSE_DELETE_ERROR } from '../types/listActionTypes';
+import { CLOSE_ADD_ERROR, CLOSE_DELETE_ERROR, CLOSE_SAVE_ERROR } from '../types/listActionTypes';
 import Mock = jest.Mock;
 
 describe('Close error', () => {
@@ -15,6 +15,7 @@ describe('Close error', () => {
     isFetching: false,
     fetchingItemsFail: false,
     errors: OrderedMap<Uuid, ListError>(),
+    backupTexts: OrderedMap<Uuid, string>(),
   };
   const getState = jest.fn(() => state);
   const errorIds = {
@@ -25,6 +26,7 @@ describe('Close error', () => {
   const failedActionsWithCorrespondingErrors = [
     {action: ErrorType.ADD, error: CLOSE_ADD_ERROR},
     {action: ErrorType.DELETE, error: CLOSE_DELETE_ERROR},
+    {action: ErrorType.SAVE, error: CLOSE_SAVE_ERROR},
   ];
 
   beforeEach(() => {
@@ -33,9 +35,9 @@ describe('Close error', () => {
 
   failedActionsWithCorrespondingErrors.forEach(({action, error}) => {
     it(`dispatches ${error} when passing error with ${action}`, () => {
-      const addFailError = new ListError({...errorIds, action});
+      const errorWithSetAction = new ListError({...errorIds, action});
 
-      closeError(addFailError)(dispatch, getState);
+      closeError(errorWithSetAction)(dispatch, getState);
 
       expect(dispatch.mock.calls.length).toBe(1);
       expect(dispatch.mock.calls[0][0].type).toEqual(error);

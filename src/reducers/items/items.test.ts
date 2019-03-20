@@ -13,7 +13,7 @@ import {
   deleteItemSuccess,
   itemsFetchSuccess,
   saveItem,
-  saveItemSuccess,
+  saveItemSuccess, closeSaveError, saveItemFail,
 } from '../../actions/listActionCreators';
 import { IListAction } from '../../actions/types/IListAction';
 import { ListError } from '../../models/ListError';
@@ -207,6 +207,25 @@ describe('Save item request', () => {
   });
 });
 
+describe('Close save item', () => {
+  const backupText = 'Backup text.';
+  const item: ListItem = new ListItem({
+    id: id1,
+  text: 'Save me',
+  });
+  const initialState = OrderedMap<Uuid, ListItem>().set(item.id, item);
+  const savedItem: IListAction = closeSaveError(item.id, backupText);
+
+  it('shouldn\'t modify state', () => {
+    const expectedResult = initialState
+      .set(item.id, new ListItem({id: item.id, text: backupText}));
+
+    const result = items(initialState, savedItem);
+
+    expect(result).toEqual(expectedResult);
+  });
+});
+
 describe('Failed save, delete, add, save item success, close delete error', () => {
   const item: ListItem = new ListItem({
     id: id1,
@@ -225,6 +244,7 @@ describe('Failed save, delete, add, save item success, close delete error', () =
     deleteItemFail(item.id, error),
     closeDeleteError(item.id),
     saveItemSuccess(item.id),
+    saveItemFail(item.id, error),
   ];
 
   actions.forEach(action => {

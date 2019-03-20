@@ -11,7 +11,7 @@ import {
   ITEM_ADD_FAILED,
   CLOSE_ADD_ERROR,
   CLOSE_DELETE_ERROR,
-  ITEM_DELETE_FAILED,
+  ITEM_DELETE_FAILED, CLOSE_SAVE_ERROR, ITEM_SAVE_FAILED,
 } from '../../actions/types/listActionTypes';
 import { IListAction } from '../../actions/types/IListAction';
 import { OrderedMap } from 'immutable';
@@ -35,6 +35,7 @@ export const items = (
     }
 
     case ITEM_ADD_STARTED:
+    case CLOSE_SAVE_ERROR:
     case ITEM_SAVE_STARTED: {
       const updatedItem = item(undefined, action);
 
@@ -46,6 +47,7 @@ export const items = (
       return state.delete(action.payload.id);
 
     case ITEM_DELETE_STARTED:
+    case ITEM_SAVE_FAILED:
     case ITEM_SAVE_SUCCEEDED:
     case ITEM_ADD_FAILED:
     case CLOSE_DELETE_ERROR:

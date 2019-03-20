@@ -18,12 +18,14 @@ describe('Retry', () => {
   }));
   const postItem = jest.fn();
   const deleteItem = jest.fn();
-  const retry = retryFactory({postItem, deleteItem});
+  const putItem = jest.fn();
+  const retry = retryFactory({postItem, deleteItem, putItem});
 
   beforeEach(() => {
     dispatch.mockClear();
     postItem.mockClear();
     deleteItem.mockClear();
+    putItem.mockClear();
   });
 
   it('calls post add item when passing error with failed add', () => {
@@ -49,6 +51,18 @@ describe('Retry', () => {
 
     expect(dispatch.mock.calls.length).toBe(1);
     expect(deleteItem.mock.calls.length).toBe(1);
+  });
+
+  it('calls put item when passing error with failed save', () => {
+    const saveFailError = new ListError({
+      ...errorIds,
+      action: ErrorType.SAVE,
+    });
+
+    retry(saveFailError)(dispatch, getState);
+
+    expect(dispatch.mock.calls.length).toBe(1);
+    expect(putItem.mock.calls.length).toBe(1);
   });
 
   it('throws error when passing error with other actions', () => {

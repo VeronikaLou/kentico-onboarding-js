@@ -75,4 +75,4 @@ export const getItems = getItemsFactory({obtainItems: obtainItems(fetch)});
 export const postItem = postItemFactory({createItem: createItem(fetch)});
 export const deleteItem = deleteItemFactory({removeItem: removeItem(fetch)});
 export const putItem = putItemFactory({updateItem: updateItem(fetch)});
-export const retry = retryFactory({postItem});
+export const retry = retryFactory({postItem, deleteItem, putItem});

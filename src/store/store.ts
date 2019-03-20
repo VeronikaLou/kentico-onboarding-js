@@ -1,9 +1,4 @@
-import {
-  applyMiddleware,
-  createStore,
-  Store,
-  StoreEnhancer,
-} from 'redux';
+import { applyMiddleware, createStore, Store, StoreEnhancer } from 'redux';
 import { logger } from 'redux-logger';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { applicationReducer } from '../reducers/applicationReducer';
@@ -22,6 +17,7 @@ const initialState: IStore = {
   isFetching: false,
   fetchingItemsFail: false,
   errors: OrderedMap<Uuid, ListError>(),
+  backupTexts: OrderedMap<Uuid, string>(),
 };
 
 export const store: Store<IStore> = createStore(
