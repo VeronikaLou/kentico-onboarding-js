@@ -1,32 +1,34 @@
-import {
-  addItem, addItemFail,
-  addItemSuccess,
-  initItemDelete,
-  changeItemEditingMode,
-  saveItem,
-  saveItemSuccess,
-} from '../../actions/listActionCreators';
 import { ListItem } from '../../models/ListItem';
 import { item } from './item';
 import { IListAction } from '../../actions/types/IListAction';
+import {
+  addItem,
+  addItemFail,
+  addItemSuccess,
+  changeItemEditingMode,
+  closeDeleteError,
+  deleteItemFail,
+  initItemDelete,
+  saveItem,
+  saveItemSuccess,
+} from '../../actions/listActionCreators';
 import { ListError } from '../../models/ListError';
-
 
 const id = '00000000-0000-0000-0000-000000000001';
 
-describe('Add item, delete item, save item request', () => {
+describe('Save item, delete item, add item requests', () => {
   const listItem: ListItem = new ListItem({
     id,
     text: 'I am list item.',
   });
 
-  const deleteAddActions = [
+  const saveDeleteAddActions = [
     initItemDelete(listItem.id),
     saveItem(listItem.id, 'new text', ''),
     addItem(listItem.id, listItem.text),
   ];
 
-  deleteAddActions.forEach(action => {
+  saveDeleteAddActions.forEach(action =>
     it('should change item\'s isUpdating to true', () => {
       const originItemIsUpdating = listItem.isUpdating;
 
@@ -35,8 +37,7 @@ describe('Add item, delete item, save item request', () => {
 
       expect(originItemIsUpdating).toBeFalsy();
       expect(changedItemIsUpdating).toBeTruthy();
-    });
-  });
+    }));
 });
 
 describe('Add item', () => {
@@ -94,7 +95,7 @@ describe('Add item success', () => {
   },
 );
 
-describe('Add item fail', () => {
+describe('Add item fail, save item fail, delete item fail', () => {
   const errorId = '00000000-0000-0000-0000-000000000002';
   const listItem: ListItem = new ListItem({
     id,
@@ -104,16 +105,21 @@ describe('Add item fail', () => {
 
   const error: ListError = new ListError({errorId, itemId: id});
 
-  it('should set isUpdating to false', () => {
-    const originItemIsUpdating = listItem.isUpdating;
-    const failedAdd = addItemFail(listItem.id, error);
+  const failActions = [
+    addItemFail(listItem.id, error),
+    deleteItemFail(listItem.id, error),
+  ];
 
-    const result = item(listItem, failedAdd);
-    const changedItemIsUpdating = result.isUpdating;
+  failActions.forEach(action =>
+    it('should set isUpdating to false', () => {
+      const originItemIsUpdating = listItem.isUpdating;
 
-    expect(originItemIsUpdating).toBeTruthy();
-    expect(changedItemIsUpdating).toBeFalsy();
-  });
+      const result = item(listItem, action);
+      const changedItemIsUpdating = result.isUpdating;
+
+      expect(originItemIsUpdating).toBeTruthy();
+      expect(changedItemIsUpdating).toBeFalsy();
+    }));
 });
 
 describe('Save item request', () => {
@@ -131,22 +137,26 @@ describe('Save item request', () => {
   });
 });
 
-describe('Save item success', () => {
+describe('Save item success, close delete error', () => {
   const listItem: ListItem = new ListItem({
     id,
     isUpdating: true,
     text: 'text',
   });
   const itemSaveSuccess: IListAction = saveItemSuccess(listItem.id);
+  const closeDelete: IListAction = closeDeleteError(listItem.id);
+  const itemSaveCloseDelete = [itemSaveSuccess, closeDelete];
 
-  it('should change isUpdating to false', () => {
-    const originItemIsUpdating = listItem.isUpdating;
+  itemSaveCloseDelete.forEach(action => {
+    it('should change isUpdating to false', () => {
+      const originItemIsUpdating = listItem.isUpdating;
 
-    const result = item(listItem, itemSaveSuccess);
-    const savedItemIsUpdating = result.isUpdating;
+      const result = item(listItem, action);
+      const savedItemIsUpdating = result.isUpdating;
 
-    expect(originItemIsUpdating).toBeTruthy();
-    expect(savedItemIsUpdating).toBeFalsy();
+      expect(originItemIsUpdating).toBeTruthy();
+      expect(savedItemIsUpdating).toBeFalsy();
+    });
   });
 });
 

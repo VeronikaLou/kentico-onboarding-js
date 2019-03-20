@@ -7,10 +7,11 @@ import { ErrorType } from '../../models/ErrorType';
 
 interface IRetryActions {
   readonly postItem: (text: string, id: Uuid) => ThunkAction<Promise<IListAction>, IStore, undefined, IListAction>;
+  readonly deleteItem: (id: Uuid) => ThunkAction<Promise<IListAction>, IStore, undefined, IListAction>;
 }
 
 export const retryFactory =
-  ({postItem}: IRetryActions) =>
+  ({postItem, deleteItem}: IRetryActions) =>
     (error: IError) =>
       (dispatch: Dispatch, getState: () => IStore): Promise<IListAction> => {
         const item = getState().items.get(error.itemId);
@@ -18,6 +19,9 @@ export const retryFactory =
         switch (error.action) {
           case ErrorType.ADD:
             return dispatch(postItem(item.text, item.id));
+
+          case ErrorType.DELETE:
+            return dispatch(deleteItem(item.id));
 
           default:
             throw new Error('Invalid action was dispatched.');

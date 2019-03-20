@@ -7,8 +7,10 @@ import {
   addItemSuccess,
   changeItemEditingMode,
   closeAddError,
-  deleteItemSuccess,
+  closeDeleteError,
   initItemDelete,
+  deleteItemFail,
+  deleteItemSuccess,
   itemsFetchSuccess,
   saveItem,
   saveItemSuccess,
@@ -205,7 +207,7 @@ describe('Save item request', () => {
   });
 });
 
-describe('Failed add, save item success', () => {
+describe('Failed save, delete, add, save item success, close delete error', () => {
   const item: ListItem = new ListItem({
     id: id1,
     text: 'something',
@@ -220,6 +222,8 @@ describe('Failed add, save item success', () => {
   const initialState = OrderedMap<Uuid, ListItem>().set(item.id, item);
   const actions: IListAction[] = [
     addItemFail(item.id, error),
+    deleteItemFail(item.id, error),
+    closeDeleteError(item.id),
     saveItemSuccess(item.id),
   ];
 

@@ -6,30 +6,44 @@ import {
   addItem,
   addItemFail,
   addItemSuccess,
-  closeAddError
+  closeAddError,
+  closeDeleteError,
+  initItemDelete,
+  deleteItemFail,
+  deleteItemSuccess,
+  saveItem,
+  saveItemSuccess,
 } from '../../actions/listActionCreators';
 
 const itemId = '00000000-0000-0000-0000-0000001';
 const errorId = '00000000-0000-0000-0000-0000002';
 
-describe('Fail action', () => {
-  it('should add error to state', () => {
-    const error = new ListError({itemId, errorId});
-    const expectedResult = OrderedMap<Uuid, ListError>().set(error.errorId, error);
-    const failedItem = addItemFail(itemId, error);
+describe('Fail actions', () => {
+  const error = new ListError({itemId, errorId});
+  const failedActions: IListAction[] = [
+    addItemFail(itemId, error),
+    deleteItemFail(itemId, error),
+  ];
 
-    const result = errors(undefined, failedItem);
+  failedActions.forEach(failedItem =>
+    it('should add error to state', () => {
+      const expectedResult = OrderedMap<Uuid, ListError>().set(error.errorId, error);
 
-    expect(result).toEqual(expectedResult);
-  });
+      const result = errors(undefined, failedItem);
+
+      expect(result).toEqual(expectedResult);
+    }));
 });
 
 describe('Requests, close error actions', () => {
   const error = new ListError({itemId, errorId});
   const initialState = OrderedMap<Uuid, ListError>().set(error.errorId, error);
   const requestOrCloseErrorActions: IListAction[] = [
+    saveItem(itemId, 'save me', ''),
+    initItemDelete(itemId),
     addItem(itemId, 'add me'),
     closeAddError(itemId),
+    closeDeleteError(itemId),
   ];
 
   requestOrCloseErrorActions.forEach(action =>
@@ -40,11 +54,13 @@ describe('Requests, close error actions', () => {
     }));
 });
 
-describe('Success action, invalid action', () => {
+describe('Success actions, invalid actions', () => {
   const fetchedId = '00000000-0000-0000-0000-0000003';
   const error = new ListError({itemId, errorId});
   const initialState = OrderedMap<Uuid, ListError>().set(error.errorId, error);
   const successAndInvalidActions: IListAction[] = [
+    saveItemSuccess(itemId),
+    deleteItemSuccess(itemId),
     addItemSuccess(itemId, fetchedId),
     {
       type: 'INVALID_ACTION',

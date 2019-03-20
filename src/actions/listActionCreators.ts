@@ -1,8 +1,10 @@
 import {
   CLOSE_ADD_ERROR,
+  CLOSE_DELETE_ERROR,
   ITEM_ADD_FAILED,
   ITEM_ADD_STARTED,
   ITEM_ADD_SUCCEEDED,
+  ITEM_DELETE_FAILED,
   ITEM_DELETE_STARTED,
   ITEM_DELETE_SUCCEEDED,
   ITEM_EDITING_MODE_CHANGED,
@@ -51,6 +53,14 @@ export const deleteItemSuccess = (id: Uuid): IListAction => ({
   payload: {id},
 });
 
+export const deleteItemFail = (id: Uuid, error: IError): IListAction => ({
+  type: ITEM_DELETE_FAILED,
+  payload: {
+    id,
+    error,
+  },
+});
+
 export const saveItem = (id: Uuid, text: string, backupText: string): IListAction => ({
   type: ITEM_SAVE_STARTED,
   payload: {
@@ -68,9 +78,7 @@ export const saveItemSuccess = (id: Uuid): IListAction => ({
 
 export const changeItemEditingMode = (id: Uuid): IListAction => ({
   type: ITEM_EDITING_MODE_CHANGED,
-  payload: {
-    id,
-  },
+  payload: {id},
 });
 
 export const itemsFetchSuccess = (items: ItemsState): IListAction => ({
@@ -90,5 +98,10 @@ export const itemsFetchFail = (): IListAction => ({
 
 export const closeAddError = (id: Uuid): IListAction => ({
   type: CLOSE_ADD_ERROR,
+  payload: {id},
+});
+
+export const closeDeleteError = (id: Uuid): IListAction => ({
+  type: CLOSE_DELETE_ERROR,
   payload: {id},
 });

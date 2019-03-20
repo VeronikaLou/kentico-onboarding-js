@@ -1,6 +1,8 @@
 import { IListAction } from '../types/IListAction';
 import { Dispatch } from '../types/Dispatcher';
-import { initItemDelete, deleteItemSuccess } from '../listActionCreators';
+import { createError } from '../../utils/errorsCreator';
+import { deleteItemFail, deleteItemSuccess, initItemDelete } from '../listActionCreators';
+import { ErrorType } from '../../models/ErrorType';
 
 interface IDeleteDeps {
   readonly removeItem: (id: Uuid) => Promise<void>;
@@ -17,6 +19,9 @@ export const deleteItemFactory =
 
           return dispatch(deleteItemSuccess(id));
         } catch (exception) {
-          throw 'Delete failed';
+          return dispatch(deleteItemFail(
+            id,
+            createError(ErrorType.DELETE, id)),
+          );
         }
       };
